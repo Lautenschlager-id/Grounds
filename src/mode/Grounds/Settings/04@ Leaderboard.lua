@@ -1,0 +1,1 @@
+	leaderboard = {update = 0,data = {}},

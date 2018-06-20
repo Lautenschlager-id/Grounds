@@ -1,0 +1,2 @@
+	hasShaman = false,
+	autoNeWGame = false,

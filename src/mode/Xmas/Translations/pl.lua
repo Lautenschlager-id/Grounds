@@ -1,0 +1,1 @@
+		pl = {"Wesołych Świąt i Wesołego Nowego Roku!","Święta nadchodzą, a S4nt4 ma <I>łapki</I> pełne roboty. On chce dać wszystkim prezenty na czas, ale musi się pośpieszyć! Od kiedy nasz S4nt4 jest niezdarny, gubi prezenty, które musicie <CE>pozbierać</CE> wciskając <I>spację</I>! Oddajcie prezenty S4nt4 kiedy jest <CE>oszołomiony</CE> wciskając <I>spację</I>!"},

@@ -1,0 +1,2 @@
+	isRunning = false,
+	gifts = {},

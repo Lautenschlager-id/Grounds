@@ -1,0 +1,12 @@
+	review = false,
+	afterFunction = (function() end),
+	mapInfo = {0,0,0,0,"CAA4CF"}, -- Code, Category, Width, Height, Color
+	respawn = 0,
+	hasWater = false,
+	podium = 0,
+	availableRoom = false,
+	alivePlayers = 0,
+	totalPlayers = 0,
+	spawnPoint = {0,0},
+	mapCategoryIcon = -1,
+	isOfficialMap = false,

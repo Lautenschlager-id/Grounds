@@ -1,0 +1,1 @@
+	eventPlayerDied = tfm.exec.respawnPlayer,

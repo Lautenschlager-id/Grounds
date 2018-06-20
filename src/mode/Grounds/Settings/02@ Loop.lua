@@ -1,0 +1,2 @@
+	despawnGrounds = {},
+	announceTimer = 0,

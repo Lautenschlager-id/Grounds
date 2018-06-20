@@ -1,0 +1,106 @@
+		br = {
+			welcome = "Bem-vindo ao <font color='#BD5DC5'><B>#Universe</B></font>. Construa seu próprio sistema solar or apenas aproveite a arte.\n\tReporte bugs a Bolodefchoco.",
+			creator = "Agora você é o criador do universo! Pressione <B>O</B> e construa isso tudo!",
+		
+			objects = {
+				star = {
+					"Anã Amarela",
+					"Anã Vermelha",
+					"Gigante Vermelha",
+					"Gigante Azul",
+					"Super Gigante",
+					"Anã Branca",
+					"Anã Marrom",
+				},
+				planet = {
+					"Ctoniano",
+					"Anão Gasoso",
+					"Gigante Gasoso",
+					"Gigante Gelado",
+					"Ferro",
+					"Silicato",
+					"Telúrico",
+					"Anão",
+				},
+				moon = {
+					"Asteróide",
+					"Asteróide Irregular",
+				},
+			},
+			menu = {
+				class = "Classe",
+				type = "Tipo",
+				name = "Nome",
+				color = "Cor",
+				size = "Tamanho",
+				temperature = "Temperatura",
+				satellite = "Satélite de",
+				velocity = "Velocidade",
+				distance = "Distância",
+				rings = "Anéis",
+				gravity = "Gravidade",
+				mass = "Massa",
+				flow = "Fluxo",
+				luminosity = "Luminosidade",
+				magnitude = "Magnitude",
+				rotation = "Rotação",
+				translation = "Translação",
+			},
+		
+			buttons = {
+				keyboard = {
+					"enviar",
+					"apagar",
+					"limpar"
+				},
+				classes = {
+					"Estrela",
+					"Planeta",
+					"Lua"
+				},
+				main = {
+					create = "Criar",
+					reset = "Resetar",
+					destroy = "Destruir",
+					recreate = "Recriar",
+				},
+			},
+			color = {
+				previous = "Cor Anterior",
+				next = "Próxima Cor"
+			},
+			profile = {
+				profiles = "perfis",
+				exTime = "Tempo de Existência",
+				information = "Informação",
+				main = "Principal",
+				planets = "Planetas",
+				life = "Vida",
+				periods = "Período",
+				orbit = "Órbita",
+				satellites = "Satélites",
+			},
+			exit = "Sair",
+			choose = "Escolher",
+			yes = "Sim",
+			no = "Não",
+			
+			newObject = {
+				"Nova <B>%s estrela</B> criada!",
+				"Novo <B>%s planeta</B> criado!",
+				"Nova <B>%s lua</B> orbitando %s!",
+			},
+			checkProfile = "Cheque seu perfil usando o comando <B>!profile %s</B>",
+			fail = "Os atributos %s são inválidos!",
+			nameExist = "Já existe um objeto nomeado \"%s\"!",
+			destroyConfirm = "Você tem certeza de que quer destruir a/o %s \"%s\"?",
+			cantDestroy = "Você não pode destruir este objeto!",
+			systemDestroyed = "Este Sistema Solar foi destruido!",
+			moonRecreated = "As luas deste planeta foram recriadas!",
+			planetRecreated = "O planeta do qual a lua recriada orbita também foi recriado (também as outras luas, se existirem)!",
+			systemRecreated = "O Sistema foi recriado!",
+			sysName = {
+				choose = "Defina abaixo um nome para o Sistema Solar. (20- caracteres)",
+				new = "Este Sistema Solar foi renomeado para \"%s\"! \\o/",
+			},
+		},
