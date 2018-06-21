@@ -10,3 +10,4 @@
 	spawnPoint = {0,0},
 	mapCategoryIcon = -1,
 	isOfficialMap = false,
+	startsWith = { meep = false, cheese = false },

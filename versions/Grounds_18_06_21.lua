@@ -1,6 +1,6 @@
 --Creator: Bolodefchoco
 --Made in: 06/02/2017
---Last update: 20/06/2018
+--Last update: 21/06/2018
 
 --[[ Module ]]--
 local module = {
@@ -2097,6 +2097,7 @@ mode.grounds = {
 	spawnPoint = {0,0},
 	mapCategoryIcon = -1,
 	isOfficialMap = false,
+	startsWith = { meep = false, cheese = false },
 	-- Loop
 	despawnGrounds = {},
 	announceTimer = 0,
@@ -2915,6 +2916,8 @@ mode.grounds = {
 		
 		mode.grounds.hasWater = false
 		local deactivateWater = mode.grounds.isHouse
+		
+		mode.grounds.startsWith = { meep = false, cheese = false }
 
 		mode.grounds.despawnGrounds = {}
 		mode.grounds.gsys.disabledGrounds = {}
@@ -2972,12 +2975,14 @@ mode.grounds = {
 		xmlPowers[6] = { -- cheese
 			attribute = "cheese",
 			func = function()
+				mode.grounds.startsWith.cheese = true
 				tableforeach(mode.grounds.info,tfm.exec.giveCheese)
 			end
 		}
 		xmlPowers[7] = { -- meep
 			attribute = "meep",
 			func = function()
+				mode.grounds.startsWith.meep = true
 				tableforeach(mode.grounds.info,tfm.exec.giveMeep)
 			end
 		}
@@ -3488,6 +3493,12 @@ mode.grounds = {
 		if mode.grounds.hasWater then
 			mode.grounds.displayWaterBar(n)
 		end
+		if mode.grounds.startsWith.cheese then
+			tfm.exec.giveCheese(n)
+		end
+		if mode.grounds.startsWith.meep then
+			tfm.exec.giveMeep(n)
+		end		
 		
 		if not mode.grounds.isHouse and not mode.grounds.review and system.officialMode[1] ~= "bootcamp" then
 			tfm.exec.chatMessage(stringformat("<R>[•] %s",system.getTranslation(n).zombie),n)

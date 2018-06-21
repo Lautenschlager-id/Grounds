@@ -10,6 +10,12 @@
 		if mode.grounds.hasWater then
 			mode.grounds.displayWaterBar(n)
 		end
+		if mode.grounds.startsWith.cheese then
+			tfm.exec.giveCheese(n)
+		end
+		if mode.grounds.startsWith.meep then
+			tfm.exec.giveMeep(n)
+		end		
 		
 		if not mode.grounds.isHouse and not mode.grounds.review and system.officialMode[1] ~= "bootcamp" then
 			tfm.exec.chatMessage(string.format("<R>[•] %s",system.getTranslation(n).zombie),n)

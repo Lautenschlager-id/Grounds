@@ -40,6 +40,8 @@
 		
 		mode.grounds.hasWater = false
 		local deactivateWater = mode.grounds.isHouse
+		
+		mode.grounds.startsWith = { meep = false, cheese = false }
 
 		mode.grounds.despawnGrounds = {}
 		mode.grounds.gsys.disabledGrounds = {}
@@ -97,12 +99,14 @@
 		xmlPowers[6] = { -- cheese
 			attribute = "cheese",
 			func = function()
+				mode.grounds.startsWith.cheese = true
 				table.foreach(mode.grounds.info,tfm.exec.giveCheese)
 			end
 		}
 		xmlPowers[7] = { -- meep
 			attribute = "meep",
 			func = function()
+				mode.grounds.startsWith.meep = true
 				table.foreach(mode.grounds.info,tfm.exec.giveMeep)
 			end
 		}
