@@ -67,6 +67,7 @@ local module = {
 		["Reshman#0020"] = 1,
 		["Santalicious#0010"] = 1,
 		["Sebaisseba#0000"] = 1,
+		["Tempo#5571"] = 1,
 		["Unlocker001#0000"] = 1,
 		["Virtini#0000"] = 1,
 		["Xorcist#0000"] = 1,

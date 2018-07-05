@@ -62,7 +62,7 @@ menu = {
 						end
 					end
 				end
-				io.write("Updated!")
+				io.write("\nUpdated!")
 				os.execute("ping localhost >nul -n 4")
 			elseif option == #menu[1].options then
 				os.exit()
