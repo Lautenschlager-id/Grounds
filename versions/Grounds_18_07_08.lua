@@ -1,10 +1,10 @@
 --Creator: Bolodefchoco
 --Made in: 06/02/2017
---Last update: 26/02/2018
+--Last update: 08/07/2018
 
 --[[ Module ]]--
 local module = {
-	_VERSION = "4.5",
+	_VERSION = "4.7",
 	_NAME = "grounds",
 	_STATUS = "semi-official",
 	_AUTHOR = "Bolodefchoco",
@@ -33,138 +33,62 @@ local module = {
 	]],
 	_FREEACCESS = { -- Verified players
 		-- 3 : Commands + Room admin + Debug
-		Bolodefchoco = 3,
-		Trumpuke = 3,
+		["Bolodefchoco#0000"] = 3,
+		["Trumpuke#0000"] = 3,
+		["Acer#1412"] = 3,
 		-- 2 : Commands
-		Bodykudo = 2,
-		Brenower = 2,
-		Error_404 = 2,
-		Jordynl = 2,
-		Laagaadoo = 2,
-		Mescouleur = 2,
-		Mousetat = 2,
-		Sebafrancuz = 2,
-		Tocutoeltuco = 2,
+		["Bodykudo#0000"] = 2,
+		["Brenower#0000"] = 2,
+		["Error_404#0000"] = 2,
+		["Jordy#0010"] = 2,
+		["Laagaadoo#0000"] = 2,
+		["Mescouleur#0000"] = 2,
+		["Tat#0020"] = 2,
+		["Sebafrancuz#0000"] = 2,
+		["Tocutoeltuco#0000"] = 2,
 		-- 1 : Some commands
-		Abdeltif = 1,
-		Acermice = 1,
-		Aepheus = 1,
-		Alihamoud = 1,
-		Animjarcanin = 1,
-		Anjitita = 1,
-		Apollopolo = 1,
-		Artinoe = 1,
-		Atinesta = 1,
-		Auroraclears = 1,
-		Bapereira = 1,
-		Barberserk = 1,
-		Bataatiinha = 1,
-		Bellaxo = 1,
-		Bibsho = 1,
-		Bigodferment = 1,
-		Bijuhunter = 1,
-		Billysmille = 1,
-		Bishomilad = 1,
-		Bjikata = 1,
-		Blowtex = 1,
-		Brenoouuw = 1,
-		Boobinhooo = 1,
-		Bruniinhoowx = 1,
-		Bubamg = 1,
-		Byontr = 1,
-		Caiolopelope = 1,
-		Chamelinct = 1,
-		Cheeselicious = 1,
-		Chocodivo = 1,
-		Cibelle_wu = 1,
-		Claumiau = 1,
-		Connow = 1,
-		Daelea = 1,
-		Didiego = 1,
-		Distances = 1,
-		Drescen = 1,
-		Ekull = 1,
-		Envidiame = 1,
-		Exxp0 = 1,
-		Exsilium = 1,
-		Flindix = 1,
-		Force_shaman = 1,
-		Foxisara = 1,
-		Framnm = 1,
-		Fuzzyfirsdog = 1,
-		Garyarcanine = 1,
-		Gemalugeter = 1,
-		Grastfetry = 1,
-		Hallucination = 1,
-		Hmiida = 1,
-		Iabaaaaaaaaa = 1,
-		Icrower = 1,
-		Ikkemon = 1,
-		Jotatavo = 1,
-		Kaldt = 1,
-		Kimsterjay = 1,
-		Kingtenso = 1,
-		Konynno = 1,
-		Leaomestre = 1,
-		Lebluemice = 1,
-		Leekchuu = 1,
-		Lucasrslv = 1,
-		Mcqv = 1,
-		Mquk = 1,
-		Myelou = 1,
-		Nedior = 1,
-		Ninguem = 1,
-		Nlff = 1,
-		Okpatinhos = 1,
-		Omchampion = 1,
-		Orooch = 1,
-		Pjfsamora = 1,
-		Prysmos = 1,
-		Pumeeee = 1,
-		Racody = 1,
-		Rafaklbvr = 1,
-		Reshman = 1,
-		Rosianna_rabbit = 1,
-		Ruamorangos = 1,
-		Sammynya = 1,
-		Santalicious = 1,
-		Sebaisseba = 1,
-		Tainarak = 1,
-		Tdft = 1,
-		Teddeeh = 1,
-		Tempinhojr = 1,
-		Thegbc = 1,
-		Tockego = 1,
-		Transforpix = 1,
-		Treasuredsoul = 1,
-		Uelintondd = 1,
-		Unlocker001 = 1,
-		Velspar = 1,
-		Ventriloca = 1,
-		Verdecon = 1,
-		Victorruanpk = 1,
-		Viniciusdara = 1,
-		Vinitexeira = 1,
-		Virtini = 1,
-		Xfelrat = 1,
-		Xorcist = 1,
-		Xxlucas23 = 1,
-		Yuir = 1,
-		Zacriker = 1,
-		Zagear = 1,
-		Zarphis = 1,
-		Zippydoodah = 1,
-		Zombiewd = 1,
+		["Artinoe#0000"] = 1,
+		["Auroraclears#0000"] = 1,
+		["Barberserk#0000"] = 1,
+		["Bibsho#0000"] = 1,
+		["Billysmille#0000"] = 1,
+		["Bishomilad#0000"] = 1,
+		["Evil#9510"] = 1,
+		["Byontr#0000"] = 1,
+		["Caiolopelope#0000"] = 1,
+		["Connow#0000"] = 1,
+		["Daelea#0000"] = 1,
+		["Drescen#0000"] = 1,
+		["Ekull#0000"] = 1,
+		["Envidiame#0000"] = 1,
+		["Exsilium#0010"] = 1,
+		["Foxisara#0000"] = 1,
+		["Hmiida#0000"] = 1,
+		["Kaldt#0000"] = 1,
+		["Kimsterjay#0000"] = 1,
+		["Ryuuzaki#1216"] = 1,
+		["Mcqv#0000"] = 1,
+		["Mquk#0000"] = 1,
+		["Reshman#0020"] = 1,
+		["Santalicious#0010"] = 1,
+		["Sebaisseba#0000"] = 1,
+		["Tempo#5571"] = 1,
+		["Unlocker001#0000"] = 1,
+		["Virtini#0000"] = 1,
+		["Xorcist#0000"] = 1,
+		["Jack_sparrow#8381"] = 1,
 	},
 }
 
 --[[ Optimization ]]--
-  --[[ String ]]--
+	--[[ String ]]--
 local stringlen,stringfind,stringgmatch,stringbyte,stringdump,stringreverse,stringupper,stringformat,stringrep,stringlower,stringsub,stringgsub,stringmatch,stringchar = string.len,string.find,string.gmatch,string.byte,string.dump,string.reverse,string.upper,string.format,string.rep,string.lower,string.sub,string.gsub,string.match,string.char
-  --[[ Math ]]--
+	--[[ Math ]]--
 local mathdeg,mathfmod,mathrandom,mathasin,mathmax,mathmodf,mathfloor,mathcosh,mathldexp,mathatan2,mathpow,mathrandomseed,mathfrexp,mathabs,mathtanh,mathacos,mathlog,mathtan,mathmin,mathceil,mathsinh,mathsqrt,mathhuge,mathrad,mathsin,mathexp,mathcos,mathatan,mathpi = math.deg,math.fmod,math.random,math.asin,math.max,math.modf,math.floor,math.cosh,math.ldexp,math.atan2,math.pow,math.randomseed,math.frexp,math.abs,math.tanh,math.acos,math.log,math.tan,math.min,math.ceil,math.sinh,math.sqrt,math.huge,math.rad,math.sin,math.exp,math.cos,math.atan,math.pi
-  --[[ Table ]]--
+	--[[ Table ]]--
 local tablepack,tableforeachi,tableforeach,tableremove,tableinsert,tableunpack,tableconcat,tablesort = table.pack,table.foreachi,table.foreach,table.remove,table.insert,table.unpack,table.concat,table.sort
+	--[[ Bit32 ]]--
+local bit32lrotate, bit32rrotate, bit32band, bit32rshift, bit32lshift, bit32bnot, bit32bxor, bit32replace, bit32arshift, bit32btest, bit32bor, bit32extract = bit32.lrotate, bit32.rrotate, bit32.band, bit32.rshift, bit32.lshift, bit32.bnot, bit32.bxor, bit32.replace, bit32.arshift, bit32.btest, bit32.bor, bit32.extract
 
 --[[ API ]]--
 	--[[ Control ]]--
@@ -185,7 +109,7 @@ do
 	local concat = tableconcat
 	tableconcat = function(list,sep,f,i,j)
 		if type(f) == "boolean" and f then
-			return concat(list, sep)
+			return concat(list, sep, i, j)
 		end
 	
 		local txt = ""
@@ -225,17 +149,23 @@ do
 		end
 	end
 	
+	local nicknamePrettifier = function(text)
+		return (stringgsub(text, "([a-zA-Z0-9_%+]+)(#%d+)", function(name, discriminator)
+			return name .. "<font size='8'><G>" .. discriminator .. "</G></font>"
+		end))
+	end
+	
 	local addTextArea = ui.addTextArea
-	ui.addTextArea = function(id,...)
-		addTextArea(id,...)
+	ui.addTextArea = function(id, text, ...)
+		addTextArea(id, nicknamePrettifier(text), ...)
 		if not system.objects.textarea[id] then
 			system.objects.textarea[id] = true
 		end
 	end
 	
 	local chatMessage = tfm.exec.chatMessage
-	tfm.exec.chatMessage = function(txt,n)
-		txt = tostring(txt)
+	tfm.exec.chatMessage = function(txt, n)
+		txt = nicknamePrettifier(tostring(txt))
 		if #txt > 1000 then
 			local total = 0
 			while #txt > total do
@@ -410,7 +340,11 @@ stringsplit = function(value, pattern, f)
 	end
 	return out
 end
-stringnick = function(player)
+stringnick = function(player, ignoreCheck)
+	if not ignoreCheck and not player:find("#") then
+		player = player .. "#0000"
+	end
+	
 	return stringgsub(stringlower(player),"%a",stringupper,1)
 end
 stringtrim = function(s)
@@ -1005,32 +939,26 @@ color = {
 }
 
 --[[ GameMode ]]--
-system.submodes = {}
-
 system.gameMode = module._NAME
 system.modeChanged = os.time() + 1000
 
-system.getGameMode = function(value,notFirst)
-	local found,submode = tablefind(system.submodes,stringlower(value),nil,stringlower)
-	if found then
-		system.gameMode = system.submodes[submode]
+system.getGameMode = function(moduleName, triggerEvent)
+	local exists = not not mode[moduleName]
+	
+	if exists then	
+		system.gameMode = moduleName
 		
-		if notFirst then
-			eventModeChanged()
+		if triggerEvent then
+			eventOnModeChange()
 		end
 		
 		system.modeChanged = os.time() + 1000
 	end
-	return found
+	return exists
 end
 
 --[[ Modes ]]--
-mode = setmetatable({},{
-	__newindex = function(list,key,value)
-		rawset(list,key,value)
-		system.submodes[#system.submodes+1] = key
-	end,
-})
+mode = {}
 
 --[[ Grounds ]]--
 mode.grounds = {
@@ -1129,7 +1057,7 @@ mode.grounds = {
 			
 			-- Menu
 			menu = {
-				[1] = {"%s","\tYour aim in this minigame is to collect the cheese the faster you can, using the effects each ground offers."},
+				[1] = {"%s","\tYour aim in this minigame is to collect the cheese as fast as you can using the effects each gound has to offer."},
 				[2] = {"Submodes","%s\n<J>You may also like to play\n%s"},
 				[3] = {"Ground effects","Click in the ground's name to read more.\n\n%s"},
 				[4] = {"Commands",{
@@ -1952,24 +1880,24 @@ mode.grounds = {
 	staff = {
 		translators = {
 			-- Name, Languages
-			{"Bolodefchoco",{"EN","BR"},true},
-			{"Distances","NL",true},
-			{"Tocutoeltuco","ES",false},
-			{"Sebafrancuz","PL",true},
-			{"Doriiarvai","HU",false},
-			{"Error_404","AR",true},
-			{"Santalicious","NL",true},
-			{"Archaeron","DE",false},
-			{"Aewing","FR",false},
-			{"Fashionkid","DE",false},
-			{"Yuir","ES",false},
-			{"Mquk","FR",true},
-			{"Zagear","AR",true}
+			{"Bolodefchoco#0000",{"EN","BR"},true},
+			{"Distances#0000","NL",true},
+			{"Tocutoeltuco#0000","ES",false},
+			{"Sebafrancuz#0000","PL",true},
+			{"Doriiarvai#0000","HU",false},
+			{"Error_404#0000","AR",true},
+			{"Santalicious#0010","NL",true},
+			{"Archaeron#0010","DE",false},
+			{"Aewing#0095","FR",false},
+			{"Fashionkid#0000","DE",false},
+			{"Yui#0000","ES",false},
+			{"Mquk#0000","FR",true},
+			{"Jack_sparrow#0000","AR",true}
 		},
 		mapEvaluators = {
 			-- Name, Joined
-			{"Bolodefchoco","14/02/2017"},
-			{"Error_404","11/03/2017"}
+			{"Bolodefchoco#0000","14/02/2017"},
+			{"Error_404#0000","11/03/2017"}
 		},
 	},
 	--[[ Data ]]--
@@ -2001,7 +1929,7 @@ mode.grounds = {
 		]]--
 		[1] = {
 			name = "Circuit",
-			queue = {3099763,4612510,7078090,4493715,7102175,7127261,7102187,7252160,7241132,7333343},
+			queue = {3099763,4612510,7078090,4493715,7102175,7127261,7102187,7252160,7241132,7333343,6578479},
 			id = 1,
 			icon = {"15c60371706",0,-1},
 			color = "9A9ACE",
@@ -2015,7 +1943,7 @@ mode.grounds = {
 		},
 		[3] = {
 			name = "Bootcamp",
-			queue = {4592612,7079708,5921867,7087840,6391815,7090909,7011800,7069314,6333026,6000012,6990787,7100040,7068403,7259064,7316276},
+			queue = {4592612,7079708,5921867,7087840,6391815,7090909,7011800,7069314,6333026,6000012,6990787,7100040,7068403,7259064,7316276,7460134,7460158},
 			id = 1,
 			icon = {"15c60382627",-5,-5},
 			color = "A4CF9E",
@@ -2081,7 +2009,7 @@ mode.grounds = {
 		},
 		[9] = {
 			name = "Miscellaneous",
-			queue = {6226386,5425815,7047955,6558179,6961916,6968299,6935117,4802574,7087798,6335452,7093647,7145064,6197872,4869830,7296331,7333260},
+			queue = {6226386,5425815,7047955,6558179,6961916,6968299,6935117,4802574,7087798,6335452,7093647,7145064,6197872,4869830,7296331,7333260,7460173},
 			id = 1,
 			icon = {"15c6036fb66",-10,-2},
 			color = "FFE83A",
@@ -2170,6 +2098,7 @@ mode.grounds = {
 	spawnPoint = {0,0},
 	mapCategoryIcon = -1,
 	isOfficialMap = false,
+	startsWith = { meep = false, cheese = false },
 	-- Loop
 	despawnGrounds = {},
 	announceTimer = 0,
@@ -2277,7 +2206,7 @@ mode.grounds = {
 			ui.addTextArea(4,"",n,160,50,480,320,0x1a2433,1,1,true)
 
 			ui.addTextArea(5,"",n,171,56,240,15,0x1d5a78,0x1d5a78,1,true)
-			ui.addTextArea(6,"<p align='center'><font size='13'>"..stringnick(mode.grounds.cmds.shop),n,170,53,240,25,1,1,0,true)
+			ui.addTextArea(6,"<p align='center'><font size='13'>"..stringnick(mode.grounds.cmds.shop, true),n,170,53,240,25,1,1,0,true)
 
 			ui.addTextArea(7,"<p align='center'><font size='12'><B><a href='event:shop.left'><BV>«</BV></a>  <font size='14'><a href='event:info.grounds."..stringgsub(ground[1],"'","#").."."..ground[2].."'>"..ground[1].."</a></font>  <a href='event:shop.right'><BV>»</BV></a>",n,170,87,240,25,0x073247,0x073247,1,true)
 			
@@ -2342,7 +2271,7 @@ mode.grounds = {
 		local popupFormat = "<%s><a href='event:menu.page.%d'>#%s</a>"
 		local popups = {}
 		for k,v in next,langue do
-			popups[#popups+1] = stringformat(popupFormat,(k == mode.grounds.info[n].menu.page and "VP" or "J"),k,stringformat(v[1],stringnick(module._NAME)))
+			popups[#popups+1] = stringformat(popupFormat,(k == mode.grounds.info[n].menu.page and "VP" or "J"),k,stringformat(v[1],stringnick(module._NAME, true)))
 		end
 
 		local popup = {
@@ -2361,19 +2290,27 @@ mode.grounds = {
 		local displayText = {tableunpack(langue[mode.grounds.info[n].menu.page])}
 
 		if mode.grounds.info[n].menu.page == 1 then
-			displayText[1] = stringformat(displayText[1],stringnick(module._NAME))
+			displayText[1] = stringformat(displayText[1],stringnick(module._NAME, true))
 		else
 			local textFormat = nil
 			if mode.grounds.info[n].menu.page == 2 then
 				local gameModes = "<PT>"
-				for k,v in next,{tableunpack(system.submodes,2)} do
-					local room = stringformat("/room #%s%s@%s#%s",module._NAME,mathrandom(0,999),n,v)
+				
+				local _modes = {}
+				for k, v in next, mode do
+					if k ~= module._NAME then
+						_modes[#_modes + 1] = k
+					end
+				end
+				
+				for k,v in next, _modes do
+					local room = stringformat("/room #%s0@YourName#%s",module._NAME,v)
 					gameModes = gameModes .. stringformat("<a href='event:print.&lt;ROSE>%s'>%s</a>\n",room,room)
 				end
 				
 				local otherModules = "<CE>"
 				for k,v in next,{"powers", "cannonup", "hardcamp", "signal"} do
-					local room = stringformat("/room #%s%s@%s",v,mathrandom(0,999),n)
+					local room = stringformat("/room #%s0@YourName",v)
 					otherModules = otherModules .. stringformat("<a href='event:print.&lt;ROSE>%s'>%s</a>\n",room,room)
 				end
 
@@ -2402,7 +2339,7 @@ mode.grounds = {
 						return stringformat("<a href='event:info.%s.%s'>%s</a>",j[1],k,v[1])
 					end)
 				end
-				displayText[2] = stringformat(displayText[2],"Bolodefchoco",concat[1],concat[2])
+				displayText[2] = stringformat(displayText[2],"Bolodefchoco#0000",concat[1],concat[2])
 			end
 		end
 
@@ -2980,6 +2917,8 @@ mode.grounds = {
 		
 		mode.grounds.hasWater = false
 		local deactivateWater = mode.grounds.isHouse
+		
+		mode.grounds.startsWith = { meep = false, cheese = false }
 
 		mode.grounds.despawnGrounds = {}
 		mode.grounds.gsys.disabledGrounds = {}
@@ -3037,12 +2976,14 @@ mode.grounds = {
 		xmlPowers[6] = { -- cheese
 			attribute = "cheese",
 			func = function()
+				mode.grounds.startsWith.cheese = true
 				tableforeach(mode.grounds.info,tfm.exec.giveCheese)
 			end
 		}
 		xmlPowers[7] = { -- meep
 			attribute = "meep",
 			func = function()
+				mode.grounds.startsWith.meep = true
 				tableforeach(mode.grounds.info,tfm.exec.giveMeep)
 			end
 		}
@@ -3553,6 +3494,12 @@ mode.grounds = {
 		if mode.grounds.hasWater then
 			mode.grounds.displayWaterBar(n)
 		end
+		if mode.grounds.startsWith.cheese then
+			tfm.exec.giveCheese(n)
+		end
+		if mode.grounds.startsWith.meep then
+			tfm.exec.giveMeep(n)
+		end		
 		
 		if not mode.grounds.isHouse and not mode.grounds.review and system.officialMode[1] ~= "bootcamp" then
 			tfm.exec.chatMessage(stringformat("<R>[•] %s",system.getTranslation(n).zombie),n)
@@ -4219,7 +4166,7 @@ mode.presents = {
 		end,1000,false)
 		
 		-- Auto Admin
-		system.roomAdmins.Ruamorangos = true
+		system.roomAdmins["Ruamorangos#0000"] = true
 	end,
 	--[[ Events ]]--
 	-- NewPlayer
@@ -7549,7 +7496,7 @@ mode.dev = {
 		disableChatCommand("set","timer","object","img","throw","display","disable","execute","np","xml","help")
 		
 		-- Auto Admin
-		system.roomAdmins.Mescouleur = true
+		system.roomAdmins["Mescouleur#0000"] = true
 		
 		-- Start
 		tfm.exec.newGame()
@@ -8212,12 +8159,14 @@ mode.chess = {
 
 		tfm.exec.newGame(1995980)
 		
+		system.roomAdmins["Billysmille#0000"] = true
+		
 		mode.chess.refresh()
 	end,
 	--[[ Events ]]--
 	-- TextAreaCallback
 	eventTextAreaCallback = function(i, n, c)
-		if mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
+		if mode.chess.canStart and mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
 			mode.chess.moveTimer = os.time() + 250
 		
 			c = stringsplit(c, "[^_]+", function(value)
@@ -8488,7 +8437,7 @@ system.objects = {
 	image = {},
 	textarea = {}
 }
-eventModeChanged = function()
+eventOnModeChange = function()
 	-- Remove content
 	for k in next,system.objects.image do
 		tfm.exec.removeImage(k)
@@ -8546,10 +8495,6 @@ events.eventNewPlayer = function(n)
 	if system.officialMode[2] ~= "" then
 		tfm.exec.chatMessage(system.officialMode[2],n)
 	end
-	
-	if system.playerMessage ~= "" then
-		tfm.exec.chatMessage("<J>" .. system.playerMessage,n)
-	end
 end
 	--[[ eventChatCommand ]]--
 events.eventChatCommand = function(n,c)
@@ -8562,7 +8507,7 @@ events.eventChatCommand = function(n,c)
 		if module._FREEACCESS[n] then
 			if p[1] == "refresh" and (module._FREEACCESS[n] > 1 or not system.isRoom) then
 				tfm.exec.chatMessage("[#bolo] Refreshing the module...")
-				eventModeChanged()
+				eventOnModeChange()
 				system.init(true)
 				return
 			end
@@ -8629,7 +8574,14 @@ events.eventChatCommand = function(n,c)
 		end
 		
 		if p[1] == "modes" then
-			tfm.exec.chatMessage(tableconcat({tableunpack(system.submodes,2)},"\n",function(k,v)
+			local _modes = {}
+			for k, v in next, mode do
+				if k ~= module._NAME then
+					_modes[#_modes + 1] = k
+				end
+			end
+		
+			tfm.exec.chatMessage(tableconcat(_modes,"\n",function(k,v)
 				return stringformat("~> /room #%s%s@%s#%s",module._NAME,mathrandom(0,999),n,v)
 			end),n)
 			return
@@ -8664,7 +8616,7 @@ events.eventChatCommand = function(n,c)
 		
 		if p[1] == "me" then
 			local commands = {
-				[0] = {},
+				[0] = {"!modes"},
 				[1] = {"!refresh (tribe house)","!setMisc [number] [refresh] (tribe house)","!room [number] (tribe house)","!load [mode] (tribe house)"},
 				[2] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode] (tribe house)"},
 				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]"}
@@ -8686,47 +8638,56 @@ end
 
 --[[ RoomSettings ]]--
 system.roomSettings = {
-	-- 0 = Only the first value
-	-- 1 = All the text
-	["@"] = {0,function(n)
-		if n and #n > 2 then
-			system.roomAdmins[stringnick(n)] = true
-		end
-	end},
-	["*"] = {0,function(id)
-		system.miscAttrib = tonumber(id) or 1
-		system.miscAttrib = mathsetLim(system.miscAttrib,1,99)
-	end},
-	["#"] = {0,function(name)
-		if name then
-			local game = system.getGameMode(name)
-			if not game then
-				system.gameMode = module._NAME
+	[1] = {
+		char = "@",
+		execute = function(n)
+			if n and #n > 2 then
+				system.roomAdmins[stringnick(n)] = true
 			end
 		end
-	end},
-	[":"] = {1,function(text)
-		if text and #text > 0 then
-			system.playerMessage = stringsub(text,1,40)
+	},
+	[2] = {
+		char = "#",
+		execute = function(name)
+			if name then
+				local game = system.getGameMode(name)
+				if not game then
+					system.gameMode = module._NAME
+				end
+			end
 		end
-	end},
-	["!"] = {0,function(langue)
-		if langue and #langue > 0 then
-			system.roomLanguage = stringlower(langue)
+	},
+	[3] = {
+		char = "*",
+		execute = function(id)
+			system.miscAttrib = tonumber(id) or 1
+			system.miscAttrib = mathsetLim(system.miscAttrib,1,99)
 		end
-	end}
+	},
+	[4] = {
+		char = "!",
+		execute = function(langue)
+			if langue and #langue > 0 then
+				system.roomLanguage = stringlower(langue)
+			end
+		end
+	},
 }
+
 system.setRoom = function()
 	if system.isRoom and system.roomAttributes then
-		local chars = ""
-		for k in next,system.roomSettings do
-			chars = chars .. k
+		for playerName in stringgmatch(system.roomAttributes, system.roomSettings[1].char .. "(%+?[a-zA-Z0-9_]+#%d%d%d%d)") do
+			system.roomSettings[1].execute(playerName)
 		end
-
-		for char,value in stringgmatch(system.roomAttributes,"(["..chars.."])([^"..chars.."]+)") do
-			for k,v in next,system.roomSettings do
-				if k == char then
-					v[2](v[1] == 0 and stringmatch(value,"[^%s]+") or value)
+	
+		system.roomSettings[2].execute(stringmatch(system.roomAttributes, system.roomSettings[2].char .. "([%a_]+)"))
+		
+		local characters = tableconcat(system.roomSettings, "", function(index, value) return value.char end, 3)
+		for char, value in stringgmatch(system.roomAttributes, "([" .. characters .. "])([^" .. characters .. "]+)") do
+			for id, setting in next, system.roomAttributes do
+				if setting.char == char then
+					setting.execute(stringgmatch(value, "%S+"))
+		
 					break
 				end
 			end
@@ -8741,9 +8702,9 @@ system.setRoom = function()
 			{"defilante","<R>Aw, you cannot play defilante on #grounds"},
 			{"village","<R>You cannot play village on #grounds. Please, change your room."},
 		}
-		for k,v in next,officialModes do
-			if stringfind(stringlower(system.roomAttributes),v[1]) then
-				system.officialMode = {v[1],v[2]}
+		for k, v in next, officialModes do
+			if stringfind(stringlower(system.roomAttributes), v[1]) then
+				system.officialMode = {v[1], v[2]}
 				break
 			end
 		end
@@ -8751,31 +8712,17 @@ system.setRoom = function()
 end
 
 --[[ Initialize ]]--
-execute = {}
-system.setRoom()
+local _events = {}
+
+local eventNames = {"eventLoop", "eventNewGame", "eventPlayerDied", "eventPlayerGetCheese", "eventPlayerVampire", "eventPlayerWon", "eventPlayerLeft", "eventEmotePlayed", "eventKeyboard", "eventMouse", "eventPopupAnswer", "eventTextAreaCallback", "eventChatCommand", "eventChatMessage", "eventSummoningStart", "eventSummoningEnd", "eventSummoningCancel", "eventNewPlayer", "eventPlayerRespawn", "eventColorPicked"}
+
+local foo = function() end
 
 system.init = function(refresh)
-	for i,event in next,{"Loop","NewGame","PlayerDied","PlayerGetCheese","PlayerVampire","PlayerWon","PlayerLeft","EmotePlayed","Keyboard","Mouse","PopupAnswer","TextAreaCallback","ChatCommand","ChatMessage","SummoningStart","SummoningEnd","SummoningCancel","NewPlayer","PlayerRespawn","ColorPicked"} do
-		local e = "event" .. event
-		
-		local found = false
-		for k,v in next,mode[system.gameMode] do
-			if k == e then
-				execute[e] = v
-				found = true
-				break
-			end
-		end
-		if not found then
-			execute[e] = function() end
-		end
-
-		_G[e] = function(...)
-			if events[e] then
-				events[e](...)
-			end
-			execute[e](...)
-		end
+	_events = {}
+	
+	for _, event in next, eventNames do
+		_events[event] = mode[system.gameMode][event] or foo
 	end
 
 	if refresh then
@@ -8787,8 +8734,18 @@ system.init = function(refresh)
 	normalizeTranslation()
 	mode[system.gameMode].init()
 
-	if _G["eventNewPlayer"] then
-		tableforeach(tfm.get.room.playerList,eventNewPlayer)
+	tableforeach(tfm.get.room.playerList,eventNewPlayer)
+end
+
+for _, event in next, eventNames do
+	_G[event] = function(...)
+		if events[event] then
+			events[event](...)
+		end
+
+		_events[event](...)
 	end
 end
+
+system.setRoom()
 system.init()

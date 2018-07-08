@@ -257,7 +257,7 @@ mode.chess = {
 	--[[ Events ]]--
 	-- TextAreaCallback
 	eventTextAreaCallback = function(i, n, c)
-		if mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
+		if mode.chess.canStart and mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
 			mode.chess.moveTimer = os.time() + 250
 		
 			c = string.split(c, "[^_]+", function(value)

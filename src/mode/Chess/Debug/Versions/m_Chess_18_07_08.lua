@@ -250,12 +250,14 @@ mode.chess = {
 
 		tfm.exec.newGame(1995980)
 		
+		system.roomAdmins["Billysmille#0000"] = true
+		
 		mode.chess.refresh()
 	end,
 	--[[ Events ]]--
 	-- TextAreaCallback
 	eventTextAreaCallback = function(i, n, c)
-		if mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
+		if mode.chess.canStart and mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
 			mode.chess.moveTimer = os.time() + 250
 		
 			c = string.split(c, "[^_]+", function(value)
