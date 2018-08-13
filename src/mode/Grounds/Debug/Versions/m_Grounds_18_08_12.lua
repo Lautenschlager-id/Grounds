@@ -1470,7 +1470,7 @@ mode.grounds = {
 				if string.find(v,n) then
 					v = string.gsub(v,"'>(.-)</a>",foo)
 				end
-				ui.addTextArea(id,v,n,245,y,315,20,color,color,1,true)
+				ui.addTextArea(id,v[1],n,245,y,315,20,color,color,1,true)
 				id = id + 1
 				y = y + 28
 			end

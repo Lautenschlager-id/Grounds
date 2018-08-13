@@ -37,7 +37,7 @@
 				mode.grounds.info[n].profileAccessing = false
 			elseif p[2] == "open" then
 				if p[3] then
-					mode.grounds.uiprofile(n,p[3])
+					mode.grounds.uiprofile(n,p[3]:gsub("~", "#"))
 				else
 					mode.grounds.uiprofile(n,n)
 				end

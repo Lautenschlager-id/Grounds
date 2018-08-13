@@ -13,7 +13,7 @@
 			for k,v in next,players do
 				mode.grounds.info[v[1]].ranking = k
 				if k < 11 then
-					table.insert(mode.grounds.leaderboard.data,"<J>"..k..". " .. (({"<BV>","<PS>","<CE>"})[k] or "<V>") .. "<a href='event:profile.open."..v[1].."'>".. v[1] .. "</a> <BL>- <VP>" .. v[2] .. "G")
+					table.insert(mode.grounds.leaderboard.data,"<J>"..k..". " .. (({"<BV>","<PS>","<CE>"})[k] or "<V>") .. "<a href='event:profile.open."..v[1]:gsub("#", "~").."'>".. v[1] .. "</a> <BL>- <VP>" .. v[2] .. "G")
 				end
 			end
 			if #mode.grounds.leaderboard.data == 0 then
@@ -25,7 +25,7 @@
 			mode.grounds.info[n].leaderboardAccessing = true
 			local id,y = 25,100
 			ui.addTextArea(23,"<p align='center'><B><R><a href='event:ranking.close'>X",n,603,35,20,20,1,1,1,true)
-			ui.addTextArea(24,"<p align='center'><font size='45'>" .. string.nick(mode.grounds.cmds.leaderboard),n,200,35,400,350,0x073247,1,1,true)
+			ui.addTextArea(24,"<p align='center'><font size='45'>" .. string.nick(mode.grounds.cmds.leaderboard, true),n,200,35,400,350,0x073247,1,1,true)
 
 			local foo = function(name)
 				return "'><a:active>"..name.."</a:active></a>"
