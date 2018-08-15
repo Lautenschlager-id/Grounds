@@ -7,7 +7,7 @@
 			{system.getTranslation().profile.exTime .. " : <V>%s",(_G.currentTime / 25)},
 		}
 		
-		return table.concat(out,"   <G>|   <N>",function(k,v)
+		return table.list(out,"   <G>|   <N>",function(k,v)
 			return string.format(v[1],v[2])
 		end) .. "<"
 	end,

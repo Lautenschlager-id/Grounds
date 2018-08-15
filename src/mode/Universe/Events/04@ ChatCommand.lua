@@ -19,7 +19,7 @@
 		if system.roomAdmins[n] then
 			if p[1] == "name" then
 				if p[2] then
-					mode.universe.eventPopupAnswer(0,n,table.concat(p," ",nil,2))
+					mode.universe.eventPopupAnswer(0,n,table.concat(p," ",2))
 				else
 					ui.addPopup(0,2,"<p align='center'><font color='#CF50DB'>" .. system.getTranslation().sysName.choose,n,200,150,400,true)
 				end

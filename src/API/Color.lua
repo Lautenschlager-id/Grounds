@@ -1,87 +1,93 @@
-color = {
-	hexToRgb = function(hex)
-		local h = string.format("%06x",hex)
-		return tonumber("0x"..string.sub(h,1,2)),tonumber("0x"..string.sub(h,3,4)),tonumber("0x"..string.sub(h,5,6))
+color = { -- local glitches rgb_to_hsl
+	hex_to_rgb = function(hex)
+		hex = string.format("%06x", hex)
+		return tonumber(string.sub(hex, 1, 2), 16), tonumber(string.sub(hex, 3, 4), 16), tonumber(string.sub(hex, 5, 6), 16)
 	end,
-	rgbToHsl = function(r,g,b)
-		r,g,b = r/255,g/255,b/255
-
-		local max,min = math.max(r,g,b),math.min(r,g,b)
-		local h,s,l
-
-		h = (max + min) / 2
-		s,l = h,h
-
-		if max == min then
-			h,s = 0,0
-		else
-			local d = max - min
-			
-			local s = l > .5 and (d/(2 - max - min)) or (d/(max + min))
-			
-			if max == r then
-				h = (g-b)/d
-				if g < b then
-					h = h + 6
-				end
-			elseif max == g then
-				h = (b-r)/d + 2
-			elseif max == b then
-				h = (r-g)/d + 4
-			end
-			h = h/6
-		end
-
-		return {h=h,s=s,l=l}
-	end,
-	hslToRgb = function(h,s,l)
-		local r,g,b
+	hsl_to_rgb = function(h, s, l)
+		local r, g, b
 
 		if s == 0 then
-			r,g,b = l,l,l
+			r, g, b = l, l, l
 		else
-			local hueToRgb = function(p,q,t)
-				if t < 0 then
-					t = t + 1
-				end
-				if t > 1 then
-					t = t - 1
-				end
-				if t < 1/6 then
-					return p + (q - p) * 6 * t
-				end
-				if t < 1/2 then
-					return q
-				end
-				if t < 2/3 then
-					return p + (q - p) * (2/3 - t) * 6
-				end
-				return p
-			end
-
 			local q = l < .5 and (l * (1 + s)) or (l + s - l * s)
 			local p = 2 * l - q
 
-			r = hueToRgb(p,q,h + 1/3)
-			g = hueToRgb(p,q,h)
-			b = hueToRgb(p,q,h - 1/3)
+			r = color.hue_to_rgb(p, q, h + 1 / 3)
+			g = color.hue_to_rgb(p, q, h)
+			b = color.hue_to_rgb(p, q, h - 1 / 3)
 		end
 
-		return r * 255,g * 255,b * 255
+		return r * 0xFF, g * 0xFF, b * 0xFF
 	end,
-	rgbToHex = function(r,g,b)
-		return tonumber(string.format('%02x%02x%02x',r,g,b),16)
+	hue_to_rgb = function(p, q, t)
+		if t < 0 then
+			t = t + 1
+		end
+
+		if t > 1 then
+			t = t - 1
+		end
+
+		if t < 1/6 then
+			return p + (q - p) * 6 * t
+		end
+
+		if t < 1/2 then
+			return q
+		end
+
+		if t < 2/3 then
+			return p + (q - p) * (2 / 3 - t) * 6
+		end
+
+		return p
+	end,
+	rgb_to_hex = function(r,g,b)
+		return tonumber(string.format('%02x%02x%02x', r, g, b), 16)
+	end,
+	rgb_to_hsl = function(r, g, b)
+		local h, d, max, min = color.rgb_to_hue(r, g, b)
+
+		local l = (max + min) * 0.5
+		local s = d == 0 and 0 or d / (1 - math.abs(2 * l - 1))
+
+		return h, s, l
+	end,
+	rgb_to_hue = function(r, g, b)
+		r = r / 0xFF
+		g = g / 0xFF
+		b = b / 0xFF
+		
+		local min = math.min(r, g, b)
+		local max = math.max(r, g, b)
+		
+		local d = max - min
+		
+		local h
+		if d == 0 then
+			h = 0
+		elseif max == r then
+			h = (g - b) / d % 6
+		elseif max == g then
+			h = (b - r) / d + 2
+		elseif max == b then
+			h = (r - g) / d + 4
+		end
+		
+		h = math.floor(h * 60 + .5)
+		return h, d, max, min
 	end,
 
+	-- Colors
 	AntiqueWhite = 0xFAEBD7,
-	Aqua = 0x00FFFF,
+	Aqua = 0xFFFF,
 	Aquamarine = 0x7FFFD4,
 	Azure = 0xF0FFFF,
 	Beige = 0xF5F5DC,
 	Bisque = 0xFFE4C4,
 	Black = 0x000000,
 	BlanchedAlmond = 0xFFEBCD,
-	Blue = 0x0000FF,
+	Blue = 0xFF,
 	BlueViolet = 0x8A2BE2,
 	Brown = 0xA52A2A,
 	BurlyWood = 0xDEB887,
@@ -92,12 +98,12 @@ color = {
 	CornflowerBlue = 0x6495ED,
 	Cornsilk = 0xFFF8DC,
 	Crimson = 0xDC143C,
-	Cyan = 0x00FFFF,
-	DarkBlue = 0x00008B,
-	DarkCyan = 0x008B8B,
+	Cyan = 0xFFFF,
+	DarkBlue = 0x8B,
+	DarkCyan = 0x8B8B,
 	DarkGoldenrod = 0xB8860B,
 	DarkGray = 0xA9A9A9,
-	DarkGreen = 0x006400,
+	DarkGreen = 0x6400,
 	DarkKhaki = 0xBDB76B,
 	DarkMagenta = 0x8B008B,
 	DarkOliveGreen = 0x556B2F,
@@ -108,10 +114,10 @@ color = {
 	DarkSeaGreen = 0x8FBC8F,
 	DarkSlateBlue = 0x483D8B,
 	DarkSlateGray = 0x2F4F4F,
-	DarkTurquoise = 0x00CED1,
+	DarkTurquoise = 0xCED1,
 	DarkViolet = 0x9400D3,
 	DeepPink = 0xFF1493,
-	DeepSkyBlue = 0x00BFFF,
+	DeepSkyBlue = 0xBFFF,
 	DimGray = 0x696969,
 	DodgerBlue = 0x1E90FF,
 	Firebrick = 0xB22222,
@@ -123,7 +129,7 @@ color = {
 	Gold = 0xFFD700,
 	Goldenrod = 0xDAA520,
 	Gray = 0x808080,
-	Green = 0x008000,
+	Green = 0x8000,
 	GreenYellow = 0xADFF2F,
 	Honeydew = 0xF0FFF0,
 	HotPink = 0xFF69B4,
@@ -148,18 +154,18 @@ color = {
 	LightSlateGray = 0x778899,
 	LightSteelBlue = 0xB0C4DE,
 	LightYellow = 0xFFFFE0,
-	Lime = 0x00FF00,
+	Lime = 0xFF00,
 	LimeGreen = 0x32CD32,
 	Linen = 0xFAF0E6,
 	Magenta = 0xFF00FF,
 	Maroon = 0x800000,
 	MediumAquamarine = 0x66CDAA,
-	MediumBlue = 0x0000CD,
+	MediumBlue = 0xCD,
 	MediumOrchid = 0xBA55D3,
 	MediumPurple = 0x9370DB,
 	MediumSeaGreen = 0x3CB371,
 	MediumSlateBlue = 0x7B68EE,
-	MediumSpringGreen = 0x00FA9A,
+	MediumSpringGreen = 0xFA9A,
 	MediumTurquoise = 0x48D1CC,
 	MediumVioletRed = 0xC71585,
 	MidnightBlue = 0x191970,
@@ -167,7 +173,7 @@ color = {
 	MistyRose = 0xFFE4E1,
 	Moccasin = 0xFFE4B5,
 	NavajoWhite = 0xFFDEAD,
-	Navy = 0x000080,
+	Navy = 0x80,
 	OldLace = 0xFDF5E6,
 	Olive = 0x808000,
 	OliveDrab = 0x6B8E23,
@@ -199,10 +205,10 @@ color = {
 	SlateBlue = 0x6A5ACD,
 	SlateGray = 0x708090,
 	Snow = 0xFFFAFA,
-	SpringGreen = 0x00FF7F,
+	SpringGreen = 0xFF7F,
 	SteelBlue = 0x4682B4,
 	Tan = 0xD2B48C,
-	Teal = 0x008080,
+	Teal = 0x8080,
 	Thistle = 0xD8BFD8,
 	Tomato = 0xFF6347,
 	Turquoise = 0x40E0D0,

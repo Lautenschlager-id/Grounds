@@ -68,18 +68,18 @@
 				end
 				displayText[2] = string.format(displayText[2],"• "..table.concat(textFormat[1],"\n• "))
 			elseif mode.grounds.info[n].menu.page == 4 then
-				displayText[2] = table.concat(displayText[2],"\n",function(k,v)
+				displayText[2] = table.list(displayText[2],"\n",function(k,v)
 					return mode.grounds.concat(k,v)
 				end)
 				displayText[2] = "<font size='10'>" .. string.format(displayText[2],mode.grounds.cmds.profile,mode.grounds.cmds.shop,mode.grounds.cmds.langue,mode.grounds.cmds.help,mode.grounds.cmds.leaderboard,mode.grounds.cmds.info,mode.grounds.cmds.mapinfo,mode.grounds.cmds.pw)
 			elseif mode.grounds.info[n].menu.page == 5 then
-				displayText[2] = string.format(displayText[2] .. "\n\n%s",#mode.grounds.maps.."<N>","<BV><a href='event:print.atelier801¬com/topic?f=6&t=845005'>#"..string.upper(module._NAME).." MAP SUBMISSIONS</a></BV>",table.concat(mode.grounds.G,"\n",function(k,v)
+				displayText[2] = string.format(displayText[2] .. "\n\n%s",#mode.grounds.maps.."<N>","<BV><a href='event:print.atelier801¬com/topic?f=6&t=845005'>#"..string.upper(module._NAME).." MAP SUBMISSIONS</a></BV>",table.list(mode.grounds.G,"\n",function(k,v)
 					return string.format("<font color='#%s'><a href='event:info.mapCategory.%s'>G%2d</a> : %3d</font>",v.color,k,k,#v.queue)
 				end))
 			elseif mode.grounds.info[n].menu.page == 6 then
 				local concat = {}
 				for i,j in next,{{"translators","<CEP>"},{"mapEvaluators","<BV>"}} do
-					concat[#concat+1] = j[2] .. table.concat(mode.grounds.staff[j[1]],"<G>, " .. j[2],function(k,v)
+					concat[#concat+1] = j[2] .. table.list(mode.grounds.staff[j[1]],"<G>, " .. j[2],function(k,v)
 						return string.format("<a href='event:info.%s.%s'>%s</a>",j[1],k,v[1])
 					end)
 				end

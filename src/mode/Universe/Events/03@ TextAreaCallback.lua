@@ -59,7 +59,7 @@
 		if p[1] == "newObject" then
 			-- Class
 			if p[2] == "class" then
-				mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. table.concat(mode.universe.data.classes,"\n",function(k,v)
+				mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. table.list(mode.universe.data.classes,"\n",function(k,v)
 					local out = true
 					if k == 1 then
 						out = not mode.universe.star
@@ -79,7 +79,7 @@
 			-- Type
 			if p[2] == "type" then
 				if mode.universe.info[n].settings.class > 0 then
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. table.concat(mode.universe.data.objects[string.lower(system.getTranslation("en").buttons.classes[mode.universe.info[n].settings.class])],"\n",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. table.list(mode.universe.data.objects[string.lower(system.getTranslation("en").buttons.classes[mode.universe.info[n].settings.class])],"\n",function(k,v)
 						local out = true
 						if mode.universe.info[n].settings.class == 2 then
 							local orbit = mode.universe.orbit[2] + 1
@@ -110,7 +110,7 @@
 				elseif p[2] == "distance" then
 					mode.universe.uicounter(p[2],"0:250",n,20) -- Unknown, yet.
 				elseif p[2] == "moon" then
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().menu.satellite) .. "</B><font size='12'><p align='left'>\n\n<S>" .. table.concat(mode.universe.cosmos,"\n",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().menu.satellite) .. "</B><font size='12'><p align='left'>\n\n<S>" .. table.list(mode.universe.cosmos,"\n",function(k,v)
 						return v.class == 2 and string.format("%s<a href='event:item.satellite.%s'>%s</a>",mode.universe.tab,k,v.name) or ""
 					end),n)
 				end
@@ -260,7 +260,7 @@
 				local concatenedName = table.concat(mode.universe.info[n].settings.name)
 				
 				if not create then
-					tfm.exec.chatMessage("<R>" .. string.format(system.getTranslation().fail,table.concat(fails,", ",function(k,v)
+					tfm.exec.chatMessage("<R>" .. string.format(system.getTranslation().fail,table.list(fails,", ",function(k,v)
 						return system.getTranslation().menu[v]
 					end)),n)
 				end
@@ -307,7 +307,7 @@
 					p[3] = tonumber(p[3])
 					ui.addPopup(p[3],1,"<p align='center'><font color='#2ECF73'>" .. string.format(system.getTranslation().destroyConfirm,mode.universe.cosmos[p[3]].className,mode.universe.cosmos[p[3]].name),n,200,150,400,true)
 				else
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().buttons.main.destroy) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. table.concat(mode.universe.cosmos,"",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().buttons.main.destroy) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. table.list(mode.universe.cosmos,"",function(k,v)
 						return v.display and string.format("%s%s <a href='event:main.destroy.%s'>%s</a>\n",mode.universe.tab,(v.id == mode.universe.cosmos[1].id and "<a:active>★</a:active>" or "<CE>[" .. v.className .."]</CE>"),k,v.name) or ""
 					end),n,200)
 				end
@@ -346,7 +346,7 @@
 					end
 					mode.universe.uicloseSplash(n,true)
 				else
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().buttons.main.recreate) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. table.concat(mode.universe.cosmos,"",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().buttons.main.recreate) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. table.list(mode.universe.cosmos,"",function(k,v)
 						return v.display and "" or string.format("%s%s <a href='event:main.recreate.%s'>%s</a>\n",mode.universe.tab,(v.id == mode.universe.cosmos[1].id and "<a:active>★</a:active>" or "<CE>[" .. v.className .."]</CE>"),k,v.name)
 					end),n,200)
 				end

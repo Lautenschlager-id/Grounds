@@ -34,7 +34,7 @@ eventOnModeChange = function()
 	end
 	
 	-- Set admin back
-	system.roomAdmins = system.setAdmins()
+	system.roomAdmins = system.getAdmins()
 	
 	-- Reset settings
 	tfm.exec.snow(0)

@@ -12,7 +12,6 @@ tree = {
 	getFile("String"),
 	getFile("Table"),
 	getFile("Others"),
-	getFile("DataManager"),
 	getFile("XML"),
 	getFile("Color"),
 }

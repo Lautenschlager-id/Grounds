@@ -1,9 +1,9 @@
-events = {}
-currentTime,leftTime = 0,0
+local events = {}
+currentTime, leftTime = 0,0
 system.loadTable = function(s)
 	-- "a.b.c.1" returns a[b][c][1]
 	local list
-	for tbl in string.gmatch(s,"[^%.]+") do
+	for tbl in string.gmatch(s, "[^%.]+") do
 		tbl = tonumber(tbl) or tbl
 		list = (list and list[tbl] or _G[tbl])
 	end
@@ -18,15 +18,18 @@ system.getTranslation = function(flag)
 	return mode[system.gameMode].translations[flag or mode[system.gameMode].langue or tfm.get.room.community] or mode[system.gameMode].translations['en']
 end
 
-system.looping = function(f,tick)
+system.looping = function(f, tick)
 	local s = 1000 / tick
-	local t = {}
-	
+	local t = { }
+
+	local bar = 0
 	local fooTimer = function()
-		t[#t+1] = system.newTimer(f,1000,true)
+		bar = bar + 1
+		t[bar] = system.newTimer(f, 1000, true)
 	end
-	for timer = 0,1000 - s,s do
-		system.newTimer(fooTimer,1000 + timer,false)
+
+	for timer = 0, 1000 - s, s do
+		system.newTimer(fooTimer, 1000 + timer, false)
 	end
 	return t
 end

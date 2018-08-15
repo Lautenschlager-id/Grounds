@@ -43,7 +43,7 @@ system.setRoom = function()
 	
 		system.roomSettings[2].execute(string.match(system.roomAttributes, system.roomSettings[2].char .. "([%a_]+)"))
 		
-		local characters = table.concat(system.roomSettings, "", function(index, value) return value.char end, 3)
+		local characters = table.list(system.roomSettings, "", function(index, value) return value.char end, 3)
 		for char, value in string.gmatch(system.roomAttributes, "([" .. characters .. "])([^" .. characters .. "]+)") do
 			for id, setting in next, system.roomAttributes do
 				if setting.char == char then

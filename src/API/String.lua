@@ -10,8 +10,8 @@ string.nick = function(player, ignoreCheck)
 		player = player .. "#0000"
 	end
 	
-	return string.gsub(string.lower(player),"%a",string.upper,1)
+	return string.gsub(string.lower(player), "%a", string.upper, 1)
 end
 string.trim = function(s)
-	return (string.gsub(s,"^%s*(.-)%s*$","%1"))
+	return (string.gsub(s, "^%s*(.-)%s*$", "%1"))
 end

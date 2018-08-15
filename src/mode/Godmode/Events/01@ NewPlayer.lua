@@ -16,5 +16,5 @@
 
 		tfm.exec.chatMessage("<ROSE>" .. system.getTranslation().welcome,n)
 		
-		ui.banner("15ca3f4a200",5,150,n,10)
+		ui.banner("15ca3f4a200",5,150,n,7)
 	end,

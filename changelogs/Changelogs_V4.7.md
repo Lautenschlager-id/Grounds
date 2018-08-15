@@ -1,4 +1,4 @@
-# V4.6
+# V4.7
 
 ## System
 → Removed the command "!hash"<br>

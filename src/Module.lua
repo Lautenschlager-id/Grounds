@@ -1,5 +1,5 @@
 local module = {
-	_VERSION = "4.7",
+	_VERSION = "4.8",
 	_NAME = "grounds",
 	_STATUS = "semi-official",
 	_AUTHOR = "Bolodefchoco",
@@ -34,7 +34,6 @@ local module = {
 		-- 2 : Commands
 		["Bodykudo#0000"] = 2,
 		["Brenower#0000"] = 2,
-		["Error_404#0000"] = 2,
 		["Jordy#0010"] = 2,
 		["Laagaadoo#0000"] = 2,
 		["Mescouleur#0000"] = 2,
@@ -58,7 +57,7 @@ local module = {
 		["Envidiame#0000"] = 1,
 		["Exsilium#0010"] = 1,
 		["Foxisara#0000"] = 1,
-		["Hmiida#0000"] = 1,
+		["Ghjxpain#0000"] = 1,
 		["Kaldt#0000"] = 1,
 		["Kimsterjay#0000"] = 1,
 		["Ryuuzaki#1216"] = 1,

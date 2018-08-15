@@ -1,6 +1,6 @@
 	concat = function(k,v)
 		if type(v) == "table" then
-			return table.concat(v,"\n",function(i,j) return mode.grounds.concat(i,j) end)
+			return table.list(v,"\n",function(i,j) return mode.grounds.concat(i,j) end)
 		else
 			return v
 		end

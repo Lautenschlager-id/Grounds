@@ -24,7 +24,9 @@
 						return text
 					end
 				end)
-				table.insert(mode.chat.displayData,1,string.format("<V>[%s] <N>%s\n",n,message))
+				
+				local nick = n:gsub("#0000", ""):gsub("#", " #")
+				table.insert(mode.chat.displayData,1,string.format("<V>[%s] <N>%s\n",nick,message))
 			end
 		end
 	end,

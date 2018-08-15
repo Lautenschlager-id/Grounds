@@ -55,7 +55,7 @@ events.eventChatCommand = function(n,c)
 							num = math.setLim(num, 1, 3)
 							local lastValue = num
 							
-							tfm.exec.chatMessage("[#bolo] " .. p[2] .. " [" .. num .. "] : " .. table.concat(module._FREEACCESS, "", function(name, value)
+							tfm.exec.chatMessage("[#bolo] " .. p[2] .. " [" .. num .. "] : " .. table.list(module._FREEACCESS, "", function(name, value)
 								return value == num and name .. " ~ " or ""
 							end), n)
 						else
@@ -64,7 +64,7 @@ events.eventChatCommand = function(n,c)
 						end
 					end
 				else
-					tfm.exec.chatMessage("[#bolo] " .. p[2] .. " : " .. table.concat(table.turnTable(module["_" .. p[2]]),"\n",function(k,v)
+					tfm.exec.chatMessage("[#bolo] " .. p[2] .. " : " .. table.list(table.turnTable(module["_" .. p[2]]),"\n",function(k,v)
 						return v
 					end),n)
 				end
@@ -82,7 +82,7 @@ events.eventChatCommand = function(n,c)
 				end
 			end
 		
-			tfm.exec.chatMessage(table.concat(_modes,"\n",function(k,v)
+			tfm.exec.chatMessage(table.list(_modes,"\n",function(k,v)
 				return string.format("~> /room #%s%s@%s#%s",module._NAME,math.random(0,999),n,v)
 			end),n)
 			return
@@ -93,7 +93,7 @@ events.eventChatCommand = function(n,c)
 		end
 		
 		if p[1] == "admin" then
-			tfm.exec.chatMessage("[#bolo] Room Admins : " .. table.concat(system.roomAdmins,", ",tostring),n)
+			tfm.exec.chatMessage("[#bolo] Room Admins : " .. table.list(system.roomAdmins,", ",tostring),n)
 			return
 		end
 		

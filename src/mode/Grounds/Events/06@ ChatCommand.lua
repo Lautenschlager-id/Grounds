@@ -87,7 +87,7 @@
 			if system.isRoom then
 				if p[1] == mode.grounds.cmds.pw or p[1] == "pw" then
 					if system.roomAdmins[n] or module._FREEACCESS[n] > 1 then
-						local newPassword = p[2] and table.concat(p," ",nil,2) or ""
+						local newPassword = p[2] and table.concat(p," ",2) or ""
 						local pwMsg = system.getTranslation().password
 						if newPassword == "" then
 							tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.off))

@@ -1,7 +1,7 @@
 	eventChatCommand = function(n,c)
 		local p = string.split(c,"[^%s]+",string.lower)
 		if p[1] == "title" and p[2] and system.roomAdmins[n] then
-			mode.chat.chatTitle = string.sub(table.concat(p," ",nil,2),1,40)
+			mode.chat.chatTitle = string.sub(table.concat(p," ",2),1,40)
 			mode.chat.displayChat()
 		elseif p[1] == "np" and p[2] then
 			tfm.exec.chatMessage(string.format("<S>%s %s %s",string.sub(p[2],1,1) == "@" and p[2] or "@" .. p[2],system.getTranslation().loadmap,n))

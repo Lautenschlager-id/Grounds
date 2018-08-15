@@ -1,26 +1,26 @@
 deactivateAccents=function(str)
 	local letters = {
-		["a"] = {"á","à","â","ä","ã","å"},
-		["e"] = {"é","è","ê","ë"},
-		["i"] = {"í","ì","î","ï"},
-		["o"] = {"ó","ò","ô","ö","õ"},
-		["u"] = {"ú","ù","û","ü"},
+		["a"] = {"á", "à", "â", "ä", "ã", "å"},
+		["e"] = {"é", "è", "ê", "ë"},
+		["i"] = {"í", "ì", "î", "ï"},
+		["o"] = {"ó", "ò", "ô", "ö", "õ"},
+		["u"] = {"ú", "ù", "û", "ü"},
 		["c"] = {"ç"},
 		["n"] = {"ñ"},
-		["y"] = {"ý","ÿ"},
+		["y"] = {"ý", "ÿ"},
 	}
-	for k,v in next,letters do
-		for i = 1,#v do
+	for k,v in next, letters do
+		for i = 1, #v do
 			str = string.gsub(str, v[i], tostring(k))
 		end
 	end
 	return str
 end
-disableChatCommand = function(command,...)
-	for k,v in next,{command,...} do
-		system.disableChatCommandDisplay(v,true)
-		system.disableChatCommandDisplay(string.lower(v),true)
-		system.disableChatCommandDisplay(string.upper(v),true)
+disableChatCommand = function(...)
+	for k, v in next, { ... } do
+		system.disableChatCommandDisplay(v, true)
+		system.disableChatCommandDisplay(string.lower(v), true)
+		system.disableChatCommandDisplay(string.upper(v), true)
 	end
 end	
 normalizeTranslation = function()
@@ -49,20 +49,20 @@ end
 normalizeNumber = function(number,sep)
 	sep = sep or " "
 	number = tostring(math.floor(number))
-	number = string.gsub(number,"E(%d+)",function(cn) -- e5 = 00000
-		return string.rep("0",tonumber(cn))
+	number = string.gsub(number, "E(%d+)", function(cn) -- e5 = 00000
+		return string.rep("0", tonumber(cn))
 	end)
-	number = string.gsub(string.reverse(number),"(...)",function(c)
+	number = string.gsub(string.reverse(number), "(...)", function(c)
 		return c .. sep
 	end)
 	return string.reverse(number)
 end
 pairsByIndexes = function(list,f)
 	local out = {}
-	for index in next,list do
+	for index in next, list do
 		out[#out + 1] = index
 	end
-	table.sort(out,f)
+	table.sort(out, f)
 	
 	local i = 0
 	return function()
@@ -70,7 +70,7 @@ pairsByIndexes = function(list,f)
 		if out[i] == nil then
 			return nil
 		else
-			return out[i],list[out[i]]
+			return out[i], list[out[i]]
 		end
     end
 end

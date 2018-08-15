@@ -2,7 +2,7 @@
 		local p = string.split(c,"[^%s]+")
 		
 		if p[1] == "help" then
-			tfm.exec.chatMessage(table.concat(system.getTranslation().commands,"\n\n",function(k,v)
+			tfm.exec.chatMessage(table.list(system.getTranslation().commands,"\n\n",function(k,v)
 				return "<ROSE>• <CE>" .. string.gsub(v,"<","&lt;")
 			end),n)
 			return
@@ -17,7 +17,7 @@
 					tfm.exec.chatMessage("<CE>[#dev] " .. string.format(system.getTranslation().maxPlayers,n,p[3]))
 				elseif p[2] == "password" then --set password PASSWORD
 					if p[3] then
-						p[3] = table.concat(p," ",nil,3)
+						p[3] = table.concat(p," ",3)
 					
 						tfm.exec.setRoomPassword(p[3])
 					
@@ -42,7 +42,7 @@
 			
 			if p[1] == "timer" then --timer NAME LOOP TIME FUNC PARAM
 				if not p[2] then
-					tfm.exec.chatMessage("<CE>" .. table.concat(mode.dev.timers,"\n",tostring),n)
+					tfm.exec.chatMessage("<CE>" .. table.list(mode.dev.timers,"\n",tostring),n)
 				elseif p[3] == "break" then
 					if mode.dev.timers[p[2]] then
 						system.removeTimer(mode.dev.timers[p[2]])
@@ -70,7 +70,7 @@
 							local f = system.loadTable(p[5])
 							f = type(f) == "function" and f or tfm.exec.chatMessage
 
-							local args = mode.dev.getWithType(table.concat(p," ",function(k,v)
+							local args = mode.dev.getWithType(table.list(p," ",function(k,v)
 								return (table.find({"#","@","!","?"},string.sub(v,1,1)) and "," or "") .. v
 							end,6))
 							
@@ -96,7 +96,7 @@
 			
 			if p[1] == "img" then --img NAME IMG TARG X Y PLAYER
 				if not p[2] then
-					tfm.exec.chatMessage("<CE>" .. table.concat(mode.dev.images,"\n",tostring),n)
+					tfm.exec.chatMessage("<CE>" .. table.list(mode.dev.images,"\n",tostring),n)
 				elseif p[3] == "remove" then
 					if mode.dev.images[p[2]] then
 						tfm.exec.removeImage(mode.dev.images[p[2]])
@@ -126,7 +126,7 @@
 			
 			if p[1] == "object" then --object NAME ID X Y BOOLEAN_DESPAWN:TIME_TO_DESPAWN ANGLE XS YS GHOST
 				if not p[2] then
-					tfm.exec.chatMessage("<CE>" .. table.concat(mode.dev.objects,"\n",tostring),n)
+					tfm.exec.chatMessage("<CE>" .. table.list(mode.dev.objects,"\n",tostring),n)
 				elseif p[3] == "remove" then
 					if mode.dev.objects[p[2]] then
 						tfm.exec.removeObject(mode.dev.objects[p[2]])
@@ -240,7 +240,7 @@
 			end
 			
 			if p[1] == "display" and p[2] then
-				tfm.exec.chatMessage("<CE>[" .. n .. "#DEV-DISPLAY] <N>" .. string.gsub(table.concat(p," ",nil,2),"<","&lt;"))
+				tfm.exec.chatMessage("<CE>[" .. n .. "#DEV-DISPLAY] <N>" .. string.gsub(table.concat(p," ",2),"<","&lt;"))
 				return
 			end
 		
@@ -272,7 +272,7 @@
 			if p[1] == "execute" and p[2] then --execute tfm.exec.giveCheese NAME
 				local f = system.loadTable(p[2])
 				if type(f) == "function" then
-					local args = mode.dev.getWithType(table.concat(p," ",function(k,v)
+					local args = mode.dev.getWithType(table.list(p," ",function(k,v)
 						return (table.find({"#","@","!","?"},string.sub(v,1,1)) and "," or "") .. v
 					end,3))
 				

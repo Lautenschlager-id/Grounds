@@ -1,6 +1,6 @@
 	profile = {
 		uiprofile = function(n)
-			mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().profile.profiles) .. "</B><font size='12'>\n<a href='event:profile.exit'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. table.concat(mode.universe.cosmos,"\n",function(k,v)
+			mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. string.upper(system.getTranslation().profile.profiles) .. "</B><font size='12'>\n<a href='event:profile.exit'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. table.list(mode.universe.cosmos,"\n",function(k,v)
 				return string.format("%s <a href='event:profile.open.%s.%s'>%s</a>",(v.id == mode.universe.cosmos[1].id and "<a:active>★</a:active>" or "<CE>[" .. v.className .."]</CE>"),v.className,k,v.name)
 			end),n,300)
 		end,
@@ -63,7 +63,7 @@
 			ui.addTextArea(-31,"",n,540,72,122,288,0x242f42,0x242f42,1,true)
 
 			ui.addTextArea(-32,"<p align='center'><font color='#32C3CC'>" .. system.getTranslation().profile.planets,n,551,47,100,20,0x0f242e,0x0f242e,1,true)
-			ui.addTextArea(-33,"<p align='center'><V>" .. table.concat(mode.universe.cosmos,"",function(k,v)
+			ui.addTextArea(-33,"<p align='center'><V>" .. table.list(mode.universe.cosmos,"",function(k,v)
 				return v.class == 2 and string.format("<a href='event:profile.open.Planet.%s'>%s</a>\n\n",k,v.name) or ""
 			end),n,541,73,120,290,0x0f242e,0x0f242e,1,true)
 		end,
@@ -133,7 +133,7 @@
 			ui.addTextArea(-39,"",n,540,142,122,214,0x242F42,0x242F42,1,true)
 
 			ui.addTextArea(-40,"<p align='center'><font color='#32C3CC'>" .. system.getTranslation().profile.satellites,n,551,117,100,20,0x0F242E,0x0F242E,1,true)
-			ui.addTextArea(-41,"<p align='center'><V>" .. table.concat(obj.moons,"",function(k,v)
+			ui.addTextArea(-41,"<p align='center'><V>" .. table.list(obj.moons,"",function(k,v)
 				return string.format("<a href='event:profile.open.Moon.%s'>%s</a>\n\n",mode.universe.cosmos[v].position,mode.universe.cosmos[v].name)
 			end),n,541,143,120,216,0x0F242E,0x0F242E,1,true)
 		end,

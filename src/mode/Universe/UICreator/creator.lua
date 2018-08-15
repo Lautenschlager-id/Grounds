@@ -1,5 +1,5 @@
 	uicreator = function(n)
-		mode.universe.uinew(0,table.concat(mode.universe.info[n].settings.create,"\n<font size='4'>\n</font>",function(k,v)
+		mode.universe.uinew(0,table.list(mode.universe.info[n].settings.create,"\n<font size='4'>\n</font>",function(k,v)
 			return string.format(v[1],tostring(v[2](n)))
 		end),n,400,200,540,300,true)
 		

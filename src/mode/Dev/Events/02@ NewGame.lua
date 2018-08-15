@@ -12,8 +12,10 @@
 				tfm.exec.removeImage(v)
 			end
 			
-			mode.dev.currentBackground[4] = tfm.exec.addImage(mode.dev.currentBackground[1],"?1",mode.dev.currentBackground[2],mode.dev.currentBackground[3])
-			
+			if mode.dev.currentBackground[1] then
+				mode.dev.currentBackground[4] = tfm.exec.addImage(mode.dev.currentBackground[1],"?1",mode.dev.currentBackground[2],mode.dev.currentBackground[3])
+			end
+
 			if tfm.get.room.xmlMapInfo.xml then
 				xml.attribFunc(tfm.get.room.xmlMapInfo.xml,{
 				
