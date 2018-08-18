@@ -1,6 +1,6 @@
 --Creator: Bolodefchoco
 --Made in: 06/02/2017
---Last update: 15/08/2018
+--Last update: 18/08/2018
 
 --[[ Module ]]--
 local module = {
@@ -10,9 +10,9 @@ local module = {
 	_AUTHOR = "Bolodefchoco",
 	_LICENSE = [[
 		MIT LICENSE
-
+		
 		Copyright (c) 2017 @Transformice + @Bolodefchoco
-
+		
 		Permission is hereby granted, free of charge, to any person obtaining
 		a copy of this software and associated documentation files (the
 		"Software"), to deal in the Software without restriction, including
@@ -114,7 +114,7 @@ do
 		end
 		return false
 	end
-
+	
 	local addImage = tfm.exec.addImage
 	local removeImage = tfm.exec.removeImage
 	tfm.exec.addImage = function(...)
@@ -130,13 +130,13 @@ do
 			system.objects.image[id] = nil
 		end
 	end
-
+	
 	local nicknamePrettifier = function(text)
 		return (stringgsub(text, "([a-zA-Z0-9_%+]+)(#%d+)", function(name, discriminator)
 			return name .. "<font size='8'><G>" .. discriminator .. "</G></font>"
 		end))
 	end
-
+	
 	local addTextArea = ui.addTextArea
 	ui.addTextArea = function(id, text, ...)
 		addTextArea(id, nicknamePrettifier(text), ...)
@@ -144,7 +144,7 @@ do
 			system.objects.textarea[id] = true
 		end
 	end
-
+	
 	local chatMessage = tfm.exec.chatMessage
 	tfm.exec.chatMessage = function(txt, n)
 		txt = nicknamePrettifier(tostring(txt))
@@ -159,7 +159,7 @@ do
 			chatMessage(txt, n)
 		end
 	end
-
+	
 	local loadPlayerData = system.loadPlayerData
 	system.loadPlayerData = function(n)
 		if module._STATUS == "official" then
@@ -171,7 +171,7 @@ do
 			return true
 		end
 	end
-
+	
 	local savePlayerData = system.savePlayerData
 	system.savePlayerData = function(n,data)
 		if module._STATUS == "official" then
@@ -265,7 +265,7 @@ ui.banner = function(image, aX, aY, n, time)
 	time = time or 5
 	aX = aX or 100
 	aY = aY or 100
-
+	
 	local img = tfm.exec.addImage(image .. ".png", "&0", aX, aY, n)
 	system.newTimer(function()
 		tfm.exec.removeImage(img)
@@ -316,7 +316,7 @@ stringnick = function(player, ignoreCheck)
 	if not ignoreCheck and not player:find("#") then
 		player = player .. "#0000"
 	end
-
+	
 	return stringgsub(stringlower(player), "%a", stringupper, 1)
 end
 stringtrim = function(s)
@@ -340,9 +340,9 @@ tablerandom = function(t)
 end
 tableshuffle = function(t)
 	local len = #t
-	for i = 1, len, -1 do
+	for i = len, 1, -1 do
 		local rand = mathrandom(len)
-		tbl[i], tbl[rand] = tbl[rand], tbl[i]
+		t[i], t[rand] = t[rand], t[i]
 	end
 	return t
 end
@@ -413,12 +413,12 @@ disableChatCommand = function(...)
 		system.disableChatCommandDisplay(stringlower(v), true)
 		system.disableChatCommandDisplay(stringupper(v), true)
 	end
-end
+end	
 normalizeTranslation = function()
 	if not mode[system.gameMode].translations.pt then
 		mode[system.gameMode].translations.pt = mode[system.gameMode].translations.br
 	end
-
+	
 	if not mode[system.gameMode].languageIsSet or mode[system.gameMode].langue == "" then
 		if mode[system.gameMode].translations[system.roomLanguage] then
 			mode[system.gameMode].langue = system.roomLanguage
@@ -427,10 +427,10 @@ normalizeTranslation = function()
 		else
 			mode[system.gameMode].langue = "en"
 		end
-
+		
 		mode[system.gameMode].languageIsSet = true
 	end
-
+	
 	for k, v in next, mode[system.gameMode].translations do
 		if k ~= "en" then
 			tablemerge(v, mode[system.gameMode].translations.en)
@@ -454,7 +454,7 @@ pairsByIndexes = function(list,f)
 		out[#out + 1] = index
 	end
 	tablesort(out, f)
-
+	
 	local i = 0
 	return function()
 		i = i + 1
@@ -576,12 +576,12 @@ color = { -- local glitches rgb_to_hsl
 		r = r / 0xFF
 		g = g / 0xFF
 		b = b / 0xFF
-
+		
 		local min = mathmin(r, g, b)
 		local max = mathmax(r, g, b)
-
+		
 		local d = max - min
-
+		
 		local h
 		if d == 0 then
 			h = 0
@@ -592,7 +592,7 @@ color = { -- local glitches rgb_to_hsl
 		elseif max == b then
 			h = (r - g) / d + 4
 		end
-
+		
 		h = mathfloor(h * 60 + .5)
 		return h, d, max, min
 	end,
@@ -745,14 +745,14 @@ system.modeChanged = os.time() + 1000
 
 system.getGameMode = function(moduleName, triggerEvent)
 	local exists = not not mode[moduleName]
-
-	if exists then
+	
+	if exists then	
 		system.gameMode = moduleName
-
+		
 		if triggerEvent then
 			eventOnModeChange()
 		end
-
+		
 		system.modeChanged = os.time() + 1000
 	end
 	return exists
@@ -808,7 +808,7 @@ mode.grounds = {
 			-- Init
 			welcome = "Welcome to #%s! Can you be the fastest mouse using the ground effects? Try it!\n<PS>Press H for more info!",
 			developer = "Developed by %s",
-	
+			
 			-- Shop
 			shop = {
 				coin = "Coins",
@@ -819,10 +819,10 @@ mode.grounds = {
 			},
 			bought = "You just spent %s coins for the ground %s!",
 			cantbuy = "You haven't coins enough in order to buy this upgrade! :(",
-	
+			
 			-- Profile
 			profile = "Leaderboard : %s\n\n<N>Rounds : %s\n<N>Podiums : %s\n\n<N>Deaths : %s\n\n<N>Shop Coins : %s",
-	
+			
 			-- Gameplay
 			gotcoin = "You just got %s coins! :D",
 			zombie = "Now you are a zombie!",
@@ -830,20 +830,20 @@ mode.grounds = {
 				mice = "At least 5 mice are needed to stats count",
 				tribe = "Stats do not count in tribe houses"
 			},
-	
+			
 			-- New map
 			powersenabled = "The ground powers were enabled! Good luck!",
 			tribehouse = "This is a House place. No stats, no gameplay. Enjoy with your friends",
-	
+			
 			-- Language
 			language = "Current language : <J>%s",
-	
+			
 			-- Settings
 			password = {
 				on = "New password : %s",
 				off = "Password disabled!"
 			},
-	
+			
 			-- Commands
 			commands = {
 				shop = "shop",
@@ -855,7 +855,7 @@ mode.grounds = {
 				pw = "password",
 				mapinfo = "mapinfo",
 			},
-	
+			
 			-- Menu
 			menu = {
 				[1] = {"%s","\tYour aim in this minigame is to collect the cheese as fast as you can using the effects each gound has to offer."},
@@ -881,7 +881,7 @@ mode.grounds = {
 				[6] = {"Thanks for","<R>%s <G>- <N>Developer\n%s <G>- <N>Translators\n%s <G>- <N>Map evaluators"},
 			},
 			max = "15a2df47d2e",
-	
+			
 			-- Rooms
 			rooms = {
 				bootcamp = "Are you a bootcamper? If so, play at room #grounds0bootcamp with bootcamp maps ONLY!",
@@ -925,10 +925,10 @@ mode.grounds = {
 				[11] = ".خرائط مع الخفافيش",
 				[12] = ".منازل دون لعب، مكان مخصص فقط للمبتدئين",
 			},
-	
+			
 			welcome = "مرحبا إلى #%s! هل يمكنك أن تكون أسرع فأر يستعمل قوى الأرض؟ قم بتجربتها!\n<PS>اضغط على الزر H لمعرفة المزيد!",
 			developer = "مبرمجة من قبل %s",
-	
+			
 			shop = {
 				coin = "النقود",
 				power = "طاقة الارضية",
@@ -938,26 +938,26 @@ mode.grounds = {
 			},
 			bought = "لقد قمت بإستعمال %s من النقود من أجل الأرضية %s!",
 			cantbuy = "لا تملك النقود الكافية لشراء هذا! :(",
-	
+			
 			profile = "لائحة المتقدمين : %s\n\n<N>الجولات : %s\n<N>المناصب : %s\n\n<N>الموت : %s\n\n<N>نقود المتجر : %s",
-	
+			
 			gotcoin = "لقد حصلت على %s نقود! :D",
 			zombie = "أصبحت الأن ميت حي!",
 			countstats = {
 				mice = "تحتاج الاقل ل 5 فئران لاحصائيات الاعتماد",
 				tribe = "الاحصائيات لا تحسب بمنزل القبيلة"
 			},
-	
+			
 			powersenabled = "تم تفعيل قوى الأرض! حظا موفقا!",
 			tribehouse = "هذا هو مكان البيت، لا احصائيات، ,ولا لعب. استمتع مع أصدقائك",
-	
+			
 			language = "اللغة الحالية : <J>%s",
-	
+			
 			password = {
 				on = "جديدة سر كلمة : %s",
 				off = "السر كلمة تعطيل!"
 			},
-	
+			
 			commands = {
 				shop = "المتجر",
 				profile = "لاعب",
@@ -966,7 +966,7 @@ mode.grounds = {
 				leaderboard = "مراكز",
 				info = "معلومة",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tما عليك فعله في هذه اللعبة هو جمع الجبن بأسرع ما يمكن يمكنك إستخدام القوى التي  توفرها لك الأرضيات."},
 				[2] = {"Submodes","%s\n<J>You may also like to play\n%s"},
@@ -990,8 +990,8 @@ mode.grounds = {
 				[5] = {"الخرائط","<J>الخرائط : %s\n\n\tتفعيل %s وأرسل الخارطة. لا تنسى قراءة القوانين!"},
 				[6] = {"شكرا لـ","<R>%s <G>- <N>المبرمج\n%s <G>- <N>مترجمون\n%s <G>- <N>مقيموا الخرائط"},
 			},
-	
-	
+			
+			
 			rooms = {
 				bootcamp = "هل أنت مِن مُحبي نمط المُعسكر؟ إذا كنت كذلك، العب في غرفة ground0bootcamp# مع خرائط المعسكر فقط!",
 				racing = "هل تحب من مُحبي الجري؟ يمكنك أن تلعب جميع خرائط السباق في الغرفة ground0racing# !"
@@ -1034,10 +1034,10 @@ mode.grounds = {
 				[11] = "Mapas com vampiros.",
 				[12] = "Casas sem jogabilidade, apenas um lugar para noobs.",
 			},
-	
+			
 			welcome = "Bem-vindo ao #%s! Você pode ser o rato mais rápido usando os efeitos dos pisos? Prove!\n<PS>Pressione H para mais informações!",
 			developer = "Desenvolvido por %s",
-	
+			
 			shop = {
 				coin = "Moedas",
 				power = "Poder do piso",
@@ -1047,21 +1047,21 @@ mode.grounds = {
 			},
 			bought = "Você acaba de gastar %s moedas pelo piso %s!",
 			cantbuy = "Você não tem moedas suficientes para comprar esta atualização! :(",
-	
+			
 			profile = "Rank : %s\n\n<N>Partidas : %s\n<N>Pódios : %s\n\n<N>Mortes : %s\n\n<N>Moedas na loja : %s",
-	
+			
 			gotcoin = "Você acaba de conseguir %s moedas! :D",
 			zombie = "Agora você é um zumbi!",
 			countstats = {
 				mice = "Ao menos 5 ratos são necessários para as estatísticas serem contabilizadas",
 				tribe = "Estatísticas não são contabilizadas em cafofos de tribo"
 			},
-	
+			
 			powersenabled = "Os poderes dos pisos foram ativados! Boa sorte!",
 			tribehouse = "Este lugar é uma casa. Sem estatísticas, sem gameplay. Divirta-se com seus amigos",
-	
+			
 			language = "Idioma atual : <J>%s",
-	
+			
 			password = {
 				on = "Nova senha : %s",
 				off = "Senha desativada!"
@@ -1076,7 +1076,7 @@ mode.grounds = {
 				info = "info",
 				pw = "senha",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tSeu objetivo neste mini-game é coletar o queijo o mais rápido possível, utilizando os efeitos que cada piso oferecer."},
 				[2] = {"Submodos","%s\nVocê também pode gostar de jogar\n%s"},
@@ -1101,7 +1101,7 @@ mode.grounds = {
 				[6] = {"Agradecimentos","<R>%s <G>- <N>Desenvolvedor\n%s <G>- <N>Tradutores\n%s <G>- <N>Avaliadores de mapa"},
 			},
 			max = "15a2df3e699",
-
+		
 			rooms = {
 				bootcamp = "Você é um bootcamper? Se sim, jogue na sala #grounds0bootcamp APENAS com mapas bootcamp!",
 				racing = "Você ama correr? Você pode jogar todos os mapas racing na sala #grounds0racing!"
@@ -1130,10 +1130,10 @@ mode.grounds = {
 				[14] = {"Unsichtbar","?","?"},
 				[15] = {"Spinnweben","Teleportiert dich zum Startpunkt","?"},
 			},
-	
+			
 			welcome = "Willkommen zu #%s! Kannst du die schnellste Maus mit den Bodeneffekten sein? Versuch es!\n<PS>Drück H für mehr informationen!",
 			developer = "Entwickelt von %s",
-	
+			
 			shop = {
 				coin = "Munzen",
 				power = "Bodenleistung",
@@ -1143,25 +1143,25 @@ mode.grounds = {
 			},
 			bought = "Du hast %s Münzen für den Boden %s ausgegeben!",
 			cantbuy = "Du hast nicht genügend Münzen um dieses Upgrade zu kaufen! :(",
-	
+			
 			profile = "Bestenliste : %s\n\n<N>Runden: %s\n<N>Podiums: %s\n\n<N>Tode : %s\n\n<N>Shop Münzen: %s",
-	
+			
 			gotcoin = "Du hast soeben %s Münzen erhalten! :D",
 			zombie = "Du bist nun ein Zombie!",
 			countstats = {
 				mice = "Es müssen mindestens 5 Mäuse im Raum sein damit die Stats zählen",
 				tribe = "Stats zählen in Stammeshäusern nicht"
 			},
-	
+			
 			powersenabled = "Der Effekt des Bodens wurde aktiviert! Viel Glück!",
-	
+			
 			language = "Aktuelle Sprache : <J>%s",
-	
+			
 			password = {
 				on = "Neu passwort: : %s",
 				off = "Passwort deaktiviert!"
 			},
-	
+			
 			commands = {
 				shop = "shop",
 				profile = "profil",
@@ -1171,7 +1171,7 @@ mode.grounds = {
 				info = "info",
 				pw = "passwort",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tDein Ziel in diesem Minigame ist es den Käse so schnell wie möglich zu sammeln, indem du die verschiedenen Effekte der Böden ausnutzt."},
 				[2] = {"Submodes","%s\n<J>You may also like to play\n%s"},
@@ -1233,10 +1233,10 @@ mode.grounds = {
 				[11] = "Mapas con vampiros.",
 				[12] = "Houses without gameplay, only a place for noobs",
 			},
-	
+			
 			welcome = "Bienvenido a #%s! Podrás ser el más rápido usando los efectos de los suelos? Inténtalo!\n<PS>Presiona H para más información!",
 			developer = "Programado por %s",
-	
+			
 			shop = {
 				coin = "Monedas",
 				power = "Potencia del suelo",
@@ -1255,16 +1255,16 @@ mode.grounds = {
 				mice = "Por lo menos 5 ratones son necesarios para contar estadísticas",
 				tribe = "Las estadísticas no cuentan en casas de tribu"
 			},
-	
+			
 			powersenabled = "Los poderes de los suelos han sido activados! Buena suerte!",
-	
+			
 			language = "Idioma actual : <J>%s",
-	
+			
 			password = {
 				on = "Nueva contraseña : %s",
 				off = "Contraseña desactivada!"
 			},
-	
+			
 			commands = {
 				shop = "tienda",
 				profile = "perfil",
@@ -1274,7 +1274,7 @@ mode.grounds = {
 				info = "info",
 				pw = "contraseña",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tTu objetivo en este juego es agarrar el queso lo más rápido que puedas, usando los efectos que cada suelo ofrece."},
 				[2] = {"Submodes","%s\n<J>You may also like to play\n%s"},
@@ -1322,7 +1322,7 @@ mode.grounds = {
 				[14] = {"Invisible","?","?"},
 				[15] = {"Toile d'araignée","Vous téléporte au point de spawn","?"},
 			},
-	
+			
 			welcome = "Bienvenue à #%s! Pouvez vous être la souris la plus rapide grâce aux effets des sols? Essayez!\n<PS>Appuyez sur H pour plus d'informations!",
 			developer = "Développé par %s",
 
@@ -1335,25 +1335,25 @@ mode.grounds = {
 			},
 			bought = "Vous venez de dépenser %s pièces pour le sol %s!",
 			cantbuy = "Vous n'avez pas assez de pièces pour acheter cette amélioration! :(",
-	
+			
 			profile = "Leaderboard : %s\n\n<N>Parties : %s\n<N>Podiums : %s\n\n<N>Morts : %s\n\n<N>Shop Pièces : %s",
-	
+			
 			gotcoin = "Vous venez de recevoir %s pièces! :D",
 			countstats = {
 				mice = "Au moins 5 souris sont nécessaires pour que les statistiques comptent",
 				tribe = "Les statistiques ne comptent pas en maison de tribu"
 			},
 			zombie = "Vous êtes maintenant un zombie!",
-	
+			
 			powersenabled = "Les pouvoirs des sols ont été activés! Bonne chance!",
-
-			language = "Langage actuel : <J>%s",
 	
+			language = "Langage actuel : <J>%s",
+			
 			password = {
 				on = "Nouveau mot de passe : %s",
 				off = "Mot de passe désactivé!"
 			},
-	
+			
 			commands = {
 				shop = "magasin",
 				profile = "profil",
@@ -1363,7 +1363,7 @@ mode.grounds = {
 				info = "info",
 				pw = "password",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tVotre but dans ce minijeu est de collecter le fromage aussi vite que possible, en utilisant les effets des différents sols."},
 				[2] = {"Submodes","%s\n<J>You may also like to play\n%s"},
@@ -1411,10 +1411,10 @@ mode.grounds = {
 				[14] = {"Láthatatlan","?","?"},
 				[15] = {"Pókháló","Elteleportál téged a kezdőpontra","?"},
 			},
-	
+			
 			welcome = "Üdvözöllek a #%s! Sikerül neked a leggyorsabb egérré válni a talajhatások használatával? Próbáld ki!\n<PS>Nyomd meg a H betűt több információért!",
 			developer = "Fejlesztve %s által",
-	
+			
 			shop = {
 				coin = "Pénzérmék",
 				power = "Talaj ereje",
@@ -1424,25 +1424,25 @@ mode.grounds = {
 			},
 			bought = "Te most költöttél el %s pénzt a talajra %s!",
 			cantbuy = "Nincs elég pénzed ahhoz, hogy megvedd ezt a frissítést! :(",
-	
+			
 			profile = "Ranglista : %s\n\n<N>Körök : %s\n<N>Dobogók : %s\n\n<N>Halálozások : %s\n\n<N>Bolti pénz : %s",
-	
+			
 			gotcoin = "Te most szereztél %s pénzt! :D",
 			zombie = "Most egy zombi vagy!",
 			countstats = {
 				mice = "Legalább 5 egérnek kell lennie, hogy statisztikát lehessen számolni",
 				tribe = "A statisztika nem számít a törzsházakban"
 			},
-	
+			
 			powersenabled = "A talajhatások engedélyezve lettek! Sok szerencsét!",
-	
+			
 			language = "Jelenlegi nyelv : <J>%s",
-	
+			
 			password = {
 				on = "Új jelszó : %s",
 				off = "Jelszó letiltva!"
 			},
-	
+			
 			commands = {
 				shop = "bolt",
 				profile = "profil",
@@ -1452,7 +1452,7 @@ mode.grounds = {
 				info = "infó",
 				pw = "jelszó",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tA te feladatod ebben a minijátékban az, hogy a lehető leggyorsabban összegyűjtsd a sajtot a talajhatások használatával."},
 				[2] = {"Submodes","%s\n<J>You may also like to play\n%s"},
@@ -1499,10 +1499,10 @@ mode.grounds = {
 				[14] = {"Onzichtbaar","?","?"},
 				[15] = {"Spinnenweb","Teleport je naar het beginpunt","?"},
 			},
-	
+			
 			welcome = "Welkom bij #%s! Ben jij de snelste muis door grond effecten te gebruiken? Probeer het!",
 			developer = "Gemaakt door %s",
-	
+			
 			shop = {
 				coin = "Munten",
 				power = "Grondkracht",
@@ -1540,7 +1540,7 @@ mode.grounds = {
 				info = "info",
 				pw = "wachtwoord",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tJouw doel is om zoveel mogelijk kaas te verzamelen, met gebruik van verschillende grond-effecten."},
 				[3] = {"Submodes","%s"},
@@ -1602,10 +1602,10 @@ mode.grounds = {
 				[11] = "Mapy z wampirami.",
 				[12] = "Chatki plemienne bez rozgrywki, są miejscem tylko dla noobków.",
 			},
-	
+			
 			welcome = "Witaj w #%s! Możesz zostać najszybszą myszką, używając moce gruntów? Spróbuj!\n<PS>Wciśnij H, aby otrzymać więcej informacji!",
 			developer = "Stworzone przez %s",
-	
+			
 			shop = {
 				coin = "Kredyty",
 				power = "Moc gruntu",
@@ -1615,7 +1615,7 @@ mode.grounds = {
 			},
 			bought = "Wydałeś %s monet na %s!",
 			cantbuy = "Nie masz wystarczającej ilości monet, żeby zakupić to ulepszenie! :(",
-	
+			
 			profile = "Ranking : %s\n\n<N>Rund : %s\n<N>Podia : %s\n\n<N>Zgony : %s\n\n<N>Monety : %s",
 
 			gotcoin = "Masz %s monet! :D",
@@ -1629,12 +1629,12 @@ mode.grounds = {
 			tribehouse = "To jest miejsce chatki plemiennej. Bez statystyk, bez rozgrywki. Ciesz się ze swoimi znajomymi.",
 
 			language = "Bieżący język : <J>%s",
-	
+			
 			password = {
 				on = "Nowe hasło : %s",
 				off = "Hasło wyłączone!"
 			},
-	
+			
 			commands = {
 				shop = "sklep",
 				profile = "profil",
@@ -1644,7 +1644,7 @@ mode.grounds = {
 				info = "informacje",
 				pw = "hasło",
 			},
-	
+			
 			menu = {
 				[1] = {"%s","\tTwoim zadaniem w tej minigrze jest zbieranie serka najszybciej jak potrafisz, wykorzystując moce gruntów."},
 				[2] = {"Submodes","%s\n<J>You may also like to play\n%s"},
@@ -1669,7 +1669,7 @@ mode.grounds = {
 				[6] = {"Podziękowania","<R>%s <G>- <N>Twórca\n%s <G>- <N>Tłumacze\n%s <G>- <N>Testerzy map"},
 			},
 			max = "15a2df4de75",
-	
+			
 			rooms = {
 				bootcamp = "Jesteś bootcamperem? Jeżeli tak, wejdź do pokoju #grounds0bootcamp gdzie są TYLKO mapki z bootcampu!",
 				racing = "Kochasz biegać? Możesz zagrać we wszystkie wyścigowe mapki na #ground0racing!"
@@ -1852,33 +1852,33 @@ mode.grounds = {
 			local map
 			if os.time() > system.newGameTimer then
 				this = this or {}
-
+				
 				if #this<1 and (mode.grounds.rotation[1] > #mode.grounds.rotation[2]) then
 					mode.grounds.rotation[1] = 1
 				end
-
+				
 				local category = this.category or mode.grounds.rotation[2][mode.grounds.rotation[1]]
 				mode.grounds.mapInfo[2] = category
 				category = mode.grounds.G[category]
 				mode.grounds.mapInfo[5] = category.color
 				map = this.map or category.queue[category.id]
 				mode.grounds.mapInfo[1] = map
-
+				
 				if #this<1 then
 					category.id = category.id + 1
 				end
-
+				
 				mode.grounds.afterFunction = category.after or (function() end)
 				if category.before then
 					category.before()
 				end
-
+				
 				if #this<1 then
 					if category.id > #category.queue then
 						category.queue = tableshuffle(category.queue)
 						category.id = 1
 					end
-	
+					
 					mode.grounds.rotation[1] = mode.grounds.rotation[1] + 1
 				end
 			end
@@ -1908,7 +1908,7 @@ mode.grounds = {
 		if system.roomNumber == 666 then
 			return {"<R>","<R>","<R>","<R>"}
 		else
-			return {"<BV>","<PT>","<BV>","<VP>"}
+			return {"<BV>","<PT>","<BV>","<VP>"}	
 		end
 	end)(),
 	isHouse = system.roomNumber == 801 or system.officialMode[1] == "village",
@@ -1924,7 +1924,7 @@ mode.grounds = {
 			[9] = {'15a2a3b475f','15a2a3b5996','15a2a3b6ab9','15a2a3b8250','15a2a3b924f'},
 			[10] = {'15a2a3a0156','15a2a3a1229','15a2a3a2460','15a2a3a3702','15a2a3a4c70'},
 			[11] = {'15a2a381307','15a2a3824c8','15a2a383682','15a2a384dc1','15a2a3865c5','15a2a38820d','15a2a38a3a8','15a2a38bbd6','15a2a38d0ec'},
-			[15] = {'15a2a3c4442','15a2a3c54f3','15a2a3c69b7','15a2a3c78e7','15a2a3c873b'},
+			[15] = {'15a2a3c4442','15a2a3c54f3','15a2a3c69b7','15a2a3c78e7','15a2a3c873b'},	
 		},
 		unpackImages = function(id,e)
 			local t = {}
@@ -1961,7 +1961,7 @@ mode.grounds = {
 		size = size or 100
 		height = height or 20
 		y = y or 25
-
+		
 		local x = mode.grounds.isOfficialMap and 50 or 5
 
 		if value > size then
@@ -1996,21 +1996,21 @@ mode.grounds = {
 			elseif mode.grounds.info[n].shop.page > #mode.grounds.shop.grounds then
 				mode.grounds.info[n].shop.page = 1
 			end
-	
+			
 			local shopTxt = system.getTranslation(n).shop
 			local debuggedGround = mode.grounds.shop.grounds[mode.grounds.info[n].shop.page]
 			local ground = system.getTranslation(n).grounds[debuggedGround[1]]
 			local G = stringlower(system.getTranslation("en").grounds[debuggedGround[1]][1])
 			local groundLevel = mode.grounds.info[n].stats.powers[G]
 			groundLevel = groundLevel[#groundLevel]
-	
+			
 			ui.addTextArea(4,"",n,160,50,480,320,0x1a2433,1,1,true)
 
 			ui.addTextArea(5,"",n,171,56,240,15,0x1d5a78,0x1d5a78,1,true)
 			ui.addTextArea(6,"<p align='center'><font size='13'>"..stringnick(mode.grounds.cmds.shop, true),n,170,53,240,25,1,1,0,true)
 
 			ui.addTextArea(7,"<p align='center'><font size='12'><B><a href='event:shop.left'><BV>«</BV></a>  <font size='14'><a href='event:info.grounds."..stringgsub(ground[1],"'","#").."."..ground[2].."'>"..ground[1].."</a></font>  <a href='event:shop.right'><BV>»</BV></a>",n,170,87,240,25,0x073247,0x073247,1,true)
-	
+			
 			mode.grounds.info[n].shop.image[1] = tfm.exec.addImage(debuggedGround[2][1]..".png","&0",435,70,n)
 
 			local playerData = stringformat("<font size='12'><N>%s <G>: <J>$%s\n<N>%s\n<N>%s <G>: <BL>%s",shopTxt.coin,mode.grounds.info[n].stats.groundsCoins,"%s",shopTxt.power,mathfloor(mathpercent(groundLevel,#debuggedGround[2])).."%%")
@@ -2023,7 +2023,7 @@ mode.grounds = {
 				local iniPerc = mathfloor(mathpercent(1,#mode.grounds.shop.grounds[mode.grounds.info[n].shop.page][2]))
 				groundData = stringformat(ground[3],iniPerc)
 				upgradeData = stringformat(upgradeData,"<a href='event:shop.buy."..price.."."..G.."'><PT>")
-
+				
 				local gId = mode.grounds.info[n].stats.powers[G][#mode.grounds.info[n].stats.powers[G]]
 				mode.grounds.info[n].shop.image[2] = tfm.exec.addImage(debuggedGround[2][gId]..".png","&1",540,70,n)
 				mode.grounds.info[n].shop.image[3] = tfm.exec.addImage("15a2df6ab69.png","&2",440,205,n)
@@ -2031,10 +2031,10 @@ mode.grounds = {
 			else
 				playerData = stringformat(playerData,"<R>-")
 				upgradeData = stringformat(upgradeData,"<V>")
-
+				
 				mode.grounds.info[n].shop.image[2] = tfm.exec.addImage(system.getTranslation(n).max .. ".png","&2",175,215,n)
 			end
-	
+			
 			ui.addTextArea(8,playerData,n,170,130,240,52,0x073247,0x073247,1,true)
 			ui.addTextArea(9,groundData,n,170,200,240,80,0x073247,0x073247,1,true)
 
@@ -2096,19 +2096,19 @@ mode.grounds = {
 			local textFormat = nil
 			if mode.grounds.info[n].menu.page == 2 then
 				local gameModes = "<PT>"
-
+				
 				local _modes = {}
 				for k, v in next, mode do
 					if k ~= module._NAME then
 						_modes[#_modes + 1] = k
 					end
 				end
-
+				
 				for k,v in next, _modes do
 					local room = stringformat("/room #%s0@YourName#%s",module._NAME,v)
 					gameModes = gameModes .. stringformat("<a href='event:print.&lt;ROSE>%s'>%s</a>\n",room,room)
 				end
-
+				
 				local otherModules = "<CE>"
 				for k,v in next,{"powers", "cannonup", "hardcamp", "signal"} do
 					local room = stringformat("/room #%s0@YourName",v)
@@ -2199,7 +2199,7 @@ mode.grounds = {
 	uileaderboard = function(n)
 		if os.time() > mode.grounds.leaderboard.update or not n then
 			mode.grounds.leaderboard = {update = os.time() + 180e3,data = {}}
-	
+			
 			local players = {}
 			for k,v in next,mode.grounds.info do
 				if stringsub(k,1,1) ~= "*" then
@@ -2256,7 +2256,7 @@ mode.grounds = {
 		getTpPos = function(g,center)
 			if center then
 				return {g.X, g.Y}
-			else	
+			else			
 				local hTP = {g.X, g.Y}
 				if g.P[5] == 90 or g.P[5] == -270 then
 					hTP[1] = hTP[1] + g.L/2
@@ -2267,16 +2267,16 @@ mode.grounds = {
 				else
 					hTP[2] = hTP[2] - g.H/2
 				end
-
+				
 				return hTP
 			end
 		end,
 		onGround = function(t,px,py)
 			px,py = px or 0,py or 0
-	
+			
 			local groundType = mathsetLim(t.T, 0, 15)
 			local collisionArea = mode.grounds.gsys.collisionArea[groundType + 1]
-	
+			
 			if groundType == 13 then
 				return mathpythag(px, py, t.X, t.Y, t.L + collisionArea)
 			else
@@ -2289,7 +2289,7 @@ mode.grounds = {
 		end,
 		getGroundProperties = function(xml)
 			mode.grounds.gsys.grounds = {}
-	
+			
 			local properties = {}
 			local setValue = function(tag, _, value)
 				properties[tag] = (value:find(",") and stringsplit(value, "[^,]+") or tonumber(value) or value)
@@ -2336,9 +2336,9 @@ mode.grounds = {
 									local place = tonumber(ground.move)
 									place = place and place + 1 or (id > 1 and id - 1 or #mode.grounds.gsys.grounds)
 									place = mode.grounds.gsys.grounds[place]
-		
+									
 									local hTP = mode.grounds.gsys.getTpPos(place)
-		
+									
 									tfm.exec.displayParticle(36,p.x,p.y,0,0,0,0,n)
 									tfm.get.room.playerList[n].x = 0
 									tfm.get.room.playerList[n].y = 0
@@ -2410,16 +2410,16 @@ mode.grounds = {
 			if system.roomNumber == 666 then
 				return {"<R>","<R>","<R>","<R>"}
 			else
-				return {"<BV>","<PT>","<BV>","<VP>"}
+				return {"<BV>","<PT>","<BV>","<VP>"}	
 			end
 		end)()
-
+		
 		mode.grounds.isHouse = system.roomNumber == 801 or system.officialMode[1] == "village"
 		mode.grounds.review = false
-
+		
 		-- Data
 		mode.grounds.info = {}
-
+		
 		-- Maps
 		mode.grounds.rotation = {1,{9,7,4,1,5,7,10,8,6,11,2,1,3,5}}
 	end,
@@ -2431,12 +2431,12 @@ mode.grounds = {
 				mode.grounds.maps[#mode.grounds.maps + 1] = {j,k}
 			end
 		end
-
+	
 		-- Organizates the staff table
 		for k,v in next,mode.grounds.staff do
 			tablesort(v,function(t1,t2) return t2[1] > t1[1] end)
 		end
-
+		
 		-- Organizes the languages
 		mode.grounds.langues = (function()
 			local l = {}
@@ -2446,10 +2446,10 @@ mode.grounds = {
 			tablesort(l)
 			return l
 		end)()
-
+		
 		-- Translation indexes
 		mode.grounds.translationIndexes = mode.grounds.listener(mode.grounds.translations.en,{})
-
+		
 		-- Sets the shop prices, upgrades, etc
 		mode.grounds.shop.grounds = {
 			-- Ground ID, #Possible upgrades (Imgs), Price average, Upgrade average
@@ -2460,10 +2460,10 @@ mode.grounds = {
 			[5] = {10,mode.grounds.shop.unpackImages(10,3),1.1,1.65},
 			[6] = {11,mode.grounds.shop.unpackImages(11,5),.5,1.42},
 		}
-
+		
 		-- Sets the commands
 		mode.grounds.cmds = system.getTranslation().commands
-
+		
 		-- Disable commands
 		for k,v in next,mode.grounds.cmds do
 			disableChatCommand(v)
@@ -2471,30 +2471,30 @@ mode.grounds = {
 		for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review","next","again"} do
 			disableChatCommand(v)
 		end
-
+		
 		-- Official modes running together
 		if system.officialMode[1] == "racing" then
 			mode.grounds.rotation = {1,{7}}
 		elseif system.officialMode[1] == "bootcamp" then
 			mode.grounds.rotation = {1,{3}}
 		end
-
+		
 		-- House system
 		if mode.grounds.isHouse then
 			system.isRoom = false
 			mode.grounds.rotation = {1,{12}}
 			tfm.exec.disableAfkDeath()
 		end
-
+		
 		-- Init
 		for _,f in next,{"AutoShaman","AutoScore","AutoNewGame","AutoTimeLeft","MinimalistMode","PhysicalConsumables"} do
 			tfm.exec["disable"..f]()
 		end
 		tfm.exec.setAutoMapFlipMode(false)
 		tfm.exec.setRoomMaxPlayers(16)
-
+		
 		mode.grounds.alivePlayers,mode.grounds.totalPlayers = system.players()
-
+		
 		mode.grounds.uileaderboard()
 		system.newTimer(function()
 			tfm.exec.newGame(mode.grounds.newMap())
@@ -2600,7 +2600,7 @@ mode.grounds = {
 		if mathrandom(10) < 3 then
 			tfm.exec.chatMessage("<ROSE>[•] Play #powers at /room #powers",n)
 		end
-
+		
 		if system.isPlayer(n) then
 			for _,key in next,mode.grounds.bindKeys do
 				if key < 4 then
@@ -2608,7 +2608,7 @@ mode.grounds = {
 				end
 				system.bindKeyboard(n,key,true,true)
 			end
-	
+			
 			if mode.grounds.review then
 				tfm.exec.respawnPlayer(n)
 			end
@@ -2671,16 +2671,16 @@ mode.grounds = {
 				mode.grounds.uimenu(n)
 			end
 		end
-
+	
 		mode.grounds.info[n].isOnline = true
 		mode.grounds.info[n].canRev = false
 	end,
 	-- NewGame
 	eventNewGame = function()
 		local mapName = {}
-
+		
 		mode.grounds.isOfficialMap = tablefind(mode.grounds.maps,tfm.get.room.xmlMapInfo.mapCode,1)
-
+		
 		if mode.grounds.isOfficialMap then
 			mapName[#mapName + 1] = "<font color='#".. mode.grounds.mapInfo[5] .."'>G" .. mode.grounds.mapInfo[2] .. "</font>"
 		else
@@ -2715,10 +2715,10 @@ mode.grounds = {
 		end
 
 		mode.grounds.afterFunction()
-
+		
 		mode.grounds.hasWater = false
 		local deactivateWater = mode.grounds.isHouse
-
+		
 		mode.grounds.startsWith = { meep = false, cheese = false }
 
 		mode.grounds.despawnGrounds = {}
@@ -2751,7 +2751,7 @@ mode.grounds = {
 				end
 			end
 		}
-
+		
 		mode.grounds.mapInfo[3] = mathmax(800,mode.grounds.mapInfo[3])
 		mode.grounds.mapInfo[4] = mathmax(400,mode.grounds.mapInfo[4])
 			-- Powers
@@ -2844,7 +2844,7 @@ mode.grounds = {
 					ui.setShamanName(t)
 				end
 			end
-		}
+		}	
 
 		local parameters = xml.attribFunc(currentXml.xml or "",xmlPowers)
 		if mode.grounds.review then
@@ -2872,7 +2872,7 @@ mode.grounds = {
 				ui.removeTextArea(i)
 			end
 		end
-
+		
 		local ini = ""
 		local D = stringmatch(tfm.get.room.xmlMapInfo.xml,"<D>(.-)</D>") or ""
 		for k,v in next,{"DS","T"} do
@@ -2885,7 +2885,7 @@ mode.grounds = {
 		local sX = stringmatch(ini,"X=\"(.-)\"")
 		local sY = stringmatch(ini,"Y=\"(.-)\"")
 		mode.grounds.spawnPoint = {tonumber(sX) or 0,tonumber(sY) or 0}
-
+		
 		-- Icon Image
 		if mode.grounds.mapCategoryIcon ~= -1 then
 			tfm.exec.removeImage(mode.grounds.mapCategoryIcon)
@@ -2895,17 +2895,17 @@ mode.grounds = {
 		else
 			mode.grounds.mapCategoryIcon = -1
 		end
-
+		
 		ui.setMapName(tableconcat(mapName,"   <G>|<J>   ") .. (#mapName > 0 and "   <G>|<J>   " or "") .. currentXml.author .. " <BL>- " .. tfm.get.room.currentMap)
 	end,
 	-- Loop
 	eventLoop = function()
 		mode.grounds.gsys.groundEffects()
-
+		
 		if _G.currentTime % 5 == 0 then
 			mode.grounds.alivePlayers,mode.grounds.totalPlayers = system.players()
 		end
-
+		
 		if not mode.grounds.isHouse and _G.currentTime == 3 and mathrandom(50) < 16 and os.time() > mode.grounds.announceTimer then
 			mode.grounds.announceTimer = os.time() + 5000
 			tfm.exec.chatMessage(stringformat("<PT>[•] <BV>%s",system.getTranslation().powersenabled))
@@ -2928,7 +2928,7 @@ mode.grounds = {
 				end
 			end
 		end
-
+		
 		for n,v in next,mode.grounds.info do
 			v.isWalking = (tfm.get.room.playerList[n] and (tfm.get.room.playerList[n].movingRight or tfm.get.room.playerList[n].movingLeft) or false)
 			v.right = (tfm.get.room.playerList[n] and (tfm.get.room.playerList[n].isFacingRight) or false)
@@ -3019,7 +3019,7 @@ mode.grounds = {
 				end
 				mode.grounds.info[n].powersOP.TIMER = os.time() + ms
 				system.bindKeyboard(n,32,true,false)
-
+				
 				mode.grounds.info[n].powersOP.GTYPE = -1
 			elseif k == 16 then
 				mode.grounds.info[n].holdingShift = d
@@ -3034,7 +3034,7 @@ mode.grounds = {
 			system.disableChatCommandDisplay(c,true)
 			local p = stringsplit(c,"[^%s]+",stringlower)
 			disableChatCommand(p[1])
-
+	
 			if not mode.grounds.isHouse then -- Not house mode
 				if p[1] == mode.grounds.cmds.shop or p[1] == "o" then
 					if mode.grounds.info[n].shop.accessing then
@@ -3044,7 +3044,7 @@ mode.grounds = {
 							mode.grounds.info[n].shop.timer = os.time() + 1200
 							mode.grounds.uishop(n)
 						end
-					end
+					end				
 					return
 				elseif p[1] == mode.grounds.cmds.profile or p[1] == "p" then
 					if p[2] then
@@ -3069,7 +3069,7 @@ mode.grounds = {
 					return
 				end
 			end
-	
+			
 			if p[1] == mode.grounds.cmds.help or p[1] == "h" then
 				if mode.grounds.info[n].menu.accessing then
 					mode.grounds.eventTextAreaCallback(nil,n,"menu.close")
@@ -3091,7 +3091,7 @@ mode.grounds = {
 					tfm.exec.chatMessage(stringformat("<PT>[•] <BV>%s",stringformat(system.getTranslation(n).language,stringupper(mode.grounds.info[n].langue))),n)
 				else
 					tfm.exec.chatMessage(stringformat("<PT>[•] <J>!%s <PS>%s",p[1],tableconcat(mode.grounds.langues," <G>-</G> ")),n)
-				end	
+				end			
 				return
 			elseif p[1] == mode.grounds.cmds.info or p[1] == "?" then
 				local grounds = system.getTranslation(n).grounds
@@ -3106,13 +3106,13 @@ mode.grounds = {
 			elseif p[1] == "is" then
 				p[2] = p[2] or tfm.get.room.currentMap
 				p[2] = tonumber(stringmatch(p[2],"@?(%d+)")) or 0
-
+				
 				local exist,index = tablefind(mode.grounds.maps,p[2],1)
 				local cat = exist and mode.grounds.maps[index][2] or 0
 				tfm.exec.chatMessage(stringformat("<BV>[•] @%s : %s",p[2],stringupper(tostring(exist)) .. (exist and " (G"..cat..")" or "")),n)
 				return
 			end
-	
+			
 			if system.isRoom then
 				if p[1] == mode.grounds.cmds.pw or p[1] == "pw" then
 					if system.roomAdmins[n] or module._FREEACCESS[n] > 1 then
@@ -3137,7 +3137,7 @@ mode.grounds = {
 					return
 				end
 			end
-	
+			
 			local freeaccess = system.isRoom and (module._FREEACCESS[n] and module._FREEACCESS[n] > 2) or module._FREEACCESS[n]
 
 			local mapEvaluator = tablefind(mode.grounds.staff.mapEvaluators,n,1)
@@ -3169,11 +3169,11 @@ mode.grounds = {
 					mode.grounds.review = not mode.grounds.review
 					tfm.exec.chatMessage("<BV>[•] REVIEW MODE : " .. stringupper(tostring(mode.grounds.review)))
 					tfm.exec.disableAfkDeath(mode.grounds.review)
-	
+					
 					if mode.grounds.review then
 						tableforeach(mode.grounds.info,tfm.exec.respawnPlayer)
 					end
-	
+					
 					for k,v in next,mode.grounds.staff.mapEvaluators do
 						system.bindMouse(v[1],mode.grounds.review)
 						for i = 1,2 do
@@ -3193,7 +3193,7 @@ mode.grounds = {
 					end
 				end
 			end
-	
+			
 			local translator = tablefind(mode.grounds.staff.translators,n,1)
 			if translator or freeaccess then
 				if p[1] == "check" then
@@ -3220,15 +3220,15 @@ mode.grounds = {
 	eventPlayerWon = function(n)
 		if mode.grounds.availableRoom and not mode.grounds.review and mode.grounds.info[n].groundsDataLoaded and system.isPlayer(n) then
 			mode.grounds.podium = mode.grounds.podium + 1
-	
+			
 			if mode.grounds.podium < 4 then
 				mode.grounds.info[n].stats.podiums = mode.grounds.info[n].stats.podiums + 1
-
+				
 				local addedCoins = 20 - mode.grounds.podium * 5
 				mode.grounds.info[n].stats.groundsCoins = mode.grounds.info[n].stats.groundsCoins + addedCoins
 				tfm.exec.setPlayerScore(n,4-mode.grounds.podium,true)
 				tfm.exec.chatMessage(stringformat("<PT>[•] <BV>%s",stringformat(system.getTranslation(n).gotcoin,"<J>+$"..addedCoins.."</J>")),n)
-
+				
 				if mode.grounds.podium == 1 then
 					tfm.exec.setGameTime(60,false)
 				end
@@ -3236,22 +3236,22 @@ mode.grounds = {
 				if mode.grounds.podium == 4 then
 					tfm.exec.setGameTime(30,false)
 				end
-
+				
 				mode.grounds.info[n].stats.groundsCoins = mode.grounds.info[n].stats.groundsCoins + 1
 				tfm.exec.setPlayerScore(n,1,true)
 			end
-	
+			
 			if mode.grounds.hasWater then
 				mode.grounds.displayWaterBar(n)
 			end
-	
+			
 			if system.miscAttrib ~= 0 then
 				if mode.grounds.podium == system.miscAttrib then
 					tfm.exec.setGameTime(0)
 				end
 			end
 		end
-
+		
 		if mode.grounds.review or mode.grounds.isHouse then
 			tfm.exec.respawnPlayer(n)
 		else
@@ -3268,10 +3268,10 @@ mode.grounds = {
 				mode.grounds.displayWaterBar(n)
 			end
 		end
-
+		
 		system.bindKeyboard(n,32,true,false)
 		ui.removeTextArea(-1,n)
-
+		
 		if mode.grounds.review or mode.grounds.isHouse then
 			tfm.exec.respawnPlayer(n)
 		end
@@ -3300,8 +3300,8 @@ mode.grounds = {
 		end
 		if mode.grounds.startsWith.meep then
 			tfm.exec.giveMeep(n)
-		end
-
+		end		
+		
 		if not mode.grounds.isHouse and not mode.grounds.review and system.officialMode[1] ~= "bootcamp" then
 			tfm.exec.chatMessage(stringformat("<R>[•] %s",system.getTranslation(n).zombie),n)
 		end
@@ -3325,32 +3325,32 @@ mode.jokenpo = {
 		en = {
 			-- Init
 			welcome = "Welcome to <ROSE>#Jokenpo<CE>! Choose a chair, press space and start playing!\n\tReport any issue to Bolodefchoco",
-	
+			
 			-- Simple words
 			round = "Round",
 			players = "Players",
 			won = "won the round!",
 			tie = "Tie!",
 			victory = "won the game!",
-	
+			
 			-- Info
 			guide = "Press\n\t<PS>»</PS> %s<PT> - Rock</PT>\n\t<PS>»</PS> %s<PT> - Paper</PT>\n\t<PS>»</PS> %s<PT> - Scissor (Pufferfish)</PT>",
-	
+			
 			-- Game
 			items = {"Rock","Paper","Scissor"},
 			selected = "You've selected the item %s!",
 		},
 		br = {
 			welcome = "Bem-vindo ao <ROSE>#Jokenpo<CE>! Escolha uma cadeira, aperte espaço e comece a jogar!\n\tReporte qualquer problema para Bolodefchoco",
-
+		
 			round = "Partida",
 			players = "Jogadores",
 			won = "venceu a partida!",
 			tie = "Empate!",
 			victory = "ganhou!",
-	
+			
 			guide = "Pressione\n\t<PS>»</PS> %s<PT> - Pedra</PT>\n\t<PS>»</PS> %s<PT> - Papel</PT>\n\t<PS>»</PS> %s<PT> - Tesoura (Baiacu)</PT>",
-	
+			
 			items = {"Pedra","Papel","Tesoura"},
 			selected = "Você selecionou o item %s!",
 		},
@@ -3365,10 +3365,10 @@ mode.jokenpo = {
 			for i = 1,4 do
 				local x = i == 1 and v[1] + 28 or i == 2 and v[1] - 28 or v[1]
 				local y = i == 3 and v[2] + 28 or i == 4 and v[2] - 28 or v[2]
-
+				
 				local w = x == v[1] and 46 or 10
 				local h = w == 10 and 66 or 10
-
+				
 				tfm.exec.addPhysicObject(i..k,x,y,{
 					type = 12,
 					color = c[k],
@@ -3412,18 +3412,18 @@ mode.jokenpo = {
 		end
 
 		local winner = ((mode.jokenpo.players[1].obj and mode.jokenpo.players[2].obj) and ((3 + mode.jokenpo.players[1].obj - mode.jokenpo.players[2].obj) % 3) or mode.jokenpo.players[1].obj and 1 or mode.jokenpo.players[2].obj and 2 or 0)
-
+		
 		if winner == 0 then
 			mode.jokenpo.tie = mode.jokenpo.tie + 1
 			tfm.exec.chatMessage("<CE>[•] <J>" .. system.getTranslation().tie)
-	
+			
 			for k,v in next,mode.jokenpo.players do
 				tfm.exec.playEmote(v.name,mode.jokenpo.emote.tie)
 			end
 		else
 			mode.jokenpo.players[winner].score = mode.jokenpo.players[winner].score + 1
 			tfm.exec.playEmote(mode.jokenpo.players[winner].name,mode.jokenpo.emote.victory)
-	
+			
 			local looser = (winner == 1 and 2 or 1)
 			local looserEmote = mode.jokenpo.emote.fail
 			if not mode.jokenpo.players[looser].obj then
@@ -3433,7 +3433,7 @@ mode.jokenpo = {
 
 			tfm.exec.chatMessage("<CE>[•] " .. mode.jokenpo.players[winner].color .. mode.jokenpo.players[winner].name .. " " .. system.getTranslation().won)
 		end
-
+		
 		ui.addTextArea(5,stringformat("<font size='50'><p align='center'>%s%d <PT>| <J>%d <PT>| %s%s",mode.jokenpo.players[1].color,mode.jokenpo.players[1].score,mode.jokenpo.tie,mode.jokenpo.players[2].color,mode.jokenpo.players[2].score),nil,5,270,795,nil,1,1,0,true)
 	end,
 	--[[ Round ]]--
@@ -3496,11 +3496,11 @@ mode.jokenpo = {
 	uiinfo = function()
 		ui.addTextArea(0,"<p align='center'><font size='35'><J>"..mathfloor(mode.jokenpo.timer),nil,380,85,40,40,1,1,0,true)
 		ui.addTextArea(1,"<p align='center'><font size='25'><J><B>X</B><font size='13'>\n"..stringformat("%02d",mode.jokenpo.tie),nil,380,207,40,nil,1,1,0,true)
-
+		
 		for k,v in next,mode.jokenpo.players do
 			ui.addTextArea(v.id + 1,"<p align='center'>"..v.name.."\n"..stringformat("%02d",v.score),nil,v.x,165,105,nil,1,1,0,true)
 		end
-
+		
 		ui.setMapName("<PT>#Jokenpo   <G>|   <N>" .. system.getTranslation().round .. " : <V>" .. mode.jokenpo.round .. mode.jokenpo.displayNames() .. "<")
 	end,
 	--[[ Init ]]--
@@ -3509,11 +3509,11 @@ mode.jokenpo = {
 		mode.jokenpo.tie = 0
 		mode.jokenpo.round = 0
 		mode.jokenpo.roundsPerGame = 5
-
+		
 		-- Data
 		mode.jokenpo.players = {}
 		mode.jokenpo.playing = false
-
+		
 		-- Timers
 		mode.jokenpo.timer = 9.5
 		mode.jokenpo.partialTimer = 0
@@ -3521,7 +3521,7 @@ mode.jokenpo = {
 	init = function()
 		-- Sets the rounds per game
 		mode.jokenpo.roundsPerGame = mathmax(5,system.miscAttrib)
-
+		
 		-- Init
 		for _,f in next,{"AutoShaman","AutoNewGame","PhysicalConsumables","AfkDeath"} do
 			tfm.exec["disable"..f]()
@@ -3535,17 +3535,17 @@ mode.jokenpo = {
 	-- NewPlayer
 	eventNewPlayer = function(n)
 		tfm.exec.chatMessage("<CE>[•] " .. system.getTranslation().welcome,n)
-
+	
 		for k,v in next,{32,stringbyte("BNM",1,3)} do
 			system.bindKeyboard(n,v,true,true)
 		end
-
+		
 		if mode.jokenpo.playing then
 			mode.jokenpo.round = mode.jokenpo.round + 1
 		else
 			tfm.exec.respawnPlayer(n)
 		end
-
+		
 		mode.jokenpo.buildSquares(mode.jokenpo.colors)
 		mode.jokenpo.uiinfo()
 	end,
@@ -3558,8 +3558,8 @@ mode.jokenpo = {
 				end
 			end
 		end
-
-		mode.jokenpo.colors = {0xE3454D,0x4577E3,0x45E374}
+	
+		mode.jokenpo.colors = {0xE3454D,0x4577E3,0x45E374}	
 		xml.attribFunc(tfm.get.room.xmlMapInfo.xml or "",{
 			[1] = {
 				attribute = "o",
@@ -3567,14 +3567,14 @@ mode.jokenpo = {
 					local c = stringsplit(color,"[^,]+",function(o)
 						return stringmatch(o,"#?(.+)")
 					end)
-	
+					
 					for i = 1,#c do
 						mode.jokenpo.colors[i] = tonumber(c[i],16)
 					end
 				end
 			}
 		})
-
+		
 		mode.jokenpo.buildSquares(mode.jokenpo.colors)
 		mode.jokenpo.uiinfo()
 	end,
@@ -3594,16 +3594,16 @@ mode.jokenpo = {
 								obj = 0,
 								remId = nil,
 							}
-
+							
 							tfm.exec.chatMessage("<CE>[•] " .. mode.jokenpo.players[#mode.jokenpo.players].color .. stringformat(system.getTranslation().guide,"B","N","M"),n)
-
+							
 							mode.jokenpo.uiinfo()
 							tfm.exec.playEmote(n,mode.jokenpo.emote.sit)
 						end
 					end
 				end
 			end
-	
+			
 			if #mode.jokenpo.players == 2 then
 				tablesort(mode.jokenpo.players,function(p1,p2) return p1.id < p2.id end)
 				mode.jokenpo.playing = true
@@ -3614,7 +3614,7 @@ mode.jokenpo = {
 		else
 			if mode.jokenpo.playing then
 				local foundObject,objectIndex = tablefind({stringbyte("BNM",1,3)},k)
-				if foundObject then
+				if foundObject then	
 					local found,i = tablefind(mode.jokenpo.players,n,"name")
 					if found then
 						i = mode.jokenpo.players[i]
@@ -3645,7 +3645,7 @@ mode.jokenpo = {
 			if mode.jokenpo.partialTimer > 0 then
 				mode.jokenpo.partialTimer = mode.jokenpo.partialTimer - .5
 				ui.addTextArea(0,"<p align='center'><font size='35'><PT>"..mathfloor(mode.jokenpo.partialTimer),nil,380,85,40,40,1,1,0,true)
-
+				
 				if mode.jokenpo.partialTimer <= 0 then
 					mode.jokenpo.nextRound()
 				end
@@ -3668,27 +3668,27 @@ mode.click = {
 		en = {
 			-- Init
 			welcome = "<BV>Welcome to <CH><B>#click</B><BV>!\n\t» Type <B>!p Playername</B> to open the profile of the player\n\t» Report any issue to <B>Bolodefchoco</B>",
-
+		
 			-- Info
 			newGame = "New game in %s seconds!",
 			clickfast = "Click constantly in the circle until %s seconds!",
-	
+			
 			-- Simple words
 			click = "CLICK!",
 			won = "won!",
-	
+			
 			-- Profile
 			profile = "Total clicks <BL>: <V>%s\n<J>High Score <BL>: <V>%s\n\n<J>Victories <BL>: <V>%s",
 		},
 		br = {
 			welcome = "<BV>Bem-vindo ao <CH><B>#click</B><BV>!\n\t\n\t» Digite <B>!p Jogador</B> para abrir o perfil do jogador\n\t» Reporte qualquer problema para <B>Bolodefchoco</B>",
-	
+			
 			newGame = "Novo jogo em %s segundos!",
 			clickfast = "Clique constantemente no círculo até %s segundos!",
-	
+			
 			click = "CLIQUE!",
 			won = "venceu!",
-	
+			
 			profile = "Cliques totais <BL>: <V>%s\n<J>Maior pontuação <BL>: <V>%s\n\n<J>Vitórias <BL>: <V>%s",
 		},
 	},
@@ -3704,11 +3704,11 @@ mode.click = {
 		if mode.click.circle.id > 0 then
 			tfm.exec.removeJoint(mode.click.circle)
 		end
-
+		
 		mode.click.circle = {id = 1,status = on}
-
+		
 		local color = on and 0x53D08B or 0x555D77
-
+		
 		tfm.exec.addJoint(1,0,0,{
 			type = 0,
 			alpha = .9,
@@ -3729,16 +3729,16 @@ mode.click = {
 			if v.canPlay and v.roundClick > 0 then
 				data[#data + 1] = {k,v.roundClick}
 			end
-	
+			
 			if v.highScore < v.roundClick then
 				v.highScore = v.roundClick
 			end
 			v.totalClick = v.totalClick + v.roundClick
 			v.roundClick = 0
 		end
-
+		
 		tablesort(data,function(p1,p2) return p1[2] > p2[2] end)
-
+		
 		local str = ""
 		for k,v in next,data do
 			if k < 51 then
@@ -3747,11 +3747,11 @@ mode.click = {
 					tfm.exec.chatMessage("<J>" .. v[1] .. " <G>" .. system.getTranslation().won)
 					tfm.exec.setPlayerScore(v[1],1,true)
 				end
-
+				
 				str = str .. stringformat("<J>%s. <V>%s <BL>- <PT>%sP\n",k,v[1],v[2])
 			end
 		end
-
+		
 		ui.addTextArea(1,str,nil,5,30,250,330,1,1,.9,true)
 	end,
 	--[[ Init ]]--
@@ -3798,14 +3798,14 @@ mode.click = {
 			ui.setMapName(stringformat(system.getTranslation().newGame,"<ROSE>"..mathfloor(mode.click.partialTimer).."<J>") .. "<")
 			if mode.click.partialTimer <= 0 then
 				mode.click.spawnCircle(true)
-
+				
 				mode.click.counter = mathmax(20,system.miscAttrib)
-
+				
 				for k,v in next,mode.click.info do
 					v.canPlay = true
 					tfm.exec.respawnPlayer(k)
 				end
-
+				
 				ui.removeTextArea(1,nil)
 				ui.setMapName(system.getTranslation().click .. "<")
 			end
@@ -3868,30 +3868,30 @@ mode.presents = {
 		en = {
 			-- Init
 			welcome = "<J>Welcome to <VP><B>#presents</B><J>! Choose a gap according to the gift represented and good luck! You will win if your three-gifts-sequence is correct!\nType !p PlayerName to open the profile of the specified player\n\n<CE>Developed by Bolodefchoco and projected by Ruamorangos",
-
+		
 			-- Info
 			choose = "You have <PT>%s seconds</PT> to choose a gift!",
 			kill = "Those who are out of the correct gift will die!",
 			newGame = "New game in <PT>%s seconds!",
 			nowinner = "No one won!",
 			appear = "You will appear in the next game!",
-	
+			
 			-- Simple words
 			rival = "Rivals",
 			won = "won!",
-	
+			
 			-- Profile
 			profile = "Rounds <BL>: <V>%s\n<J>Gifts <BL>: <V>%s\n\n<J>Victories <BL>: <V>%s",
 		},
 		br = {
 			welcome = "<J>Bem-vindo ao <VP><B>#presents</B><J>! Escolha um buraco de acordo com o presente representado e boa sorte! Você ganhará se sua sequência nos três presentes estiver correta!\nDigite !p Jogador para abrir o perfil do jogador especificado\n\n<CE>Desenvolvido por Bolodefchoco, pedido por Ruamorangos",
-
+		
 			choose = "Você tem <PT>%s segundos</PT> para escolher um presente!",
 			kill = "Aqueles que estão fora do presente correto morrerão!",
 			newGame = "Novo jogo em <PT>%s segundos!",
 			nowinner = "Ninguém ganhou!",
 			appear = "Você irá aparecer no próximo jogo!",
-	
+			
 			rival = "Rivais",
 			won = "venceu!",
 
@@ -3916,7 +3916,7 @@ mode.presents = {
 			[2] = tablerandom({2102,2100,2101,2103,2100,2104,2102,2103,2101,2104,2102,2100,2101,2103,2100,2104,2102,2103,2101,2104,2102,2100,2101,2103,2100,2104,2102,2103,2101,2104}),
 			[3] = tablerandom({2100,2101,2103,2100,2104,2102,2103,2101,2104,2102,2100,2101,2103,2100,2104,2102,2103,2101,2104,2102,2100,2101,2103,2100,2104,2102,2103,2101,2104,2102})
 		}
-
+		
 		tfm.exec.newGame('<C><P DS="m;250,120,400,120,550,120" D="x_transformice/x_inventaire/'..mode.presents.gifts[1]..'.jpg,230,60;x_transformice/x_inventaire/'..mode.presents.gifts[2]..'.jpg,380,60;x_transformice/x_inventaire/'..mode.presents.gifts[3]..'.jpg,530,60;x_transformice/x_inventaire/2100.jpg,140,320;x_transformice/x_inventaire/2101.jpg,260,320;x_transformice/x_inventaire/2102.jpg,380,320;x_transformice/x_inventaire/2103.jpg,500,320;x_transformice/x_inventaire/2104.jpg,620,320" /><Z><S><S P="1,0.0001,20,0.2,90,1,0,0" H="700" L="15" X="400" c="3" Y="161" T="4" /><S X="100" P="0,0,20,0.2,0,0,0,0" L="40" H="135" c="3" Y="335" T="4" /><S H="135" P="0,0,20,0.2,0,0,0,0" L="40" X="220" c="3" Y="335" T="4" /><S X="340" P="0,0,20,0.2,0,0,0,0" L="40" H="135" c="3" Y="335" T="4" /><S H="135" P="0,0,20,0.2,0,0,0,0" L="40" X="460" c="3" Y="335" T="4" /><S X="580" P="0,0,20,0.2,0,0,0,0" L="40" H="135" c="3" Y="335" T="4" /><S H="40" P="0,0,0.3,0.2,0,0,0,0" L="40" X="100" c="3" Y="160" T="0" /><S X="700" P="0,0,0.3,0.2,0,0,0,0" L="40" H="40" c="3" Y="160" T="0" /><S X="550" P="0,0,0.3,0.2,0,0,0,0" L="40" H="40" c="3" Y="160" T="0" /><S X="400" P="0,0,0.3,0.2,0,0,0,0" L="40" H="40" c="3" Y="160" T="0" /><S X="250" P="0,0,0.3,0.2,0,0,0,0" L="40" H="40" c="3" Y="160" T="0" /><S H="20" P="0,0,0.3,0.2,0,0,0,0" L="800" X="400" Y="10" T="0" /><S H="135" P="0,0,20,0.2,0,0,0,0" L="40" X="700" c="3" Y="335" T="4" /><S X="400" P="0,0,0.3,0.2,0,0,0,0" L="800" H="100" c="3" Y="415" T="0" /><S P="0,0,0.3,0.2,0,0,0,0" H="10" L="50" o="324650" X="745" c="3" Y="138" T="13" /><S X="55" P="0,0,0.3,0.2,0,0,0,0" L="50" o="324650" H="10" c="3" Y="138" T="13" /><S P="0,0,0.3,0.2,0,0,0,0" H="140" L="100" o="324650" X="55" c="3" Y="72" T="12" /><S X="745" P="0,0,0.3,0.2,0,0,0,0" L="100" o="324650" H="140" c="3" Y="72" T="12" /><S P="0,0,0,0,0,0,0,0" H="102" L="581" o="6a7495" X="401" c="4" v="3001" Y="78" T="12" /></S><D /><O /><L><JR M2="10" M1="0" /></L></Z></C>')
 	end,
 	--[[ System ]]--
@@ -3937,7 +3937,7 @@ mode.presents = {
 	-- Win
 	victory = function(noone)
 		noone = noone or system.players() < 1
-
+		
 		if noone then
 			tfm.exec.chatMessage("<J>" .. system.getTranslation().nowinner)
 			mode.presents.chooseTimer = 0
@@ -3959,13 +3959,13 @@ mode.presents = {
 		-- Init
 		for _,f in next,{"AutoShaman","AutoNewGame","AutoScore","AfkDeath","MortCommand","DebugCommand","PhysicalConsumables"} do
 			tfm.exec["disable"..f]()
-		end
+		end	
 		tfm.exec.setRoomMaxPlayers(30)
-
+		
 		system.newTimer(function()
 			mode.presents.generateMap()
 		end,1000,false)
-
+		
 		-- Auto Admin
 		system.roomAdmins["Ruamorangos#0000"] = true
 	end,
@@ -3979,15 +3979,15 @@ mode.presents = {
 				victories = 0,
 			}
 		end
-
+		
 		tfm.exec.chatMessage(system.getTranslation().welcome,n)
-
+		
 		if mode.presents.isRunning then
 			ui.addTextArea(0,"<p align='center'><font size='20'><VP>" .. system.getTranslation().appear,n,216,65,365,35,1,1,1,true)
 		else
 			tfm.exec.respawnPlayer(n)
 		end
-
+		
 		ui.banner("15d75ac29b7",200,150,n)
 	end,
 	-- NewGame
@@ -4020,7 +4020,7 @@ mode.presents = {
 		if _G.currentTime > 4 and mode.presents.isRunning then
 			if mode.presents.chooseTimer > 0 then
 				mode.presents.chooseTimer = mode.presents.chooseTimer - .5
-
+				
 				if mode.presents.chooseTimer <= 0 then
 					mode.presents.blockTimer = 5
 					tfm.exec.addPhysicObject(4,400,270,{
@@ -4034,19 +4034,19 @@ mode.presents = {
 				else
 					mapName = mapName .. "   <G>|   <J>" .. stringformat(system.getTranslation().choose,mathfloor(mode.presents.chooseTimer).."<J>")
 				end
-
+				
 				if system.players() == 0 then
 					mode.presents.victory(true)
 				end
 			end
-	
+			
 			if mode.presents.blockTimer > 0 then
 				mode.presents.blockTimer = mode.presents.blockTimer - .5
-
+				
 				if mode.presents.blockTimer == 2 then
 					mode.presents.killOutOfRange()
 				end
-
+				
 				if mode.presents.blockTimer <= 0 then
 					mode.presents.currentGift = mode.presents.currentGift + 1
 					if mode.presents.currentGift > 3 then
@@ -4059,10 +4059,10 @@ mode.presents = {
 					mapName = mapName .. "   <G>|   <R>" .. system.getTranslation().kill
 				end
 			end
-	
+			
 			if mode.presents.newMapTimer > 0 then
 				mode.presents.newMapTimer = mode.presents.newMapTimer - .5
-
+				
 				mapName = "<PS>" .. stringformat(system.getTranslation().newGame,mathfloor(mode.presents.newMapTimer) .. "<PS>")
 				if mode.presents.newMapTimer <= 0 then
 					mode.presents.generateMap()
@@ -4096,41 +4096,41 @@ mode.chat = {
 		en = {
 			-- Init
 			welcome = "<J>Welcome to #chat. Enjoy while you are muted ?! Report any issue to Bolodefchoco.",
-
+		
 			-- Info
 			loadmap = "loaded by",
 			enabled = "enabled",
 			disabled = "disabled",
-	
+			
 			-- Cats
 			shaman = "shaman",
 			newGame = "Auto New Game",
-	
+			
 			-- Misc
 			title = "%s has just unlocked the «%s» title.\n<ROSE>Type /title to choose a title",
 		},
 		ar = {
 			welcome = "<J>مرحبًا بك في #chat. استمتع بينما أنت مكتوم ?! بلغ عن أي مشكلة إلى Bolodefchoco.",
-
+		
 			loadmap = "شُغل بواسطة",
 			enabled = "فُعل",
 			disabled = "أُلغي",
-	
+			
 			shaman = "الشامان",
 			newGame = "جولة جديدة تلقائية",
-	
+			
 			title = "%s has just unlocked the «%s» title.\n<ROSE>Type /title to choose a title",
 		},
 		br = {
 			welcome = "<J>Bem-vindo ao #chat. Aproveite enquanto você está mutado ?! Reporte qualquer problema para Bolodefchoco.",
-
+		
 			loadmap = "carregado por",
 			enabled = "ativado",
 			disabled = "desativado",
-	
+			
 			shaman = "shaman",
 			newGame = "Novo Jogo Automático",
-	
+			
 			title = "%s Desbloqueou o título «%s»\n<ROSE>Digite /title para escolher um título.",
 		},
 	},
@@ -4196,7 +4196,7 @@ mode.chat = {
 	newMessage = function(message,n)
 		mode.chat.messageId = mode.chat.messageId + 1
 		tableinsert(mode.chat.data,{mode.chat.messageId,n,stringgsub(stringgsub(message,"@%((.*)%)",function(text) return text end),"{.-:(.-)}",function(text) return text end)})
-
+	
 		if mode.chat.getTextLength(message) > 50 then
 			message = stringsub(message,1,47) .. "..."
 		end
@@ -4206,7 +4206,7 @@ mode.chat = {
 		message = stringgsub(message,"@%((.*)%)",function(text) -- @(link:text)
 			return stringformat("<a href='event:display.%s'>%s</a>",mode.chat.messageId,text)
 		end)
-
+		
 		if #message > 0 then
 			if stringsub(message,1,1) == "/" then
 				mode.chat.eventChatCommand(n,stringsub(message,2))
@@ -4219,7 +4219,7 @@ mode.chat = {
 						return text
 					end
 				end)
-
+				
 				local nick = n:gsub("#0000", ""):gsub("#", " #")
 				tableinsert(mode.chat.displayData,1,stringformat("<V>[%s] <N>%s\n",nick,message))
 			end
@@ -4266,7 +4266,7 @@ mode.chat = {
 			mode.chat.displayChat(n)
 			ui.removeTextArea(4,n)
 		elseif p[1] == "display" then
-			local msg = mode.chat.data[tonumber(p[2])]
+			local msg = mode.chat.data[tonumber(p[2])]		
 			tfm.exec.chatMessage(stringformat("<N>> <V>[%s] <N>%s",msg[2],msg[3]),n)
 		end
 	end,
@@ -4281,12 +4281,12 @@ mode.chat = {
 			tfm.exec.newGame(p[2])
 		elseif p[1] == "sha" then
 			mode.chat.hasShaman = not mode.chat.hasShaman
-	
+			
 			tfm.exec.chatMessage("<S>• " .. system.getTranslation().shaman .. " " .. system.getTranslation()[(mode.chat.hasShaman and "disabled" or "enabled")],n)
 			tfm.exec.disableAutoShaman(mode.chat.hasShaman)
 		elseif p[1] == "new" then
 			mode.chat.autoNeWGame = not mode.chat.autoNeWGame
-
+		
 			tfm.exec.chatMessage("<S>• " .. system.getTranslation().newGame .. " " .. system.getTranslation()[(mode.chat.autoNeWGame and "disabled" or "enabled")],n)
 			tfm.exec.disableAutoNewGame(mode.chat.autoNeWGame)
 			tfm.exec.disableAutoTimeLeft(mode.chat.autoNeWGame)
@@ -4540,20 +4540,20 @@ mode.xmas = {
 		mode.xmas.resetNoel()
 
 		mode.xmas.start = true
-
+		
 		local _,aP = system.players()
 		mode.xmas.amountPlayers = aP
-
+		
 		tfm.exec.setGameTime(150)
 		tfm.exec.snow(150)
 		mode.xmas.currentTime = 0
 		mode.xmas.leftTime = 150
-
+		
 		tfm.exec.addImage("158c1feaf90.png","?0",0,0)
-
+		
 		ui.setMapName("<J>"..tablerandom({"Nöel","Christmas","Bolodefchoco","Lua event","#xmas","Bogkitty"}).." <G>- @"..tablerandom({666,404,801,os.date("%Y"),0,1}))
 		ui.setShamanName("<R>S4NT4 M4U5")
-
+		
 		for k,v in next,tfm.get.room.playerList do
 			mode.xmas.setPlayerTools(k)
 		end
@@ -4724,10 +4724,10 @@ mode.godmode = {
 			nail = "You can use %s more nails. After that, you will die.",
 			kill = "Try not to use nails in your buildings.",
 			fail = "You failed!",
-	
+			
 			-- Profile
 			profile = "Title : <V>«%s»<N>\n\nRounds : %s\n<N>Shaman : %s <G>/ %s\n\n<N>Deaths : %s",
-	
+			
 			-- Titles
 			titles = {
 				"Shammy",
@@ -4756,7 +4756,7 @@ mode.godmode = {
 			fail = "Você falhou!",
 
 			profile = "Título : <V>«%s»<N>\n\nPartidas : %s\n<N>Shaman : %s <G>/ %s\n\n<N>Mortes : %s",
-	
+			
 			titles = {
 				"Pequeno Shaman",
 				"Shaman Profissional",
@@ -4812,12 +4812,12 @@ mode.godmode = {
 	init = function()
 		-- Titles
 		mode.godmode.title = system.getTranslation().titles
-
+		
 		-- Init
 		tfm.exec.disableAutoNewGame()
 		tfm.exec.disableAllShamanSkills()
 		tfm.exec.newGame("#4")
-
+		
 		-- Auto Admin
 		system.roomAdmins.Mcqv = true
 	end,
@@ -4840,7 +4840,7 @@ mode.godmode = {
 		end
 
 		tfm.exec.chatMessage("<ROSE>" .. system.getTranslation().welcome,n)
-
+		
 		ui.banner("15ca3f4a200",5,150,n,7)
 	end,
 	-- NewGame
@@ -4850,23 +4850,23 @@ mode.godmode = {
 				mode.godmode.info[v].cheeseMice = mode.godmode.info[v].cheeseMice + mode.godmode.savedMice
 				mode.godmode.info[v].deathMice = mode.godmode.info[v].deathMice + mode.godmode.deadMice
 				tfm.exec.chatMessage("<CH>" .. stringformat(system.getTranslation().xp,mode.godmode.savedMice,mode.godmode.deadMice),v)
-
-
+				
+				
 				for i = #mode.godmode.titles,1,-1 do
 					if mode.godmode.info[v].cheeseMice >= mode.godmode.titles[i] then
 						if mode.godmode.info[v].title ~= mode.godmode.title[i] then
 							mode.godmode.info[v].title = mode.godmode.title[i]
 							tfm.exec.chatMessage("<J>" .. stringformat(system.getTranslation().unlock,v,mode.godmode.title[i]))
 						end
-						break
+						break	
 					end
 				end
 			end
 		end
-
+		
 		mode.godmode.savedMice = 0
 		mode.godmode.deadMice = 0
-
+		
 		mode.godmode.updateMenu()
 
 		for k,v in next,mode.godmode.info do
@@ -4876,7 +4876,7 @@ mode.godmode = {
 			mode.godmode.info[v].roundSha = mode.godmode.info[v].roundSha + 1
 			tfm.exec.chatMessage("<CH>" .. system.getTranslation().shaman,v)
 		end
-
+		
 		tfm.exec.setGameTime(183)
 	end,
 	-- Keyboard
@@ -4898,7 +4898,7 @@ mode.godmode = {
 	-- SummoningEnd
 	eventSummoningEnd = function(n,o,x,y,a,i)
 		tfm.exec.removeObject(i.id)
-
+		
 		tfm.exec.addShamanObject(o,x,y,a,i.vx,i.vy,i.ghost)
 	end,
 	-- Loop
@@ -4971,7 +4971,7 @@ mode.sharpie = {
 
 			-- Sample words
 			won = "won",
-	
+			
 			-- Messages
 			first = {
 				"yay 2 in a row",
@@ -5050,20 +5050,20 @@ mode.sharpie = {
 		for _,f in next,{"AutoShaman","AutoScore","AutoNewGame"} do
 			tfm.exec["disable"..f]()
 		end
-
+		
 		tfm.exec.newGame()
 	end,
 	--[[ Events ]]--
 	-- NewGame
 	eventNewGame = function()
 		mode.sharpie.podium = 0
-
+		
 		local currentXml = tfm.get.room.xmlMapInfo
 		currentXml = currentXml and currentXml.xml or ""
-
+		
 		mode.sharpie.mapInfo = {800,400}
 		mode.sharpie.flyPower = -50
-
+		
 		xml.attribFunc(currentXml or "",{
 			[1] = {
 				attribute = "G",
@@ -5099,7 +5099,7 @@ mode.sharpie = {
 				end
 			},
 		})
-
+		
 		mode.sharpie.hardmode = mathrandom(10) == 6
 		if mode.sharpie.hardmode then
 			tfm.exec.chatMessage("<CH>" .. system.getTranslation().hardMode)
@@ -5110,7 +5110,7 @@ mode.sharpie = {
 		tfm.exec.chatMessage("<CE>" .. system.getTranslation().welcome,n)
 
 		system.bindKeyboard(n,32,true,true)
-
+		
 		ui.banner("15d60d8e5b8",130,100,n)
 	end,
 	-- Keyboard
@@ -5128,7 +5128,7 @@ mode.sharpie = {
 		if mode.sharpie.podium == 1 then
 			if mode.sharpie.firstRow[1] == n then
 				mode.sharpie.firstRow[2] = mode.sharpie.firstRow[2] + 1
-
+				
 				if mode.sharpie.totalPlayers > 3 then
 					local msg = system.getTranslation().first
 					tfm.exec.chatMessage("<G># <ROSE>" .. (msg[mode.sharpie.firstRow[2] - 1] or tablerandom({msg[2],msg[3],msg[6],msg[13],msg[15]})),n)
@@ -5149,11 +5149,11 @@ mode.sharpie = {
 		if _G.currentTime % 5 == 0 then
 			local alive,total = system.players()
 			mode.sharpie.totalPlayers = total
-	
+			
 			-- Warning
 			mode.sharpie.uiborder(system.getTranslation().nothacker,10,382)
 		end
-
+		
 		if _G.leftTime <= 1 or system.players() < 1 then
 			tfm.exec.newGame()
 		end
@@ -5181,7 +5181,7 @@ mode.universe = {
 			-- Init
 			welcome = "Welcome to <font color='#BD5DC5'><B>#Universe</B></font>. Build your own solar system or just enjoy the art.\n\tReport bugs to Bolodefchoco.",
 			creator = "Now you are the creator of the universe! Press <B>O</B> and build it all!",
-	
+			
 			-- Data
 			objects = {
 				star = {
@@ -5227,7 +5227,7 @@ mode.universe = {
 				rotation = "Rotation",
 				translation = "Translation",
 			},
-	
+			
 			-- Interface
 			buttons = {
 				keyboard = {
@@ -5266,7 +5266,7 @@ mode.universe = {
 			choose = "Choose",
 			yes = "Yes",
 			no = "No",
-	
+			
 			-- Warning
 			newObject = {
 				"New <B>%s star</B> created!",
@@ -5291,7 +5291,7 @@ mode.universe = {
 		br = {
 			welcome = "Bem-vindo ao <font color='#BD5DC5'><B>#Universe</B></font>. Construa seu próprio sistema solar or apenas aproveite a arte.\n\tReporte bugs a Bolodefchoco.",
 			creator = "Agora você é o criador do universo! Pressione <B>O</B> e construa isso tudo!",
-
+		
 			objects = {
 				star = {
 					"Anã Amarela",
@@ -5336,7 +5336,7 @@ mode.universe = {
 				rotation = "Rotação",
 				translation = "Translação",
 			},
-
+		
 			buttons = {
 				keyboard = {
 					"enviar",
@@ -5374,7 +5374,7 @@ mode.universe = {
 			choose = "Escolher",
 			yes = "Sim",
 			no = "Não",
-	
+			
 			newObject = {
 				"Nova <B>%s estrela</B> criada!",
 				"Novo <B>%s planeta</B> criado!",
@@ -5456,7 +5456,7 @@ mode.universe = {
 			},
 		},
 		classes = {
-
+		
 		},
 		menu = {
 
@@ -5472,7 +5472,7 @@ mode.universe = {
 						out[(type(i) == "string" and i or #out+1)] = j
 					end
 				end
-
+				
 				return setmetatable(out,getmetatable(listOne))
 			end
 		},
@@ -5485,15 +5485,15 @@ mode.universe = {
 		for i = stringbyte("A"),stringbyte("Z") do -- Letters
 			k = k .. stringformat(key,i,stringchar(i))
 		end
-
+		
 		k = k .. "\n"
-
+		
 		for i = stringbyte("0"),stringbyte("9") do -- Numbers
 			k = k .. stringformat(key,i,stringchar(i))
 		end
-
+		
 		k = k .. "\n"
-
+		
 		for i,j in next,{stringbyte("-_",1,2)} do -- Characters
 			k = k .. stringformat(key,j,stringchar(j))
 		end
@@ -5503,28 +5503,28 @@ mode.universe = {
 	-- Monochromatic
 	paletteMonochromatic = function(hex,amount,period,reversed)
 		local h, s, l = color.rgb_to_hsl(color.hex_to_rgb(hex))
-
+		
 		local colors = {}
-
+		
 		local final = 1
 		if reversed then
 			final = l - amount
 			period = -period
 		end
-
+		
 		for i = l,final,period do
 			colors[#colors+1] = color.rgb_to_hex(color.hsl_to_rgb(h, s, i))
-	
+			
 			amount = amount - 1
 			if amount == 0 then
 				break
 			end
 		end
-
+		
 		if reversed then
 			tableremove(colors, 1)
 		end
-
+		
 		return colors
 	end,
 	--[[ UI ]]--
@@ -5554,7 +5554,7 @@ mode.universe = {
 		for i = 10,19 do
 			mode.universe.uiremove(i,n)
 		end
-
+		
 		if not close then
 			mode.universe.uicreator(n)
 		end
@@ -5563,13 +5563,13 @@ mode.universe = {
 	uicounter = function(id,range,n,limit,increment)
 		local min,max = stringmatch(range,"(%-?%d+):(%-?%d+)")
 		min,max = tonumber(min),tonumber(max)
-
+		
 		if mode.universe.info[n].settings[id][1] == -mathhuge then
 			mode.universe.info[n].settings[id][1] = mathceil((min+max)/2)
 		else
 			mode.universe.info[n].settings[id][1] = mathsetLim(mode.universe.info[n].settings[id][1],min,max)
 		end
-
+		
 		limit = limit or 10
 		increment = stringgsub(tostring(increment or 1),"%.","%%s")
 		mode.universe.info[n].settings[id][2] = mathsetLim(mode.universe.info[n].settings[id][2],.1,limit)
@@ -5618,7 +5618,7 @@ mode.universe = {
 		mode.universe.uinew(0,tablelist(mode.universe.info[n].settings.create,"\n<font size='4'>\n</font>",function(k,v)
 			return stringformat(v[1],tostring(v[2](n)))
 		end),n,400,200,540,300,true)
-
+		
 		mode.universe.uinew(1,"<p align='center'><VI><a href='event:main.create'>" .. system.getTranslation().buttons.main.create .. "</a>",n,180,338,100,24,false)
 		mode.universe.uinew(2,"<p align='center'><VI><a href='event:main.recreate'>" .. system.getTranslation().buttons.main.recreate .. "</a>",n,290,338,100,24,false)
 		mode.universe.uinew(3,"<p align='center'><R><a href='event:main.destroy'>" .. system.getTranslation().buttons.main.destroy .. "</a>",n,400,338,100,24,false)
@@ -5645,7 +5645,7 @@ mode.universe = {
 			{system.getTranslation().buttons.classes[3] .. " : <V>%s",mode.universe.orbit[3]},
 			{system.getTranslation().profile.exTime .. " : <V>%s",(_G.currentTime / 25)},
 		}
-
+		
 		return tablelist(out,"   <G>|   <N>",function(k,v)
 			return stringformat(v[1],v[2])
 		end) .. "<"
@@ -5670,7 +5670,7 @@ mode.universe = {
 		local insert = coroutine.create(mode.universe.insertion)
 		timerId = system.newTimer(function()
 			coroutine.resume(insert,n)
-	
+			
 			if coroutine.status(insert) == "dead" then
 				system.removeTimer(timerId)
 			end
@@ -5690,13 +5690,13 @@ mode.universe = {
 		end,
 		profileStar = function(obj,n)
 			mode.universe.profile.uiremoveprofile(n)
-
+		
 			obj = mode.universe.cosmos[tonumber(obj)]
 
 			local objColor = stringupper(stringformat("%x",obj.color))
-	
+			
 			--tfm.exec.addImage("15d509ca726.png","?0",-110,-120,n)
-	
+			
 			ui.addTextArea(-1,"",n,150,40,540,350,0x0F242E,0x0F242E,1,true)
 
 			ui.addTextArea(-2,"",n,155,45,340,33,0x242F42,0x242F42,1,true)
@@ -5748,13 +5748,13 @@ mode.universe = {
 		end,
 		profilePlanet = function(obj,n)
 			mode.universe.profile.uiremoveprofile(n)
-	
+			
 			obj = mode.universe.cosmos[tonumber(obj)]
 
 			local objColor = stringupper(stringformat("%x",obj.color))
-	
+			
 			--tfm.exec.addImage("15d509cc1ab.png","?0",-20,30,n)
-	
+			
 			ui.addTextArea(-1,"",n,150,40,540,350,0x0F242E,0x0F242E,1,true)
 
 			ui.addTextArea(-2,"",n,155,45,340,33,0x242F42,0x242F42,1,true)
@@ -5818,13 +5818,13 @@ mode.universe = {
 		end,
 		profileMoon = function(obj,n)
 			mode.universe.profile.uiremoveprofile(n)
-	
+			
 			obj = mode.universe.cosmos[tonumber(obj)]
 
 			local objColor = stringupper(stringformat("%x",obj.color))
-	
+			
 			--tfm.exec.addImage("15d41dcea87.png","?0",380,90,n)
-	
+			
 			ui.addTextArea(-1,"",n,150,40,350,350,0x0F242E,0x0F242E,1,true)
 
 			ui.addTextArea(-2,"",n,155,45,340,33,0x242F42,0x242F42,1,true)
@@ -5893,7 +5893,7 @@ mode.universe = {
 					id = id - 1
 					current = mode.universe.cosmos[id]
 				until current.class == 2
-
+				
 				return current.distance + (#current.moons * 3.1) + size
 			else
 				return size / 3
@@ -5912,7 +5912,7 @@ mode.universe = {
 	getGravity = function(class,orbit)
 		-- G * M / r²
 		-- 6.67e-11 * mass / (size/2)^2
-
+		
 		if class == 1 then
 			return 6.67e-11 * ((orbit * .49) * 1.3e6)
 		elseif class == 2 then
@@ -5925,17 +5925,17 @@ mode.universe = {
 	-- getLifePossibility
 	getLifePossibility = function(this)
 		local possibility = 0
-
+		
 		if this.class == 2 then
 			if not mode.universe.data.objects[stringlower(this.className)][this.type][4] then
 				return 0
 			else
 				possibility = possibility + 10
-
+				
 				if #this.moons > 0 then
 					possibility = possibility + 10
 				end
-
+				
 				if this.velocity > 0.7 and this.velocity < 2.4 then
 					possibility = possibility + 10
 				end
@@ -5948,15 +5948,15 @@ mode.universe = {
 			if stringfind(stringlower(mode.universe.cosmos[this.satelliteOf].typeName),"gas") then
 				possibility = possibility + 10
 			end
-	
+			
 			if this.velocity == 2.5 then
 				possibility = possibility + 10
 			end
 		end
-
+		
 		local dist = this.distance
 		local starSize = mode.universe.cosmos[1].size / 100
-
+		
 		if dist > (10 * starSize) then
 			if dist > (50 * starSize) then
 				if dist > (100 * starSize) then
@@ -5974,7 +5974,7 @@ mode.universe = {
 				possibility = possibility + 5
 			end
 		end
-
+	
 		return possibility
 	end,
 	-- getLuminosity
@@ -6020,7 +6020,7 @@ mode.universe = {
 	getTranslation = function(mass,size)
 		-- (4 * π^2 / G * M) * r^3 
 		-- (4 * 9.85 / 6.67e-11 * mass) * (size/2)^3
-
+		
 		return ((4 * 9.85 / 6.67e-11 * mass) * ((size/2)^3))^.5
 	end,
 	-- getVelocity
@@ -6035,41 +6035,41 @@ mode.universe = {
 	object = {
 		new = function(self,info)
 			mode.universe.orbit[4] = mode.universe.orbit[4] + 1
-
+		
 			local data = {
 				position = mode.universe.orbit[4],
-
+				
 				name = #info.name>0 and info.name or "?",
-
+				
 				class = info.class,
 				type = info.type,
-
+				
 				size = info.size,
 				color = info.color,
-
+				
 				display = false,
 			}
-	
+			
 			data.className = system.getTranslation("en").buttons.classes[data.class] or "?"
 			data.typeName = mode.universe.data.objects[stringlower(data.className)][data.type][1] or "?"
 
 			data.gravity = mode.universe.getGravity(data.class,data.position)
 			data.mass = mode.universe.getMass(data.gravity,data.size)
 			data.temperature = (info.temperature == "auto" and mode.universe.getTemperature(data.class,data.position) or info.temperature)
-	
+			
 			data.id = mode.universe.getID(data.class)
-	
+			
 			if data.class == 1 then -- Star
 				data.luminosity = mode.universe.getLuminosity(data.size,data.temperature)
 				data.flow = mode.universe.getFlow(data.luminosity,data.size)
 				data.magnitude = mode.universe.getMagnitude(data.flow)
-
+				
 				data.time = os.time()
-
+				
 				if not mode.universe.star then
 					mode.universe.star = true
 				end
-
+				
 				mode.universe.orbit[1] = mode.universe.orbit[1] + 1
 			else
 				if data.class == 2 then -- Planet
@@ -6082,17 +6082,17 @@ mode.universe = {
 					data.satelliteOf = info.satelliteOf
 					data.distance = mathceil(mode.universe.getDistance(data.class,data.satelliteOf))
 					data.velocity = 7 * tablerandom({.5,.3,.2,.1})
-	
+					
 					mode.universe.cosmos[data.satelliteOf].moons[#mode.universe.cosmos[data.satelliteOf].moons + 1] = data.position
 				end
-
+				
 				data.life = mode.universe.getLifePossibility(data)
-
+				
 				data.period = {
 					rotation = mode.universe.getRotation(data.velocity),
 					translation = mode.universe.getTranslation(data.mass,data.size)
 				}
-
+				
 				if data.class == 2 then
 					mode.universe.orbit[2] = mode.universe.orbit[2] + 1
 					data.planetPosition = mode.universe.orbit[2]
@@ -6105,7 +6105,7 @@ mode.universe = {
 			mode.universe.stuff[data.name] = true
 
 			self.__index = self
-			return setmetatable(data,self)	
+			return setmetatable(data,self)			
 		end,
 		destroy = function(self)
 			if self.class > 1 then
@@ -6115,30 +6115,30 @@ mode.universe = {
 							mode.universe.cosmos[v]:destroy()
 						end
 					end
-	
+					
 					if self.rings then
 						tfm.exec.removeJoint(self.id + 3)
 					end
 				end
-
+				
 				-- Below: Planet and Moon
 				tfm.exec.removeJoint(self.id + 2) -- Object's JR
 			end
 
 			tfm.exec.removeJoint(self.id + 1) -- Object's JD
 			tfm.exec.removePhysicObject(self.id) -- Object
-	
+			
 			self.display = false
 		end,
 		create = function(self)
 			local x = 4e3
 			local y = x - (mode.universe.star and (mode.universe.cosmos[1].id == self.id and 0 or (mode.universe.cosmos[1].size + (self.distance * 4))) or 0)
-	
+			
 			local center = mode.universe.cosmos[1].id
 			if self.class == 3 then -- Resets the satellite
 				center = mode.universe.cosmos[self.satelliteOf].id
 			end
-	
+			
 			tfm.exec.addPhysicObject(self.id,x,y,{ -- Object
 				type = 14, -- Used to be 13
 				color = 1,
@@ -6148,7 +6148,7 @@ mode.universe = {
 				mass = 1,
 				dynamic = (self.class ~= 1),
 			})
-	
+			
 			tfm.exec.addJoint(self.id + 1,self.id,self.id,{ -- JD (Color)
 				type = 0,
 				point1 = stringformat("%s,%s",x,y),
@@ -6158,7 +6158,7 @@ mode.universe = {
 				alpha = 1,
 				foreground = true,
 			})
-	
+			
 			if self.class ~= 1 then -- Rotation
 				tfm.exec.addJoint(self.id + 2,center,self.id,{
 					type = 3,
@@ -6166,7 +6166,7 @@ mode.universe = {
 					speedMotor = self.velocity
 				})
 			end
-	
+			
 			if self.rings then
 				tfm.exec.addJoint(self.id + 3,self.id,self.id,{
 					type = 0,
@@ -6183,7 +6183,7 @@ mode.universe = {
 					mode.universe.object.create(mode.universe.cosmos[v])
 				end
 			end
-	
+			
 			self.display = true
 		end,
 	},
@@ -6308,10 +6308,10 @@ mode.universe = {
 				),
 			},
 		}
-
+		
 		-- Controls
 		system.bindKeyboard(n,stringbyte("O"),true,true)
-
+		
 		-- Message
 		tfm.exec.chatMessage("<font color='#CF50DB'>[•] " .. system.getTranslation().creator,n)
 	end,
@@ -6320,10 +6320,10 @@ mode.universe = {
 		for i = #mode.universe.cosmos,1,-1 do
 			mode.universe.cosmos[i]:destroy()
 		end
-
+		
 		mode.universe.cosmos = {}
 		mode.universe.orbit = {0,0,0,0}
-
+		
 		tableforeach(system.roomAdmins,mode.universe.newCreator)
 	end,
 	init = function()
@@ -6331,7 +6331,7 @@ mode.universe = {
 		if type(mode.universe.keyboard) == "function" then
 			mode.universe.keyboard = mode.universe.keyboard()
 		end
-
+		
 		-- Translations
 		-- Set object translated names
 		if mode.universe.langue ~= "en" then
@@ -6343,21 +6343,21 @@ mode.universe = {
 		end
 		-- Set class translations
 		mode.universe.data.classes = system.getTranslation().buttons.classes
-
+		
 		-- Menus
 		mode.universe.getDataMenus()
-
+		
 		-- Loops
 		system.newTimer(function()
 			ui.setMapName(mode.universe.infoBar())
 		end,1000,true)
-
+		
 		-- Settings
 		tfm.exec.setRoomMaxPlayers(12)
 		for _,f in next,{"AutoShaman","AutoNewGame","DebugCommand"} do
 			tfm.exec["disable"..f]()
 		end
-
+		
 		-- Map
 		system.newTimer(function()
 			tfm.exec.newGame('<C><P L="8000" G="0," H="8000" /><Z><S><S P="1,,.3,.2,,,," L="3000" o="0" X="-1500" c="4" Y="-1000" T="12" H="3000" /><S H="3000" L="3000" o="0" X="-1500" c="4" Y="2000" T="12" P="1,,.3,.2,,,," /><S P="1,,.3,.2,,,," L="3000" o="0" X="-1500" c="4" Y="5000" T="12" H="3000" /><S H="3000" L="3000" o="0" X="1500" c="4" Y="9500" T="12" P="0,,.3,.2,,,," /><S P="1,,.3,.2,,,," L="3000" o="0" X="4500" c="4" Y="9500" T="12" H="3000" /><S H="3000" L="3000" o="0" X="9500" c="4" Y="5000" T="12" P="1,,.3,.2,,,," /><S H="3000" L="3000" o="0" X="7500" c="4" Y="9500" T="12" P="1,,.3,.2,,,," /><S P="1,,.3,.2,,,," L="3000" o="0" X="9500" c="4" Y="2000" T="12" H="3000" /><S H="3000" L="3000" o="0" X="9500" c="4" Y="-1000" T="12" P="1,,.3,.2,,,," /><S P="1,,.3,.2,,,," L="3000" o="0" X="-1500" c="4" Y="8000" T="12" H="3000" /><S P="1,,.3,.2,,,," L="3000" o="0" X="1500" c="4" Y="-1500" T="12" H="3000" /><S H="3000" L="3000" o="0" X="4500" c="4" Y="-1500" T="12" P="1,,.3,.2,,,," /><S P="1,,.3,.2,,,," L="3000" o="0" X="6500" c="4" Y="-1500" T="12" H="3000" /><S P="1,,.3,.2,,,," L="3000" o="0" X="9500" c="4" Y="8000" T="12" H="3000" /></S><D><DS Y="4000" X="4000" /></D><O /></Z></C>')
@@ -6368,17 +6368,17 @@ mode.universe = {
 	eventNewPlayer = function(n)
 		system.bindKeyboard(n,stringbyte("P"),true,true)
 		system.bindKeyboard(n,46,true,true) -- Delete
-
+		
 		tfm.exec.chatMessage("<font color='#CF50DB'>[•] " .. system.getTranslation().welcome,n)
-
+		
 		ui.banner("15db5b6ab36",210,120,n,10)
-
+		
 		if system.roomAdmins[n] and system.roomAttributes ~= 1 and system.roomNumber ~= 801 then
 			mode.universe.newCreator(n)
 		end
-
+		
 		tfm.exec.addImage("15db9e67479.png","&1",5,30,n)
-
+		
 		if mode.universe.canInsertBackground then
 			tfm.exec.respawnPlayer(n)
 			mode.universe.setBackground(n)
@@ -6534,24 +6534,24 @@ mode.universe = {
 			if p[2] == "class" then
 				mode.universe.info[n].settings.class = tonumber(p[3])
 				mode.universe.info[n].settings.type = 0
-
+				
 				mode.universe.uiresetCreator(n)
 				mode.universe.uiclearCreator(n)
-
+				
 				mode.universe.info[n].settings.create = mode.universe.info[n].settings.create + {mode.universe.data.menu.type,mode.universe.data.menu.name}
-
+				
 				mode.universe.uicloseSplash(n)
 				return
 			end
 			-- Type
 			if p[2] == "type" then
 				mode.universe.info[n].settings.type = tonumber(p[3])
-
+				
 				mode.universe.uiresetCreator(n)
 				mode.universe.uiclearCreator(n,3)
-
+				
 				mode.universe.info[n].settings.palette[2] = mode.universe.data.objects[stringlower(system.getTranslation("en").buttons.classes[mode.universe.info[n].settings.class])][mode.universe.info[n].settings.type][2]
-
+				
 				local implement = setmetatable({
 					mode.universe.data.menu.color,
 					mode.universe.data.menu.size,
@@ -6563,9 +6563,9 @@ mode.universe = {
 				if mode.universe.info[n].settings.class == 3 then
 					implement = implement + {mode.universe.data.menu.satellite}
 				end
-
+				
 				mode.universe.info[n].settings.create = mode.universe.info[n].settings.create + implement
-
+				
 				mode.universe.uicloseSplash(n)
 				return
 			end
@@ -6583,7 +6583,7 @@ mode.universe = {
 			if p[2] == "color" then
 				mode.universe.info[n].settings.palette[3] = tonumber(p[3])
 				mode.universe.eventTextAreaCallback(i,n,"palette.exit")
-
+				
 				return
 			end
 			-- Satellite
@@ -6658,23 +6658,23 @@ mode.universe = {
 				if mode.universe.info[n].settings.palette[3] == 1 then
 					fails[#fails + 1] = "color"
 				end
-
+				
 				if mode.universe.info[n].settings.class == 3 then
 					if mode.universe.info[n].settings.satellite == 0 then
 						fails[#fails + 1] = "satellite"
 					end
 				end
-
+				
 				local create = #fails == 0
-
+				
 				local concatenedName = tableconcat(mode.universe.info[n].settings.name)
-
+				
 				if not create then
 					tfm.exec.chatMessage("<R>" .. stringformat(system.getTranslation().fail,tablelist(fails,", ",function(k,v)
 						return system.getTranslation().menu[v]
 					end)),n)
 				end
-
+				
 				if mode.universe.stuff[concatenedName] then
 					create = false
 					tfm.exec.chatMessage("<R>" .. stringformat(system.getTranslation().nameExist,concatenedName),n)
@@ -6682,7 +6682,7 @@ mode.universe = {
 
 				if create and (os.time() > mode.universe.info[n].action) then
 					mode.universe.info[n].action = os.time() + 2500
-
+				
 					local this = mode.universe.object:new({
 						name = concatenedName,
 						class = mode.universe.info[n].settings.class,
@@ -6693,7 +6693,7 @@ mode.universe = {
 						temperature = mode.universe.info[n].settings.temperature[3] and "auto" or mode.universe.info[n].settings.temperature[1],
 						rings = mode.universe.info[n].settings.rings and {inclination = 6.5} or false,
 						distance = mode.universe.info[n].settings.distance[3] and "auto" or mode.universe.info[n].settings.distance[1],
-						satelliteOf = mode.universe.info[n].settings.satellite,	
+						satelliteOf = mode.universe.info[n].settings.satellite,			
 					})
 
 					if this.class == 3 then
@@ -6702,7 +6702,7 @@ mode.universe = {
 					else
 						this:create()
 					end
-	
+					
 					local type = mode.universe.data.objects[stringlower(system.getTranslation("en").buttons.classes[this.class])][this.type][1]
 					tfm.exec.chatMessage("<S>" .. stringformat(system.getTranslation().newObject[this.class],type,(this.satelliteOf and mode.universe.cosmos[this.satelliteOf].name or "")) .. "\n\t" .. stringformat(system.getTranslation().checkProfile,this.name))
 
@@ -6733,7 +6733,7 @@ mode.universe = {
 								mode.universe.cosmos[i]:create()
 							end
 						end
-		
+						
 						tfm.exec.chatMessage("<R>" .. system.getTranslation().systemRecreated,n)
 					else
 						if mode.universe.cosmos[p[3]].class == 3 then
@@ -6742,11 +6742,11 @@ mode.universe = {
 							else
 								tfm.exec.chatMessage("<R>" .. system.getTranslation().planetRecreated,n)
 							end
-
+							
 							mode.universe.cosmos[mode.universe.cosmos[p[3]].satelliteOf]:create()
 						else
 							mode.universe.cosmos[p[3]]:create()
-
+							
 							if mode.universe.cosmos[p[3]].class == 2 then
 								if #mode.universe.cosmos[p[3]].moons > 0 then
 									tfm.exec.chatMessage("<R>" .. system.getTranslation().moonRecreated,n)
@@ -6786,7 +6786,7 @@ mode.universe = {
 	-- ChatCommand
 	eventChatCommand = function(n,c)
 		local p = stringsplit(c,"[^%s]+")
-
+		
 		if p[1] == "profile" then
 			if p[2] then
 				p[2] = stringlower(p[2])
@@ -6801,7 +6801,7 @@ mode.universe = {
 			end
 			return
 		end
-
+		
 		if system.roomAdmins[n] then
 			if p[1] == "name" then
 				if p[2] then
@@ -6842,7 +6842,7 @@ mode.universe = {
 				end
 				if destroyable then
 					mode.universe.cosmos[i]:destroy()
-	
+					
 					if moonMessage then
 						tfm.exec.chatMessage("<R>" .. system.getTranslation().moonDestroyed,n)
 					end
@@ -6858,11 +6858,11 @@ mode.universe = {
 		if (tfm.get.room.xmlMapInfo or {}).author ~= "#Module" then
 			return
 		end
-
+	
 		mode.universe.canInsertBackground = true
-
+		
 		mode.universe.setBackground()
-
+	
 		-- Solar System
 		if system.roomNumber == 801 or not stringfind(tfm.get.room.name,"@") then
 			local system = {
@@ -7112,14 +7112,14 @@ mode.universe = {
 					satelliteOf = 19
 				},
 			}
-	
+			
 			for i = 1,#system do
 				if not mode.universe.stuff[system[i].name] then
 					mode.universe.object.new(mode.universe.object,system[i])
 				end
 			end
-	
-	
+			
+			
 			for i = 1,#mode.universe.cosmos do
 				if mode.universe.cosmos[i].class ~= 3 then
 					mode.universe.cosmos[i]:create()
@@ -7134,7 +7134,7 @@ mode.universe = {
 				tfm.exec.killPlayer(v)
 			end
 		end
-
+		
 		if _G.currentTime % 80 == 0 then
 			if mode.universe.ufoId > -1 then
 				tfm.exec.removeImage(mode.universe.ufoId)
@@ -7152,7 +7152,7 @@ mode.dev = {
 		en = {
 			-- Init
 			welcome = "Welcome to the enviroment #dev. Here you can test images, objects, timers and chat messages. Type !help to check the commands or report bugs to Bolodefchoco.",
-
+		
 			-- Sets
 			maxPlayers = "%s has limited the room to %s players",
 			removePassword = "%s just removed the password",
@@ -7166,7 +7166,7 @@ mode.dev = {
 			characterDisabled = "Characters disabled!",
 			characterCreated = "Character system created!",
 			loadMap = "%s just loaded the map %s",
-	
+			
 			-- Help
 			commands = {
 				"set players [amount] ~> Defines a limit amount of mice in the room",
@@ -7195,7 +7195,7 @@ mode.dev = {
 		},
 		br = {
 			welcome = "Bem-vindo ao ambiente #dev. Aqui você poderá testar imagens, objectos, timers e mensagens no chat, Digite !help para checar os comandos ou reporte bugs para Bolodefchoco.",
-
+		
 			maxPlayers = "%s limitou a sala a %s jogadores",
 			removePassword = "%s acabou de remover a senha",
 			addPassword = "%s acabou de definir a senha para %s",
@@ -7206,7 +7206,7 @@ mode.dev = {
 			throwDisabled = "Sistema de tiro desativado!",
 			throwCreated = "Sistema de tiro criado!",
 			loadMap = "%s acabou de carregar o mapa %s",
-	
+			
 			commands = {
 				"set players [quantidade] ~> Define um limite de jogadores na sala",
 				"set password [senha] ~> Define/Remove a senha da sala",
@@ -7254,12 +7254,12 @@ mode.dev = {
 	--[[ Get ]]--
 	getWithType = function(a)
 		local values = stringsplit(a or "","[^,]+")
-
+		
 		local out = {}
-
+		
 		for k,v in next,values do
 			local icon,value = stringmatch(v,"([@?#!])(.*)")
-			if icon and value then
+			if icon and value then	
 				if icon == "#" then
 					out[#out + 1] = tonumber(value)
 				elseif icon == "@" then
@@ -7271,7 +7271,7 @@ mode.dev = {
 				end
 			end
 		end
-
+		
 		return out
 	end,
 	--[[ Init ]]--
@@ -7285,10 +7285,10 @@ mode.dev = {
 		-- Init
 		tfm.exec.disableAutoShaman()
 		disableChatCommand("set","timer","object","img","throw","display","disable","execute","np","xml","help")
-
+		
 		-- Auto Admin
 		system.roomAdmins["Mescouleur#0000"] = true
-
+		
 		-- Start
 		tfm.exec.newGame()
 	end,
@@ -7296,14 +7296,14 @@ mode.dev = {
 	-- ChatCommand
 	eventChatCommand = function(n,c)
 		local p = stringsplit(c,"[^%s]+")
-
+		
 		if p[1] == "help" then
 			tfm.exec.chatMessage(tablelist(system.getTranslation().commands,"\n\n",function(k,v)
 				return "<ROSE>• <CE>" .. stringgsub(v,"<","&lt;")
 			end),n)
 			return
 		end
-
+		
 		if system.roomAdmins[n] then
 
 			if p[1] == "set" then
@@ -7314,9 +7314,9 @@ mode.dev = {
 				elseif p[2] == "password" then --set password PASSWORD
 					if p[3] then
 						p[3] = tableconcat(p," ",3)
-	
+					
 						tfm.exec.setRoomPassword(p[3])
-	
+					
 						tfm.exec.chatMessage("<CE>[#dev] " .. stringformat(system.getTranslation().addPassword,n,stringrep("*",#p[3])))
 					else
 						tfm.exec.chatMessage("<CE>[#dev] " .. stringformat(system.getTranslation().removePassword,n))
@@ -7335,7 +7335,7 @@ mode.dev = {
 				end
 				return
 			end
-	
+			
 			if p[1] == "timer" then --timer NAME LOOP TIME FUNC PARAM
 				if not p[2] then
 					tfm.exec.chatMessage("<CE>" .. tablelist(mode.dev.timers,"\n",tostring),n)
@@ -7350,10 +7350,10 @@ mode.dev = {
 						if mode.dev.timers[p[2]] then
 							mode.dev.eventChatCommand(n,p[1] .. " " .. p[2] .. " break")
 						end
-		
+						
 						if p[5] then 
 							local loop,counter = true
-
+							
 							if p[3] == "true" then
 								counter = -1
 							elseif p[3] == "false" then
@@ -7361,7 +7361,7 @@ mode.dev = {
 							else
 								counter = tonumber(p[3]) or 5
 							end
-
+							
 							local time = mathsetLim(tonumber(p[4]) or 1,1,50) * 1000
 							local f = system.loadTable(p[5])
 							f = type(f) == "function" and f or tfm.exec.chatMessage
@@ -7369,27 +7369,27 @@ mode.dev = {
 							local args = mode.dev.getWithType(tablelist(p," ",function(k,v)
 								return (tablefind({"#","@","!","?"},stringsub(v,1,1)) and "," or "") .. v
 							end,6))
-
+							
 							local this
 							this = system.newTimer(function()
 								f(tableunpack(args))
-	
+								
 								counter = counter - 1
 								if counter == 0 then
 									system.removeTimer(this)
 									mode.dev.timers[p[2]] = nil
 								end
 							end,time,loop)
-
+							
 							mode.dev.timers[p[2]] = this
-
+							
 							tfm.exec.chatMessage("<CE>" .. stringformat(system.getTranslation().timerCreated,p[2]),n)
 						end
 					end
 				end
 				return
 			end
-	
+			
 			if p[1] == "img" then --img NAME IMG TARG X Y PLAYER
 				if not p[2] then
 					tfm.exec.chatMessage("<CE>" .. tablelist(mode.dev.images,"\n",tostring),n)
@@ -7403,13 +7403,13 @@ mode.dev = {
 					if mode.dev.images[p[2]]then
 						mode.dev.eventChatCommand(n,p[1] .. " " .. p[2] .. " remove")
 					end
-	
+					
 					if p[4] then
 						local target = tablefind({"#","$","%","?","_","!","&"},stringsub(p[4],1,1))
-		
+						
 						if target then
 							p[5],p[6] = p[5] or 0,p[6] or 0
-		
+						
 							local object = stringsub(p[4],1,1) == "#" and "#" .. (mode.dev.objects[stringsub(p[4],2)] or tfm.exec.addShamanObject(1,p[5],p[6])) or p[4]
 							mode.dev.images[p[2]] = tfm.exec.addImage(p[3] .. ".png",object,p[5],p[6],p[7])
 						else
@@ -7419,7 +7419,7 @@ mode.dev = {
 				end
 				return
 			end
-	
+			
 			if p[1] == "object" then --object NAME ID X Y BOOLEAN_DESPAWN:TIME_TO_DESPAWN ANGLE XS YS GHOST
 				if not p[2] then
 					tfm.exec.chatMessage("<CE>" .. tablelist(mode.dev.objects,"\n",tostring),n)
@@ -7432,7 +7432,7 @@ mode.dev = {
 					if mode.dev.objects[p[2]] then
 						mode.dev.eventChatCommand(n,p[1] .. " " .. p[2] .. " remove")
 					end
-
+				
 					mode.dev.objects[p[2]] = tfm.exec.addShamanObject(tonumber(p[3]) or 1,tonumber(p[4]) or 0,tonumber(p[5]) or 0,tonumber(p[7]),tonumber(p[8]),tonumber(p[9]),p[10] == "true")
 					if p[6] and stringfind(p[6],"true") then
 						mode.dev.toDespawn[#mode.dev.toDespawn + 1] = {mode.dev.objects[p[2]],os.time() + (tonumber(stringmatch(p[6],":(%d+)")) or 5) * 1000,p[2]}
@@ -7440,12 +7440,12 @@ mode.dev = {
 				end
 				return
 			end
-	
+			
 			if p[1] == "throw" and p[2] then --throw WHO ID XS YS BOOLEAN_GHOST {IMG,IMG} {IMG,IMG}
 				if p[2] == "remove" then
 					mode.dev.throw = {false}
 					tfm.exec.chatMessage("<CE>" .. system.getTranslation().throwDisabled,n)
-	
+					
 					for k,v in next,mode.dev.info do
 						system.bindKeyboard(k,32,true,false)
 					end
@@ -7459,14 +7459,14 @@ mode.dev = {
 						system.bindKeyboard(p[2],32,true,true)
 					end
 					mode.dev.throw[2] = p[2] -- Who
-	
+					
 					mode.dev.throw[3] = tonumber(p[3]) or 17 -- Object type
-	
+					
 					local create = true
 					if p[7] then
 						if not p[8] or p[8] == "-" then
 							p[8] = rawget(p,7)
-						end
+						end	
 						if stringfind(p[7],"{") or stringfind(p[8],"{") then
 							if stringfind(p[7],"{") and stringfind(p[8],"{") then
 								mode.dev.throw[7] = stringsplit(stringsub(p[7],2,-2),"[^,]+") -- Left images
@@ -7479,12 +7479,12 @@ mode.dev = {
 							mode.dev.throw[8] = {p[8]}
 						end
 					end
-	
+					
 					if create then
 						mode.dev.throw[4] = tonumber(p[4]) or 0 -- X speed
 						mode.dev.throw[5] = tonumber(p[5]) or 0 -- Y speed
 						mode.dev.throw[6] = p[6] == "true" -- Ghost
-		
+						
 						mode.dev.throw[1] = true
 						tfm.exec.chatMessage("<CE>" .. system.getTranslation().throwCreated,n)
 					else
@@ -7497,14 +7497,14 @@ mode.dev = {
 			if p[1] == "character" and p[4] then --character WHO DEPTH IMG IMG X Y
 				if p[2] == "disable" then
 					mode.dev.mouseImages = {false}
-	
+					
 					tfm.exec.chatMessage("<CE>" .. system.getTranslation().characterDisabled,n)
-	
+					
 					for k,v in next,mode.dev.info do
 						for i = 0,2,2 do
 							system.bindKeyboard(k,i,true,false)
 						end
-		
+						
 						if v.mouseImage > -1 then
 							tfm.exec.removeImage(v.mouseImage)
 							v.mouseImage = -1
@@ -7524,22 +7524,22 @@ mode.dev = {
 					end
 
 					p[3] = tablefind({"$","%"},p[3]) and p[3] or "%"
-	
+					
 					if not p[5] or p[5] == "-" then
 						p[5] = rawget(p,4)
 					end
-	
+					
 					mode.dev.mouseImages = {true,p[2],p[3],p[4],p[5],tonumber(p[6]) or 0,tonumber(p[7]) or 0}
 					tfm.exec.chatMessage("<CE>" .. system.getTranslation().characterCreated,n)
 				end
 				return
 			end
-	
+			
 			if p[1] == "display" and p[2] then
 				tfm.exec.chatMessage("<CE>[" .. n .. "#DEV-DISPLAY] <N>" .. stringgsub(tableconcat(p," ",2),"<","&lt;"))
 				return
 			end
-
+		
 			if p[1] == "disable" and p[2] then --disable AUTONEWGAME TRUE
 				for k,v in next,tfm.exec do
 					if stringlower(k) == p[1]..p[2] then
@@ -7551,27 +7551,27 @@ mode.dev = {
 				end
 				return
 			end
-	
+			
 			if p[1] == "xml" and p[2] and _G.currentTime > 10 then
 				mode.dev.runXml = true
 				tfm.exec.newGame(p[2])
 				tfm.exec.chatMessage("<CE>" .. stringformat(system.getTranslation().loadMap,n,p[2]) .. " (XML)")
 				return
 			end
-
+		
 			if p[1] == "np" and p[2] and _G.currentTime > 10 then
 				tfm.exec.newGame(p[2])
 				tfm.exec.chatMessage("<CE>" .. stringformat(system.getTranslation().loadMap,n,p[2]))
 				return
 			end
-
+		
 			if p[1] == "execute" and p[2] then --execute tfm.exec.giveCheese NAME
 				local f = system.loadTable(p[2])
 				if type(f) == "function" then
 					local args = mode.dev.getWithType(tablelist(p," ",function(k,v)
 						return (tablefind({"#","@","!","?"},stringsub(v,1,1)) and "," or "") .. v
 					end,3))
-
+				
 					f(tableunpack(args))
 				end
 				return
@@ -7581,7 +7581,7 @@ mode.dev = {
 	-- NewGame
 	eventNewGame = function()
 		mode.dev.objects = {}
-
+		
 		if mode.dev.runXml then
 			system.newTimer(function()
 				tfm.exec.newGame(tfm.get.room.xmlMapInfo.xml or "")
@@ -7592,22 +7592,22 @@ mode.dev = {
 			for k,v in next,mode.dev.mapImages do
 				tfm.exec.removeImage(v)
 			end
-	
+			
 			if mode.dev.currentBackground[1] then
 				mode.dev.currentBackground[4] = tfm.exec.addImage(mode.dev.currentBackground[1],"?1",mode.dev.currentBackground[2],mode.dev.currentBackground[3])
 			end
 
 			if tfm.get.room.xmlMapInfo.xml then
 				xml.attribFunc(tfm.get.room.xmlMapInfo.xml,{
-
+				
 					[1] = {
 						attribute = "img",
 						func = function(value)
 							for k,v in next,stringsplit(value,"[^;]+") do
 								local info = stringsplit(v,"[^,]+") -- "img.png,x or 0,y or 0,0/1 (foreground)"
 								info[4] = mathsetLim(tonumber(info[4]) or 0,0,1)
-	
-								mode.dev.mapImages[#mode.dev.mapImages + 1] = tfm.exec.addImage(info[1] .. ".png",(({"?","!"})[info[4] + 1]) .. k,tonumber(info[2]) or 5,tonumber(info[3]) or 30)
+								
+								mode.dev.mapImages[#mode.dev.mapImages + 1] = tfm.exec.addImage(info[1] .. ".png",(({"?","!"})[info[4] + 1]) .. k,tonumber(info[2]) or 5,tonumber(info[3]) or 30)	
 							end
 						end
 					}
@@ -7624,13 +7624,13 @@ mode.dev = {
 		}
 
 		tfm.exec.chatMessage("<CE>" .. system.getTranslation().welcome,n)
-
+	
 		if mode.dev.throw[1] then
 			if mode.dev.throw[2] == n or mode.dev.throw[2] == "*" then
 				system.bindKeyboard(n,32,true,true)
 			end
 		end
-
+		
 		if mode.dev.mouseImages[1] then
 			if mode.dev.throw[2] == n or mode.dev.throw[2] == "*" then
 				for i = 0,2,2 do
@@ -7645,38 +7645,38 @@ mode.dev = {
 			if k == 32 then
 				if mode.dev.throw[1] and os.time() > mode.dev.info[n].timer then
 					mode.dev.info[n].timer = os.time() + 500
-	
+			
 					x = x + (tfm.get.room.playerList[n].isFacingRight and 30 or -30)
 					y = y - 15
-	
+					
 					local xs,ys = mode.dev.throw[4],mode.dev.throw[5]
-	
-					local angle = 0	
+					
+					local angle = 0			
 					if mode.dev.throw[3] == 17 then
 						angle = tfm.get.room.playerList[n].isFacingRight and 90 or -90
 					else
 						xs = (tfm.get.room.playerList[n].isFacingRight and xs or -xs)
 						ys = (tfm.get.room.playerList[n].isFacingRight and ys or -ys)
 					end
-	
+					
 					local object = tfm.exec.addShamanObject(mode.dev.throw[3],x,y,angle,xs,ys,mode.dev.throw[6])
-	
+					
 					if mode.dev.throw[8] then
 						local imageId = mathrandom(#mode.dev.throw[7])
 						tfm.exec.addImage(mode.dev.throw[(tfm.get.room.playerList[n].isFacingRight and 8 or 7)][imageId] .. ".png","#" .. object,-5,-8)
 					end
-	
+					
 					mode.dev.toDespawn[#mode.dev.toDespawn + 1] = {object,os.time() + 5000}
 				end
 				return
 			end
-	
+			
 			if k == 0 or k == 2 then
 				if mode.dev.mouseImages[1] then
 					if mode.dev.info[n].mouseImage > -1 then
 						tfm.exec.removeImage(mode.dev.info[n].mouseImage)
 					end
-	
+					
 					mode.dev.info[n].mouseImage = tfm.exec.addImage(({[0]=mode.dev.mouseImages[4],[2]=mode.dev.mouseImages[5]})[k] .. ".png",mode.dev.mouseImages[3] .. n,mode.dev.mouseImages[6],mode.dev.mouseImages[7])
 				end
 				return
@@ -7706,21 +7706,21 @@ mode.chess = {
 		en = {
 			-- Init
 			welcome = "Welcome to the module! Sit on an armchair and enjoy the game with a friend!\n\tYou, chess lord, report any bug to Bolodefchoco!",
-
+		
 			-- Info
 			team = "%s is playing with the %s pieces",
 			space = "Space",
-
+		
 			-- System
 			move = "You can only move the %s pieces!",
 			win = "%s pieces won!",
 			left = "%s left the game",
 			turn = "%s's turn.",
 			promo = "Pawn Promotion",
-	
+			
 			-- Colors
 			colors = {"White", "Black"},
-	
+			
 			-- Promo Pieces
 			pieces = {
 				queen = "Queen",
@@ -7731,18 +7731,18 @@ mode.chess = {
 		},
 		br = {
 			welcome = "Bem-vindo ao módulo! Sente numa poltrona e aproveite o jogo com um amigo!\n\tVocê, senhor do xadrez, reporte qualquer bug para Bolodefchoco!",
-
+		
 			team = "%s está jogando com as peças de cor %s",
 			space = "Espaço",
-
+		
 			move = "Você só pode mover as peças de cor %s!",
 			win = "As peças de cor %s venceram!",
 			left = "%s deixou o jogo",
 			turn = "Vez das peças de cor %s.",
 			promo = "Promoção de Peão",
-	
+			
 			colors = {"Branca", "Preta"},
-	
+			
 			pieces = {
 				queen = "Rainha",
 				rook = "Torre",
@@ -7800,7 +7800,7 @@ mode.chess = {
 		emptySquare = "<textformat leftmargin='30' rightmargin='30' leading='30'>",
 		HREF_select = "<a href='event:select_%s_%s_%s_%s'>",
 		squareFormat = "<font size='25'><B>",
-
+		
 		realReference = function()
 			mode.chess.stringReference.select = mode.chess.stringReference.emptySquare .. mode.chess.stringReference.HREF_select .. "\n"
 			mode.chess.stringReference.piece = mode.chess.stringReference.squareFormat .. mode.chess.stringReference.HREF_select .. "%s"
@@ -7857,7 +7857,7 @@ mode.chess = {
 	changeTurn = function()
 		mode.chess.currentPlayer = (mode.chess.currentPlayer == 1 and 2 or 1)
 		mode.chess.currentPlayerColor = system.getTranslation().colors[mode.chess.currentPlayer]
-
+		
 		local text = "<B><p align='center'><font size='18'>" .. stringformat(system.getTranslation().turn, mode.chess.currentPlayerColor)
 		mode.chess.border(text)
 	end,
@@ -7866,11 +7866,11 @@ mode.chess = {
 		mode.chess.canStart = false
 
 		mode.chess.uiclearColoredSquares()
-
+		
 		for k, v in next, mode.chess.players do
 			tfm.exec.movePlayer(v.name, 400, 375)
 		end
-
+		
 		mode.chess.board = mode.chess.setBoard()
 		mode.chess.players = mode.chess.playerInfo()
 
@@ -7878,11 +7878,11 @@ mode.chess = {
 		for i = 3, 5 do
 			ui.removeTextArea(-i)
 		end
-
+		
 		for i = 1, 2 do
 			ui.addTextArea(-i, "<font color='#" .. system.getTranslation().colors[i] .. "'><p align='center'><font size='20'>[" .. system.getTranslation().space .. "]", nil, 5 + (i - 1) * 595, 180, 200, nil, 1, 1, 0, true)
 		end
-
+		
 		mode.chess.uiboard()
 	end,
 	--[[ UI ]]--
@@ -7909,9 +7909,9 @@ mode.chess = {
 			end
 
 			local squareText = href or mode.chess.board[row][column] == '' and '' or stringformat("%s%s<a href='event:square_%s_%s'>%s", mode.chess.stringReference.squareFormat, "<font color='#" .. mode.chess.colors[(mode.chess.isWhitePiece(mode.chess.board[row][column]) and "white" or "black") .. "Piece"] .. "'>", row, column, mode.chess.board[row][column])
-	
+			
 			ui.addTextArea((row..column) * (isNeg and -1 or 1), squareText, n, 252 + (column - 1) * 38, 50 + (row - 1) * 38, 30, 30, color or (((row + column) % 2 == 0) and mode.chess.colors.whiteSquare or mode.chess.colors.blackSquare), 1, 1, true)
-	
+			
 			ui.setShamanName(stringformat("-   <G>|   <S>%s x %s", mode.chess.players[1].pieces, mode.chess.players[2].pieces))
 			if isNeg then
 				mode.chess.coloredSquares[-(row..column)] = true
@@ -7942,18 +7942,18 @@ mode.chess = {
 	--[[ Init ]]--
 	init = function()
 		mode.chess.stringReference.realReference()
-
+	
 		mode.chess.board = mode.chess.setBoard()
 		mode.chess.players = mode.chess.playerInfo()
-
+	
 		for k, v in next, {"AutoShaman", "AfkDeath", "AutoNewGame", "AutoScore"} do
 			tfm.exec["disable" .. v]()
 		end
 
 		tfm.exec.newGame(1995980)
-
+		
 		system.roomAdmins["Billysmille#0000"] = true
-
+		
 		mode.chess.refresh()
 	end,
 	--[[ Events ]]--
@@ -7961,48 +7961,48 @@ mode.chess = {
 	eventTextAreaCallback = function(i, n, c)
 		if mode.chess.canStart and mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
 			mode.chess.moveTimer = os.time() + 250
-
+		
 			c = stringsplit(c, "[^_]+", function(value)
 				return tonumber(value) or value
 			end)
-	
+			
 			local row, column = c[2], c[3]
-	
+			
 			mode.chess.uiclearColoredSquares()
 			if c[1] == "transform" then
 				ui.removeTextArea(-3, n)
 				mode.chess.board[row][column] = stringchar(226, 153, (c[4] == 2 and c[5] + 6 or c[5]))
-
+				
 				mode.chess.uiupdateSquare(row, column, nil, mode.chess.colors.lastMove, nil, true) 
-
+				
 				mode.chess.changeTurn()
 			elseif c[1] == "kingpass" then
 				local initialSquare = (c[4] == "left" and -1 or 1)
 				local finalSquare = column + (c[4] == "right" and 3 or -4)
-
+				
 				local iniTwo = column + (2 * initialSquare)
 				local iniSig = column + (1 * initialSquare)
-
+				
 				mode.chess.board[row][iniTwo] = mode.chess.board[row][column]
 				mode.chess.board[row][column] = ''
-
+				
 				mode.chess.board[row][iniSig] = mode.chess.board[row][finalSquare]
 				mode.chess.board[row][finalSquare] = ''
-
+				
 				mode.chess.players[mode.chess.currentPlayer].castling = {false, false}
 				mode.chess.players[mode.chess.currentPlayer].lastMove = ''
-
+				
 				mode.chess.uiupdateLastMove(row, iniTwo)
-
+				
 				mode.chess.uiupdateSquare(row, iniTwo, nil, mode.chess.colors.lastMove, nil, true)
 				mode.chess.uiupdateSquare(row, column)
 				mode.chess.uiupdateSquare(row, iniSig)
 				mode.chess.uiupdateSquare(row, finalSquare)
-
+				
 				mode.chess.changeTurn()
 			else
 				local piece = mode.chess.pieceID(mode.chess.board[row][column])
-	
+			
 				if c[1] == "square" then
 					local whitePiece = mode.chess.isWhitePiece(mode.chess.board[row][column])
 					if (mode.chess.currentPlayer == 1 and not whitePiece) or (mode.chess.currentPlayer == 2 and whitePiece) then
@@ -8012,20 +8012,20 @@ mode.chess = {
 
 					-- Highlights the piece you've selected
 					mode.chess.uiupdateSquare(row, column, n, nil, mode.chess.stringReference.squareFormat .. mode.chess.colors.selectedPiece .. mode.chess.board[row][column])
-	
+					
 					local dir = whitePiece and -1 or 1
 					if piece == mode.chess.pieces.pawn then
 						-- In front, 1 or 2 squares
 						for i = 1, ((row == 2 or row == 7) and 2 or 1) do
 							local newRow = row + i * dir
-
+							
 							if mode.chess.isPieceSquare(newRow, column) then
 								break
 							end
-
+							
 							mode.chess.uiupdateSquare(newRow, column, n, ((newRow == 1 or newRow == 8) and mode.chess.colors.specialMove or mode.chess.colors.emptyMove), stringformat(mode.chess.stringReference.select, row, column, newRow, column))
 						end
-		
+						
 						-- En passant
 						if mode.chess.players[3 - mode.chess.currentPlayer].lastMove ~= "" then
 							local grid = stringsplit(mode.chess.players[3 - mode.chess.currentPlayer].lastMove, "[^_]+", tonumber)
@@ -8041,14 +8041,14 @@ mode.chess = {
 					end
 					if piece == mode.chess.pieces.rook or piece == mode.chess.pieces.queen or piece == mode.chess.pieces.king then
 						local range = (piece == mode.chess.pieces.king and 1 or 8)
-		
+						
 						-- Horizontal and Vertical
 						local coord = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}}
 						for i = 1, 4 do
 							for j = 1, range do
 								local newRow = row + j * coord[i][1]
 								local newColumn = column + j * coord[i][2]
-	
+								
 								if mode.chess.checkCapture(n, row, column, newRow, newColumn) then
 									break
 								end
@@ -8061,21 +8061,21 @@ mode.chess = {
 						for i = 1, 8 do
 							local newRow = row + coord[i][1]
 							local newColumn = column + coord[i][2]
-
+							
 							mode.chess.checkCapture(n, row, column, newRow, newColumn)
 						end
 					end
 					if piece == mode.chess.pieces.bishop or piece == mode.chess.pieces.queen or piece == mode.chess.pieces.king or piece == mode.chess.pieces.pawn then
 						local isPawn = piece == mode.chess.pieces.pawn
 						local range = ((piece == mode.chess.pieces.king or isPawn) and 1 or 8)
-		
+						
 						-- Diagonal
 						local coord = {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}}
 						for i = 1, 4 do
 							for j = 1, range do
 								local newRow = row + j * coord[i][1]
 								local newColumn = column + j * coord[i][2]
-	
+								
 								local check = mode.chess.checkCapture(n, row, column, newRow, newColumn, (not isPawn or coord[i][1] == dir), not isPawn)
 								if check then
 									break
@@ -8097,16 +8097,16 @@ mode.chess = {
 					end
 				elseif c[1] == "select" then
 					local newRow, newColumn = c[4], c[5]
-
+				
 					mode.chess.uiupdateLastMove(c[6] or newRow, newColumn)
-	
+					
 					-- Checks the attack
 					local checkmate = false
 					if mode.chess.isPieceSquare(row, column) and mode.chess.isPieceSquare(newRow, newColumn) and mode.chess.pieceDifColor(mode.chess.board[row][column], mode.chess.board[newRow][newColumn]) then
 						mode.chess.players[3 - mode.chess.currentPlayer].pieces = mode.chess.players[3 - mode.chess.currentPlayer].pieces - 1
 						checkmate = mode.chess.pieceID(mode.chess.board[newRow][newColumn]) == mode.chess.pieces.king
 					end
-	
+					
 					-- Updates the squares
 					mode.chess.board[c[6] or newRow][newColumn] = mode.chess.board[row][column]
 					if c[6] then
@@ -8114,17 +8114,17 @@ mode.chess = {
 						mode.chess.uiupdateSquare(c[6], newColumn, nil, mode.chess.colors.lastMove, nil, true) 
 					end
 					mode.chess.uiupdateSquare(newRow, newColumn, nil, (not c[6] and mode.chess.colors.lastMove or nil), nil, true)
-	
+					
 					mode.chess.board[row][column] = ''
 					mode.chess.uiupdateSquare(row, column)
-	
+					
 					if checkmate then
 						tfm.exec.chatMessage("<S>[#Chess] " .. stringformat(system.getTranslation().win, mode.chess.currentPlayerColor))
 						tfm.exec.setPlayerScore(n, 10, true)
 						mode.chess.refresh()
 						return
 					end
-	
+					
 					-- Sets the lastMove
 					mode.chess.players[mode.chess.currentPlayer].lastMove = ((piece == mode.chess.pieces.pawn and mathabs(newRow - row) == 2) and (newRow .. "_" .. newColumn) or '')
 
@@ -8155,7 +8155,7 @@ mode.chess = {
 							end
 						end
 					end
-	
+					
 					mode.chess.changeTurn()
 				end
 			end
@@ -8172,7 +8172,7 @@ mode.chess = {
 					totalPlayers = totalPlayers + 1
 				end
 			end
-	
+			
 			if totalPlayers == 2 then
 				mode.chess.canStart = true
 				mode.chess.changeTurn()
@@ -8193,7 +8193,7 @@ mode.chess = {
 				return
 			end
 		end
-
+		
 		local id = x < 76 and 1 or x > 724 and 2 or 0
 		if id > 0 then
 			if mode.chess.players[id].name == "" then
@@ -8235,18 +8235,18 @@ eventOnModeChange = function()
 	for k in next,system.objects.image do
 		tfm.exec.removeImage(k)
 	end
-
+	
 	for k in next,system.objects.textarea do
 		ui.removeTextArea(k,nil)
 	end
-
+	
 	system.objects = {
 		image = {},
 		textarea = {}
 	}
-
+	
 	ui.addPopup(0,0,"",nil,-1500,-1500)
-
+	
 	-- Unbind keyboard and mouse, also normalize color name and scores
 	for k in next,tfm.get.room.playerList do
 		for i = 0,255 do
@@ -8254,25 +8254,25 @@ eventOnModeChange = function()
 				system.bindKeyboard(k,i,v == 0,false)
 			end
 		end
-
+		
 		system.bindMouse(k,false)
-
+		
 		tfm.exec.setNameColor(k,-1)
 		tfm.exec.setPlayerScore(k,0)
 	end
-
+	
 	-- Set admin back
 	system.roomAdmins = system.getAdmins()
-
+	
 	-- Reset settings
 	tfm.exec.snow(0)
 	for k,v in next,{"AutoScore","WatchCommand","AutoNewGame","AutoShaman","AllShamanSkills","MortCommand","DebugCommand","MinimalistMode","AfkDeath","PhysicalConsumables","AutoTimeLeft"} do
 		tfm.exec["disable" .. v](false)
 	end
 	tfm.exec.setAutoMapFlipMode()
-
+	
 	tfm.exec.setRoomMaxPlayers(25)
-	tfm.exec.setRoomPassword("")
+	tfm.exec.setRoomPassword("")	
 end
 
 --[[ Events ]]--
@@ -8284,7 +8284,7 @@ end
 	--[[ eventNewPlayer ]]--
 events.eventNewPlayer = function(n)
 	tfm.exec.lowerSyncDelay(n)
-
+	
 	if system.officialMode[2] ~= "" then
 		tfm.exec.chatMessage(system.officialMode[2],n)
 	end
@@ -8293,10 +8293,10 @@ end
 events.eventChatCommand = function(n,c)
 	if system.isPlayer(n) then
 		system.disableChatCommandDisplay(c,true)
-
+		
 		local p = stringsplit(c,"[^%s]+",stringlower)
 		disableChatCommand(p[1])
-
+	
 		if module._FREEACCESS[n] then
 			if p[1] == "refresh" and (module._FREEACCESS[n] > 1 or not system.isRoom) then
 				tfm.exec.chatMessage("[#bolo] Refreshing the module...")
@@ -8304,7 +8304,7 @@ events.eventChatCommand = function(n,c)
 				system.init(true)
 				return
 			end
-	
+			
 			if p[1] == "room" and (module._FREEACCESS[n] > 1 or not system.isRoom) then
 				local room = tonumber(p[2]) or 0
 				if _G["eventChatCommand"] and system.roomNumber ~= room then
@@ -8314,7 +8314,7 @@ events.eventChatCommand = function(n,c)
 				end
 				return
 			end
-	
+			
 			if p[1] == "setmisc" and p[2] and (module._FREEACCESS[n] > 1 or not system.isRoom) then
 				system.miscAttrib = tonumber(p[2]) or 0
 				system.miscAttrib = mathsetLim(system.miscAttrib,0,99)
@@ -8324,21 +8324,21 @@ events.eventChatCommand = function(n,c)
 				end
 				return
 			end
-	
+			
 			if p[1] == "load" and (module._FREEACCESS[n] > 2 or not system.isRoom) then
 				if os.time() > system.modeChanged and os.time() > system.newGameTimer then
 					if system.getGameMode(p[2],true) then
 						tfm.exec.chatMessage("[#bolo] Loading " .. p[2])
 						system.init(system.isRoom)
 					end
-				end
+				end				
 				return
 			end
 		end
-
+		
 		if p[1] == "module" then
 			p[2] = stringupper(p[2] or "")
-	
+			
 			if module["_" .. p[2]] then
 				if p[2] == "FREEACCESS" then
 					if p[3] then
@@ -8346,7 +8346,7 @@ events.eventChatCommand = function(n,c)
 						if num then
 							num = mathsetLim(num, 1, 3)
 							local lastValue = num
-
+							
 							tfm.exec.chatMessage("[#bolo] " .. p[2] .. " [" .. num .. "] : " .. tablelist(module._FREEACCESS, "", function(name, value)
 								return value == num and name .. " ~ " or ""
 							end), n)
@@ -8365,7 +8365,7 @@ events.eventChatCommand = function(n,c)
 			end
 			return
 		end
-
+		
 		if p[1] == "modes" then
 			local _modes = {}
 			for k, v in next, mode do
@@ -8373,7 +8373,7 @@ events.eventChatCommand = function(n,c)
 					_modes[#_modes + 1] = k
 				end
 			end
-
+		
 			tfm.exec.chatMessage(tablelist(_modes,"\n",function(k,v)
 				return stringformat("~> /room #%s%s@%s#%s",module._NAME,mathrandom(0,999),n,v)
 			end),n)
@@ -8383,12 +8383,12 @@ events.eventChatCommand = function(n,c)
 		if p[1] == "stop" and system.roomAdmins[n] then
 			system.exit()
 		end
-
+		
 		if p[1] == "admin" then
 			tfm.exec.chatMessage("[#bolo] Room Admins : " .. tablelist(system.roomAdmins,", ",tostring),n)
 			return
 		end
-
+		
 		if p[1] == "adm" and p[2] and (system.roomAdmins[n] or (module._FREEACCESS[n] and module._FREEACCESS[n] > 2)) then
 			if tablefind({"true","false"},p[3]) then
 				local pl = stringnick(p[2])
@@ -8397,7 +8397,7 @@ events.eventChatCommand = function(n,c)
 			end
 			return
 		end
-
+		
 		if p[1] == "setroomlanguage" and p[2] and (system.roomAdmins[n] or (module._FREEACCESS[n] and module._FREEACCESS[n] > 2)) then
 			if mode[system.gameMode].translations[p[2]] then
 				system.roomLanguage = p[2]
@@ -8406,7 +8406,7 @@ events.eventChatCommand = function(n,c)
 			end
 			return
 		end
-
+		
 		if p[1] == "me" then
 			local commands = {
 				[0] = {"!modes"},
@@ -8414,15 +8414,15 @@ events.eventChatCommand = function(n,c)
 				[2] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode] (tribe house)"},
 				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]"}
 			}
-	
+			
 			local access = module._FREEACCESS[n] or 0
-	
+			
 			if system.roomAdmins[n] then
 				for k,v in next,{"!stop","!adm [playerName] [true/false]","!setRoomLanguage [language]"} do
 					commands[access][#commands[access] + 1] = v
 				end
 			end
-	
+			
 			tfm.exec.chatMessage(stringformat("@%s\nACCESS : %s\nROOM ADMIN : %s\n\n~> Commands: %s",n,access,tostring(not not system.roomAdmins[n]),tableconcat(commands[access],"; ")),n)
 			return
 		end
@@ -8472,20 +8472,20 @@ system.setRoom = function()
 		for playerName in stringgmatch(system.roomAttributes, system.roomSettings[1].char .. "(%+?[a-zA-Z0-9_]+#%d%d%d%d)") do
 			system.roomSettings[1].execute(playerName)
 		end
-
+	
 		system.roomSettings[2].execute(stringmatch(system.roomAttributes, system.roomSettings[2].char .. "([%a_]+)"))
-
+		
 		local characters = tablelist(system.roomSettings, "", function(index, value) return value.char end, 3)
 		for char, value in stringgmatch(system.roomAttributes, "([" .. characters .. "])([^" .. characters .. "]+)") do
 			for id, setting in next, system.roomAttributes do
 				if setting.char == char then
 					setting.execute(stringgmatch(value, "%S+"))
-
+		
 					break
 				end
 			end
 		end
-
+		
 		local officialModes = {
 			{"vanilla","<VP>Enjoy your vanilla (: .. okno"},
 			{"survivor","<R>Aw, you cannot play survivor on #grounds"},
@@ -8513,7 +8513,7 @@ local foo = function() end
 
 system.init = function(refresh)
 	_events = {}
-
+	
 	for _, event in next, eventNames do
 		_events[event] = mode[system.gameMode][event] or foo
 	end
@@ -8523,7 +8523,7 @@ system.init = function(refresh)
 			mode[system.gameMode].reset()
 		end
 	end
-
+	
 	normalizeTranslation()
 	mode[system.gameMode].init()
 

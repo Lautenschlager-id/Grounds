@@ -15,9 +15,9 @@ table.random = function(t)
 end
 table.shuffle = function(t)
 	local len = #t
-	for i = 1, len, -1 do
+	for i = len, 1, -1 do
 		local rand = math.random(len)
-		tbl[i], tbl[rand] = tbl[rand], tbl[i]
+		t[i], t[rand] = t[rand], t[i]
 	end
 	return t
 end
