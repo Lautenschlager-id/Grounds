@@ -1,5 +1,5 @@
 # V4.9
 
 ## API
-→ Removed command **disableChatCommand**
+→ Removed command **disableChatCommand**<br>
 → Bug fixes
