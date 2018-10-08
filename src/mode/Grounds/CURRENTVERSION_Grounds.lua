@@ -1699,15 +1699,7 @@ mode.grounds = {
 		
 		-- Sets the commands
 		mode.grounds.cmds = system.getTranslation().commands
-		
-		-- Disable commands
-		for k,v in next,mode.grounds.cmds do
-			disableChatCommand(v)
-		end
-		for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review","next","again"} do
-			disableChatCommand(v)
-		end
-		
+
 		-- Official modes running together
 		if system.officialMode[1] == "racing" then
 			mode.grounds.rotation = {1,{7}}
@@ -2133,6 +2125,8 @@ mode.grounds = {
 		end
 		
 		ui.setMapName(table.concat(mapName,"   <G>|<J>   ") .. (#mapName > 0 and "   <G>|<J>   " or "") .. currentXml.author .. " <BL>- " .. tfm.get.room.currentMap)
+		
+		mode.grounds.alivePlayers,mode.grounds.totalPlayers = system.players()
 	end,
 	-- Loop
 	eventLoop = function()
@@ -2267,9 +2261,7 @@ mode.grounds = {
 		if system.isPlayer(n) then
 			-- Normalize and hide commands
 			c = deactivateAccents(c)
-			system.disableChatCommandDisplay(c,true)
 			local p = string.split(c,"[^%s]+",string.lower)
-			disableChatCommand(p[1])
 	
 			if not mode.grounds.isHouse then -- Not house mode
 				if p[1] == mode.grounds.cmds.shop or p[1] == "o" then

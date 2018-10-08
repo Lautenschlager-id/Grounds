@@ -57,15 +57,7 @@
 		
 		-- Sets the commands
 		mode.grounds.cmds = system.getTranslation().commands
-		
-		-- Disable commands
-		for k,v in next,mode.grounds.cmds do
-			disableChatCommand(v)
-		end
-		for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review","next","again"} do
-			disableChatCommand(v)
-		end
-		
+
 		-- Official modes running together
 		if system.officialMode[1] == "racing" then
 			mode.grounds.rotation = {1,{7}}

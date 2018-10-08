@@ -1,28 +1,30 @@
 deactivateAccents=function(str)
-	local letters = {
-		["a"] = {"á", "à", "â", "ä", "ã", "å"},
-		["e"] = {"é", "è", "ê", "ë"},
-		["i"] = {"í", "ì", "î", "ï"},
-		["o"] = {"ó", "ò", "ô", "ö", "õ"},
-		["u"] = {"ú", "ù", "û", "ü"},
-		["c"] = {"ç"},
-		["n"] = {"ñ"},
-		["y"] = {"ý", "ÿ"},
-	}
-	for k,v in next, letters do
-		for i = 1, #v do
-			str = string.gsub(str, v[i], tostring(k))
-		end
-	end
+	str = string.gsub(str, "[áàâäãå]", 'a')
+	str = string.gsub(str, "[ÁÀÂÄÃÅ]", 'A')
+
+	str = string.gsub(str, "[éèêë]", 'e')
+	str = string.gsub(str, "[ÉÈÊË]", 'E')
+
+	str = string.gsub(str, "[íìîï]", 'i')
+	str = string.gsub(str, "[ÍÌÎÏ]", 'I')
+
+	str = string.gsub(str, "[óòôöõ]", 'o')
+	str = string.gsub(str, "[ÓÒÔÖÕ]", 'O')
+
+	str = string.gsub(str, "[úùûü]", 'u')
+	str = string.gsub(str, "[ÚÙÛÜ]", 'U')
+
+	str = string.gsub(str, "[ç]", 'c')
+	str = string.gsub(str, "[Ç]", 'C')
+
+	str = string.gsub(str, "[ñ]", 'n')
+	str = string.gsub(str, "[Ñ]", 'N')
+
+	str = string.gsub(str, "[ýÿ]", 'y')
+	str = string.gsub(str, "[ÝŸ]", 'Y')
+
 	return str
 end
-disableChatCommand = function(...)
-	for k, v in next, { ... } do
-		system.disableChatCommandDisplay(v, true)
-		system.disableChatCommandDisplay(string.lower(v), true)
-		system.disableChatCommandDisplay(string.upper(v), true)
-	end
-end	
 normalizeTranslation = function()
 	if not mode[system.gameMode].translations.pt then
 		mode[system.gameMode].translations.pt = mode[system.gameMode].translations.br

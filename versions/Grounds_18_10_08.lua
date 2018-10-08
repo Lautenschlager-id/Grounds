@@ -1,10 +1,10 @@
 --Creator: Bolodefchoco
 --Made in: 06/02/2017
---Last update: 21/06/2018
+--Last update: 08/10/2018
 
 --[[ Module ]]--
 local module = {
-	_VERSION = "4.7",
+	_VERSION = "4.9",
 	_NAME = "grounds",
 	_STATUS = "semi-official",
 	_AUTHOR = "Bolodefchoco",
@@ -39,7 +39,6 @@ local module = {
 		-- 2 : Commands
 		["Bodykudo#0000"] = 2,
 		["Brenower#0000"] = 2,
-		["Error_404#0000"] = 2,
 		["Jordy#0010"] = 2,
 		["Laagaadoo#0000"] = 2,
 		["Mescouleur#0000"] = 2,
@@ -63,7 +62,7 @@ local module = {
 		["Envidiame#0000"] = 1,
 		["Exsilium#0010"] = 1,
 		["Foxisara#0000"] = 1,
-		["Hmiida#0000"] = 1,
+		["Ghjxpain#0000"] = 1,
 		["Kaldt#0000"] = 1,
 		["Kimsterjay#0000"] = 1,
 		["Ryuuzaki#1216"] = 1,
@@ -72,6 +71,7 @@ local module = {
 		["Reshman#0020"] = 1,
 		["Santalicious#0010"] = 1,
 		["Sebaisseba#0000"] = 1,
+		["Tempo#5571"] = 1,
 		["Unlocker001#0000"] = 1,
 		["Virtini#0000"] = 1,
 		["Xorcist#0000"] = 1,
@@ -92,11 +92,11 @@ local bit32lrotate, bit32rrotate, bit32band, bit32rshift, bit32lshift, bit32bnot
 --[[ API ]]--
 	--[[ Control ]]--
 system.newGameTimer = 0
-system.officialMode = {"",""}
+system.officialMode = {"", ""}
 system.playerMessage = ""
-system.setAdmins = function()
+system.getAdmins = function()
 	local out = {}
-	for k,v in next,module._FREEACCESS do
+	for k, v in next, module._FREEACCESS do
 		if v > 2 then
 			out[k] = true
 		end
@@ -105,28 +105,11 @@ system.setAdmins = function()
 end
 	--[[ Improvements ]]--
 do
-	local concat = tableconcat
-	tableconcat = function(list,sep,f,i,j)
-		if type(f) == "boolean" and f then
-			return concat(list, sep, i, j)
-		end
-	
-		local txt = ""
-		sep = sep or ""
-		i,j = i or 1,j or #list
-		for k,v in next,list do
-			if type(k) ~= "number" and true or (k >= i and k <= j) then
-				txt = txt .. (not f and v or f(k,v)) .. sep
-			end
-		end
-		return stringsub(txt,1,-1-#sep)
-	end
-
 	local newGame = tfm.exec.newGame
 	tfm.exec.newGame = function(code)
 		if os.time() > system.newGameTimer then
-			system.newGameTimer = os.time() + 6000
-			newGame(code or "#" .. tablerandom({0,0,0,0,1,1,1,4,5,6,7,8,9,1,4,5,6,7,8,9,0}))
+			system.newGameTimer = os.time() + 3100
+			newGame(code or "#" .. tablerandom({0, 0, 0, 0, 1, 1, 1, 4, 5, 6, 7, 8, 9, 1, 4, 5, 6, 7, 8, 9, 0}))
 			return true
 		end
 		return false
@@ -168,31 +151,19 @@ do
 		if #txt > 1000 then
 			local total = 0
 			while #txt > total do
-				local t = stringgsub(stringsub(txt,total,total + 1000), "<$", "&lt;")
-				chatMessage(t,n)
+				local t = stringgsub(stringsub(txt, total, total + 1000), "<$", "&lt;")
+				chatMessage(t, n)
 				total = total + 1001
 			end
 		else
-			chatMessage(txt,n)
-		end
-	end
-	
-	local loadPlayerData = system.loadPlayerData
-	system.loadPlayerData = function(n)
-		if module._STATUS == "official" then
-			return loadPlayerData(n)
-		else
-			if _G["eventPlayerDataLoaded"] then
-				eventPlayerDataLoaded(n,"")
-			end
-			return true
+			chatMessage(txt, n)
 		end
 	end
 	
 	local savePlayerData = system.savePlayerData
 	system.savePlayerData = function(n,data)
 		if module._STATUS == "official" then
-			savePlayerData(n,data)
+			savePlayerData(n, data)
 			return true
 		else
 			return false
@@ -201,14 +172,14 @@ do
 end
 	--[[ Room ]]--
 system.isRoom = stringbyte(tfm.get.room.name,2) ~= 3
-system.roomAdmins = system.setAdmins()
+system.roomAdmins = system.getAdmins()
 system.miscAttrib = 0
 system.roomNumber,system.roomAttributes = (function()
 	if system.isRoom then
-		local number,attribute = stringmatch(tfm.get.room.name,"%*?#"..module._NAME.."(%d+)(.*)")
-		return tonumber(number) or 0,attribute or ""
+		local number, attribute = stringmatch(tfm.get.room.name, "%*?#"..module._NAME.."(%d+)(.*)")
+		return tonumber(number) or 0, attribute or ""
 	else
-		return 0,""
+		return 0, ""
 	end
 end)()
 system.roomLanguage = ""
@@ -242,12 +213,12 @@ system.players = function(alivePlayers)
 	return alive, total
 end
 	--[[ System ]]--
-events = {}
-currentTime,leftTime = 0,0
+local events = {}
+currentTime, leftTime = 0,0
 system.loadTable = function(s)
 	-- "a.b.c.1" returns a[b][c][1]
 	local list
-	for tbl in stringgmatch(s,"[^%.]+") do
+	for tbl in stringgmatch(s, "[^%.]+") do
 		tbl = tonumber(tbl) or tbl
 		list = (list and list[tbl] or _G[tbl])
 	end
@@ -262,61 +233,51 @@ system.getTranslation = function(flag)
 	return mode[system.gameMode].translations[flag or mode[system.gameMode].langue or tfm.get.room.community] or mode[system.gameMode].translations['en']
 end
 
-system.looping = function(f,tick)
+system.looping = function(f, tick)
 	local s = 1000 / tick
-	local t = {}
-	
+	local t = { }
+
+	local bar = 0
 	local fooTimer = function()
-		t[#t+1] = system.newTimer(f,1000,true)
+		bar = bar + 1
+		t[bar] = system.newTimer(f, 1000, true)
 	end
-	for timer = 0,1000 - s,s do
-		system.newTimer(fooTimer,1000 + timer,false)
+
+	for timer = 0, 1000 - s, s do
+		system.newTimer(fooTimer, 1000 + timer, false)
 	end
 	return t
 end
 	--[[ Interface ]]--
-ui.banner = function(image,aX,aY,n,time)
+ui.banner = function(image, aX, aY, n, time)
 	time = time or 5
-	axis = axis or {100,100}
+	aX = aX or 100
+	aY = aY or 100
 	
-	local img = tfm.exec.addImage(image .. ".png","&0",aX,aY,n)
+	local img = tfm.exec.addImage(image .. ".png", "&0", aX, aY, n)
 	system.newTimer(function()
 		tfm.exec.removeImage(img)
-	end,time * 1000,false)
+	end, time * 1000, false)
 end
 	--[[ Math ]]--
-mathisNegative = function(x,iN,iP)
+mathisNegative = function(x, iN, iP)
 	if x < 0 then
-		return iN == nil and x or iN
+		if iN then return iN end
 	else
-		return iP == nil and x or iP
+		if iP then return iP end
 	end
+	return x
 end
-mathpercent = function(x,y,v)
+mathpercent = function(x, y, v)
 	v = v or 100
-	local m = x/y * v
-	return mathmin(m,v)
+	local m = x / y * v
+	return mathmin(m, v)
 end
-mathpythag = function(x1,y1,x2,y2,range)
-	return (x1-x2)^2 + (y1-y2)^2 <= (range^2)
+mathpythag = function(x1, y1, x2, y2, range)
+	return (x1 - x2) ^ 2 + (y1 - y2) ^ 2 <= (range ^ 2)
 end
-mathsetLim = function(value,min,max)
+mathsetLim = function(value, min, max)
 	return value < min and min or value > max and max or value -- mathmax(min,mathmin(max,value))
-end
-mathintersects = function(x1, y1, x2, y2, x3, y3)
-	if x1 >= x2 and x1 <= x3 then
-		if y1 >= y2 and y1 <= y3 then
-			return true
-		end
-	end
-	return false
-end
-mathminmax = function(a, b)
-	if a > b then
-		return a, b
-	else
-		return b, a
-	end
 end
 mathrotatePoint = function(x, y, angle)
 	angle = angle % 360
@@ -329,7 +290,7 @@ mathrotatePoint = function(x, y, angle)
 	return (x * cos - y * sin), (y * cos + x * sin)
 end
 mathround = function(x)
-	return (mathfloor(x) + (x%1 > .5 and .5 or 0))
+	return mathfloor(x + .5)
 end
 	--[[ String ]]--
 stringsplit = function(value, pattern, f)
@@ -344,14 +305,14 @@ stringnick = function(player, ignoreCheck)
 		player = player .. "#0000"
 	end
 	
-	return stringgsub(stringlower(player),"%a",stringupper,1)
+	return stringgsub(stringlower(player), "%a", stringupper, 1)
 end
 stringtrim = function(s)
-	return (stringgsub(s,"^%s*(.-)%s*$","%1"))
+	return (stringgsub(s, "^%s*(.-)%s*$", "%1"))
 end
 	--[[ Table ]]--
-tablefind = function(list,value,index,f)
-	for k,v in next,list do
+tablefind = function(list, value, index, f)
+	for k, v in next, list do
 		local i = (type(v) == "table" and index) and v[index] or v
 		if (not f and i or f(i)) == value then
 			return true, k
@@ -360,24 +321,25 @@ tablefind = function(list,value,index,f)
 	return false, 0
 end
 tableturnTable = function(x)
-	return (type(x)=="table" and x or {x})
+	return (type(x)=="table" and x or { x })
 end
 tablerandom = function(t)
 	return (type(t) == "table" and t[mathrandom(#t)] or mathrandom())
 end
 tableshuffle = function(t)
-	local randomized = {}
-	for v = 1,#t do
-		tableinsert(randomized,mathrandom(#randomized),t[v])
+	local len = #t
+	for i = len, 1, -1 do
+		local rand = mathrandom(len)
+		t[i], t[rand] = t[rand], t[i]
 	end
-	return randomized
+	return t
 end
 tablemerge = function(this,src)
-	for k,v in next,src do
+	for k, v in next, src do
 		if this[k] then
 			if type(v) == "table" then
 				this[k] = tableturnTable(this[k])
-				tablemerge(this[k],v)
+				tablemerge(this[k], v)
 			else
 				this[k] = this[k] or v
 			end
@@ -388,37 +350,60 @@ tablemerge = function(this,src)
 end
 tablecopy = function(list)
 	local out = {}
-	for k,v in next, list do
+	for k, v in next, list do
 		out[k] = (type(v) == "table" and tablecopy(v) or v)
 	end
 	return out
 end
-	--[[ Others ]]--
-deactivateAccents=function(str)
-	local letters = {
-		["a"] = {"á","à","â","ä","ã","å"},
-		["e"] = {"é","è","ê","ë"},
-		["i"] = {"í","ì","î","ï"},
-		["o"] = {"ó","ò","ô","ö","õ"},
-		["u"] = {"ú","ù","û","ü"},
-		["c"] = {"ç"},
-		["n"] = {"ñ"},
-		["y"] = {"ý","ÿ"},
-	}
-	for k,v in next,letters do
-		for i = 1,#v do
-			str = stringgsub(str, v[i], tostring(k))
+tablelist = function(tbl, sep, f, i, j)
+	local out = {}
+
+	sep = sep or ""
+
+	i, j = (i or 1), (j or #tbl)
+
+	local counter = 1
+	for k, v in next, tbl do
+		if type(k) ~= "number" or (k >= i and k <= j) then
+			if f then
+				out[counter] = f(k, v)
+			else
+				out[counter] = tostring(v)
+			end
+			counter = counter + 1
 		end
 	end
+
+	return tableconcat(out, sep)
+end
+	--[[ Others ]]--
+deactivateAccents=function(str)
+	str = stringgsub(str, "[áàâäãå]", 'a')
+	str = stringgsub(str, "[ÁÀÂÄÃÅ]", 'A')
+
+	str = stringgsub(str, "[éèêë]", 'e')
+	str = stringgsub(str, "[ÉÈÊË]", 'E')
+
+	str = stringgsub(str, "[íìîï]", 'i')
+	str = stringgsub(str, "[ÍÌÎÏ]", 'I')
+
+	str = stringgsub(str, "[óòôöõ]", 'o')
+	str = stringgsub(str, "[ÓÒÔÖÕ]", 'O')
+
+	str = stringgsub(str, "[úùûü]", 'u')
+	str = stringgsub(str, "[ÚÙÛÜ]", 'U')
+
+	str = stringgsub(str, "[ç]", 'c')
+	str = stringgsub(str, "[Ç]", 'C')
+
+	str = stringgsub(str, "[ñ]", 'n')
+	str = stringgsub(str, "[Ñ]", 'N')
+
+	str = stringgsub(str, "[ýÿ]", 'y')
+	str = stringgsub(str, "[ÝŸ]", 'Y')
+
 	return str
 end
-disableChatCommand = function(command,...)
-	for k,v in next,{command,...} do
-		system.disableChatCommandDisplay(v,true)
-		system.disableChatCommandDisplay(stringlower(v),true)
-		system.disableChatCommandDisplay(stringupper(v),true)
-	end
-end	
 normalizeTranslation = function()
 	if not mode[system.gameMode].translations.pt then
 		mode[system.gameMode].translations.pt = mode[system.gameMode].translations.br
@@ -445,20 +430,20 @@ end
 normalizeNumber = function(number,sep)
 	sep = sep or " "
 	number = tostring(mathfloor(number))
-	number = stringgsub(number,"E(%d+)",function(cn) -- e5 = 00000
-		return stringrep("0",tonumber(cn))
+	number = stringgsub(number, "E(%d+)", function(cn) -- e5 = 00000
+		return stringrep("0", tonumber(cn))
 	end)
-	number = stringgsub(stringreverse(number),"(...)",function(c)
+	number = stringgsub(stringreverse(number), "(...)", function(c)
 		return c .. sep
 	end)
 	return stringreverse(number)
 end
 pairsByIndexes = function(list,f)
 	local out = {}
-	for index in next,list do
+	for index in next, list do
 		out[#out + 1] = index
 	end
-	tablesort(out,f)
+	tablesort(out, f)
 	
 	local i = 0
 	return function()
@@ -466,234 +451,35 @@ pairsByIndexes = function(list,f)
 		if out[i] == nil then
 			return nil
 		else
-			return out[i],list[out[i]]
+			return out[i], list[out[i]]
 		end
     end
 end
-	--[[ DataManager ]]--
-dataManager = {}
-dataManager.using = function(module, data)
-	local self = {}	
-	
-	--[[ Tools ]]--
-	local transform = function(value, dataType, reverse)
-		if dataType == "number" then
-			return reverse and (tostring(value)) or (tonumber(value) or 0)
-		elseif dataType == "boolean" then
-			return reverse and (value and "1" or "0") or (value == "1")
-		elseif dataType == "table" then
-			return reverse and (tableconcat(value, "|")) or (stringsplit(value, "[^|]+", function(value)
-				if value == "true" or value == "false" then
-					return value == "true"
-				end
-				return tonumber(value) or tostring(value)
-			end))
-		else
-			return tostring(value)
-		end
-	end
-	
-	local normalizeData = function(self, data)
-		data = stringsplit(data, "[^~]+")
-		local out = {}
-		
-		for k, v in next, self._data do
-			local value = data[v.index]
-			if value then
-				if value == "nil" then
-					value = v.default
-				else
-					value = transform(value, type(v.default))
-				end
-			end
-			if type(value) == "nil" then
-				value = v.default
-			end
-			
-			out[v.name] = value
-		end
-		
-		return out
-	end
-
-	local init = function(self, module, data)
-		self._module = module
-		self._data = {}
-		self._players = {}
-		
-		local availableTypes = { number = true, string =  true, table = true, boolean = true }
-		
-		for k, v in next, data do
-			if v.index and type(v.index) == "number" then
-				if not self._data[v.index] then
-					if v.default ~= nil and availableTypes[type(v.default)] then
-						self._data[v.index] = {
-							index = v.index,
-							default = v.default,
-							name = k
-						}
-					else
-						error(stringformat("parameter_index_%s:%s: The index 'default' does not exist or have not its value type available for this manager [number, string, table, boolean].", v.index, type(v.default)))
-					end
-				else
-					error(stringformat("parameter_index_%s: The index 'index' must be unique. There is already a value with this index.", v.index))
-				end
-			else
-				error(stringformat("parameter_%s: The index 'index' does not exist or is not a number.", k))
-			end
-		end
-	end
-
-	--[[ Managers ]]--
-	self.struct = function(self, player, data)
-		local hasData = false
-		
-		local garbage = data
-		for Module, Data in stringgmatch(data, "%[(.-)%]%((.-)%)") do
-			garbage = stringgsub(stringgsub(garbage, stringformat("%%[%s%%]%%(.-%%)", Module), ""), "<INSERT_DATA>", "")
-		
-			if Module == self._module then
-				hasData = true
-				
-				local raw = stringgsub(data, stringformat("%%[%s%%]%%(.-%%)", Module), "<INSERT_DATA>")
-				self._players[player] = setmetatable({_GARBAGE = {"", false}, data = normalizeData(self, Data)},{
-					__call = function(playerTable, single)
-						local out = {}
-						for k, v in next, self._data do
-							out[#out + 1] = transform(self._players[player].data[v.name], type(self._players[player].data[v.name]), true)
-						end
-						
-						local out =  stringformat("[%s](%s)", self._module, tableconcat(out, "~"))
-						if single then
-							return out
-						else
-							raw = stringgsub(raw, playerTable._GARBAGE[2] and playerTable._GARBAGE[1] or "", "", 1)
-							return stringgsub(raw, "<INSERT_DATA>", out)
-						end
-					end
-				})
-			end
-		end
-
-		if hasData then
-			garbage = stringgsub(garbage, "[%^%$%(%)%%%[%]%?%*%+%-]", "%%%1")
-			self._players[player]._GARBAGE[1] = garbage
-		else
-			return self:struct(player, data .. stringformat("[%s](nil)", self._module))
-		end
-		
-		return not not self._players[player]
-	end
-	
-	self.getData = function(self, player, index)
-		if self._players[player] then
-			if index then
-				if self._players[player].data[index] ~= nil then
-					return self._players[player].data[index]
-				else
-					return { error = stringformat("getData_ The index '%s' does not exist.", index) }
-				end
-			else
-				return self._players[player]()
-			end
-		else
-			return { error = stringformat("getData_ The player '%s' does not have a player structure.", player) }
-		end
-	end
-	
-	self.setValue = function(self, player, values, save)
-		if self._players[player] then
-			local updated = false
-			for k, v in next, values do
-				if self._players[player].data[k] ~= nil and type(v) == type(self._players[player].data[k]) then
-					if not updated then
-						updated = true
-					end
-					
-					self._players[player].data[k] = v
-				end
-			end
-			
-			if updated then
-				local out = self._players[player]()
-				if save then
-					self:save(player, out)
-				end
-				return out
-			else
-				return { error = stringformat("setValue_ The values '%s' do not exist.", tableconcat(values, " ~ ", tostring)) }
-			end
-		else
-			return { error = stringformat("setValue_ The player '%s' does not have a player structure.", player) }
-		end
-	end
-	
-	self.save = function(self, player, data)
-		if player then
-			system.savePlayerData(player, data or self._players[player]())
-			return true
-		else
-			return false
-		end
-	end
-	
-	self.garbage = function(self, player, remove)
-		if self._players[player] then
-			local garbage = self._players[player]._GARBAGE[1]
-			if remove then
-				self._players[player]._GARBAGE[2] = true
-				self:save(player)
-				self._players[player]._GARBAGE[1] = ""
-			end
-			return garbage, self._players[player]._GARBAGE[2]
-		else
-			return { error = stringformat("garbage_ The player '%s' does not have a player structure.", player) }
-		end
-	end
-	
-	init(self, module, data)
-	return self
-end
-dataManager.delete = function(module, data)
-	for Module, Data in stringgmatch(data, "%[(.-)%]%((.-)%)") do
-		local mod = module
-		if type(module) == "table" then
-			local found, index = tablefind(module, Module)
-			if found then
-				mod = module[index]
-			end
-		end
-		if Module == mod then
-			data = stringgsub(data, stringformat("%%[%s%%]%%(.-%%)", Module), "")
-		end
-	end
-	return data
-end
 	--[[ XML ]]--
-xml = {}
-xml.parse = function(currentXml)
-	currentXml = stringmatch(currentXml,"<P (.-)/>") or ""
+local xml = {}
+xml.parseParameters = function(currentXml)
+	currentXml = stringmatch(currentXml, "<P (.-)/>") or ""
 	local out = {}
-	for tag,_,value in stringgmatch(currentXml,"([%-%w]+)=([\"'])(.-)%2") do
+	for tag, _, value in stringgmatch(currentXml, "([%-%w]+)=([\"'])(.-)%2") do
 		out[tag] = value
 	end
 	return out, currentXml
 end
-xml.attribFunc = function(currentXml,funcs)
-	local attributes, properties = xml.parse(currentXml)
-	for k,v in next,funcs do
+xml.attribFunc = function(currentXml, funcs)
+	local attributes, properties = xml.parseParameters(currentXml)
+	for k,v in next, funcs do
 		if attributes[v.attribute] then
 			v.func(attributes[v.attribute])
 		end
 	end
 	return properties
 end
-xml.addAttrib = function(currentXml,out,launch)
-	local parameters = stringmatch(currentXml,"<P (.-)/>") or ""
-	for k,v in next,out do
-		if not stringfind(parameters,v.tag) then
-			currentXml = stringgsub(currentXml,"<P (.-)/>",function(attribs)
-				return stringformat("<P %s=\"%s\" %s/>",v.tag,v.value,attribs)
+xml.addAttrib = function(currentXml, out, launch)
+	local parameters = stringmatch(currentXml, "<P (.-)/>") or ""
+	for k, v in next, out do
+		if not stringfind(parameters, v.tag) then
+			currentXml = stringgsub(currentXml, "<P (.-)/>", function(attribs)
+				return stringformat("<P %s=\"%s\" %s/>", v.tag, v.value, attribs)
 			end)
 		end
 	end
@@ -704,9 +490,9 @@ xml.addAttrib = function(currentXml,out,launch)
 	end
 end
 xml.getCoordinates = function(s)
-	if stringfind(s,";") then
+	if stringfind(s, ";") then
 		local x,y
-		local axis,value = stringmatch(s,"(%a);(%-?%d+)")
+		local axis, value = stringmatch(s, "(%a);(%-?%d+)")
 		value = tonumber(value)
 		if value then
 			if axis == "x" then x = value else y = value end
@@ -714,97 +500,103 @@ xml.getCoordinates = function(s)
 		return x or 0,y or 0
 	else
 		local pos = {}
-		for x,y in stringgmatch(s,"(%-?%d+) ?, ?(%-?%d+)") do
-			pos[#pos+1] = {x = x,y = y}
+		for x,y in stringgmatch(s, "(%-?%d+) ?, ?(%-?%d+)") do
+			pos[#pos+1] = {x = x, y = y}
 		end
 		return pos
 	end
 end
 	--[[ Color ]]--
-color = {
-	hexToRgb = function(hex)
-		local h = stringformat("%06x",hex)
-		return tonumber("0x"..stringsub(h,1,2)),tonumber("0x"..stringsub(h,3,4)),tonumber("0x"..stringsub(h,5,6))
+color = { -- local glitches rgb_to_hsl
+	hex_to_rgb = function(hex)
+		hex = stringformat("%06x", hex)
+		return tonumber(stringsub(hex, 1, 2), 16), tonumber(stringsub(hex, 3, 4), 16), tonumber(stringsub(hex, 5, 6), 16)
 	end,
-	rgbToHsl = function(r,g,b)
-		r,g,b = r/255,g/255,b/255
-
-		local max,min = mathmax(r,g,b),mathmin(r,g,b)
-		local h,s,l
-
-		h = (max + min) / 2
-		s,l = h,h
-
-		if max == min then
-			h,s = 0,0
-		else
-			local d = max - min
-			
-			local s = l > .5 and (d/(2 - max - min)) or (d/(max + min))
-			
-			if max == r then
-				h = (g-b)/d
-				if g < b then
-					h = h + 6
-				end
-			elseif max == g then
-				h = (b-r)/d + 2
-			elseif max == b then
-				h = (r-g)/d + 4
-			end
-			h = h/6
-		end
-
-		return {h=h,s=s,l=l}
-	end,
-	hslToRgb = function(h,s,l)
-		local r,g,b
+	hsl_to_rgb = function(h, s, l)
+		local r, g, b
 
 		if s == 0 then
-			r,g,b = l,l,l
+			r, g, b = l, l, l
 		else
-			local hueToRgb = function(p,q,t)
-				if t < 0 then
-					t = t + 1
-				end
-				if t > 1 then
-					t = t - 1
-				end
-				if t < 1/6 then
-					return p + (q - p) * 6 * t
-				end
-				if t < 1/2 then
-					return q
-				end
-				if t < 2/3 then
-					return p + (q - p) * (2/3 - t) * 6
-				end
-				return p
-			end
-
 			local q = l < .5 and (l * (1 + s)) or (l + s - l * s)
 			local p = 2 * l - q
 
-			r = hueToRgb(p,q,h + 1/3)
-			g = hueToRgb(p,q,h)
-			b = hueToRgb(p,q,h - 1/3)
+			r = color.hue_to_rgb(p, q, h + 1 / 3)
+			g = color.hue_to_rgb(p, q, h)
+			b = color.hue_to_rgb(p, q, h - 1 / 3)
 		end
 
-		return r * 255,g * 255,b * 255
+		return r * 0xFF, g * 0xFF, b * 0xFF
 	end,
-	rgbToHex = function(r,g,b)
-		return tonumber(stringformat('%02x%02x%02x',r,g,b),16)
+	hue_to_rgb = function(p, q, t)
+		if t < 0 then
+			t = t + 1
+		end
+
+		if t > 1 then
+			t = t - 1
+		end
+
+		if t < 1/6 then
+			return p + (q - p) * 6 * t
+		end
+
+		if t < 1/2 then
+			return q
+		end
+
+		if t < 2/3 then
+			return p + (q - p) * (2 / 3 - t) * 6
+		end
+
+		return p
+	end,
+	rgb_to_hex = function(r,g,b)
+		return tonumber(stringformat('%02x%02x%02x', r, g, b), 16)
+	end,
+	rgb_to_hsl = function(r, g, b)
+		local h, d, max, min = color.rgb_to_hue(r, g, b)
+
+		local l = (max + min) * 0.5
+		local s = d == 0 and 0 or d / (1 - mathabs(2 * l - 1))
+
+		return h, s, l
+	end,
+	rgb_to_hue = function(r, g, b)
+		r = r / 0xFF
+		g = g / 0xFF
+		b = b / 0xFF
+		
+		local min = mathmin(r, g, b)
+		local max = mathmax(r, g, b)
+		
+		local d = max - min
+		
+		local h
+		if d == 0 then
+			h = 0
+		elseif max == r then
+			h = (g - b) / d % 6
+		elseif max == g then
+			h = (b - r) / d + 2
+		elseif max == b then
+			h = (r - g) / d + 4
+		end
+		
+		h = mathfloor(h * 60 + .5)
+		return h, d, max, min
 	end,
 
+	-- Colors
 	AntiqueWhite = 0xFAEBD7,
-	Aqua = 0x00FFFF,
+	Aqua = 0xFFFF,
 	Aquamarine = 0x7FFFD4,
 	Azure = 0xF0FFFF,
 	Beige = 0xF5F5DC,
 	Bisque = 0xFFE4C4,
 	Black = 0x000000,
 	BlanchedAlmond = 0xFFEBCD,
-	Blue = 0x0000FF,
+	Blue = 0xFF,
 	BlueViolet = 0x8A2BE2,
 	Brown = 0xA52A2A,
 	BurlyWood = 0xDEB887,
@@ -815,12 +607,12 @@ color = {
 	CornflowerBlue = 0x6495ED,
 	Cornsilk = 0xFFF8DC,
 	Crimson = 0xDC143C,
-	Cyan = 0x00FFFF,
-	DarkBlue = 0x00008B,
-	DarkCyan = 0x008B8B,
+	Cyan = 0xFFFF,
+	DarkBlue = 0x8B,
+	DarkCyan = 0x8B8B,
 	DarkGoldenrod = 0xB8860B,
 	DarkGray = 0xA9A9A9,
-	DarkGreen = 0x006400,
+	DarkGreen = 0x6400,
 	DarkKhaki = 0xBDB76B,
 	DarkMagenta = 0x8B008B,
 	DarkOliveGreen = 0x556B2F,
@@ -831,10 +623,10 @@ color = {
 	DarkSeaGreen = 0x8FBC8F,
 	DarkSlateBlue = 0x483D8B,
 	DarkSlateGray = 0x2F4F4F,
-	DarkTurquoise = 0x00CED1,
+	DarkTurquoise = 0xCED1,
 	DarkViolet = 0x9400D3,
 	DeepPink = 0xFF1493,
-	DeepSkyBlue = 0x00BFFF,
+	DeepSkyBlue = 0xBFFF,
 	DimGray = 0x696969,
 	DodgerBlue = 0x1E90FF,
 	Firebrick = 0xB22222,
@@ -846,7 +638,7 @@ color = {
 	Gold = 0xFFD700,
 	Goldenrod = 0xDAA520,
 	Gray = 0x808080,
-	Green = 0x008000,
+	Green = 0x8000,
 	GreenYellow = 0xADFF2F,
 	Honeydew = 0xF0FFF0,
 	HotPink = 0xFF69B4,
@@ -871,18 +663,18 @@ color = {
 	LightSlateGray = 0x778899,
 	LightSteelBlue = 0xB0C4DE,
 	LightYellow = 0xFFFFE0,
-	Lime = 0x00FF00,
+	Lime = 0xFF00,
 	LimeGreen = 0x32CD32,
 	Linen = 0xFAF0E6,
 	Magenta = 0xFF00FF,
 	Maroon = 0x800000,
 	MediumAquamarine = 0x66CDAA,
-	MediumBlue = 0x0000CD,
+	MediumBlue = 0xCD,
 	MediumOrchid = 0xBA55D3,
 	MediumPurple = 0x9370DB,
 	MediumSeaGreen = 0x3CB371,
 	MediumSlateBlue = 0x7B68EE,
-	MediumSpringGreen = 0x00FA9A,
+	MediumSpringGreen = 0xFA9A,
 	MediumTurquoise = 0x48D1CC,
 	MediumVioletRed = 0xC71585,
 	MidnightBlue = 0x191970,
@@ -890,7 +682,7 @@ color = {
 	MistyRose = 0xFFE4E1,
 	Moccasin = 0xFFE4B5,
 	NavajoWhite = 0xFFDEAD,
-	Navy = 0x000080,
+	Navy = 0x80,
 	OldLace = 0xFDF5E6,
 	Olive = 0x808000,
 	OliveDrab = 0x6B8E23,
@@ -922,10 +714,10 @@ color = {
 	SlateBlue = 0x6A5ACD,
 	SlateGray = 0x708090,
 	Snow = 0xFFFAFA,
-	SpringGreen = 0x00FF7F,
+	SpringGreen = 0xFF7F,
 	SteelBlue = 0x4682B4,
 	Tan = 0xD2B48C,
-	Teal = 0x008080,
+	Teal = 0x8080,
 	Thistle = 0xD8BFD8,
 	Tomato = 0xFF6347,
 	Turquoise = 0x40E0D0,
@@ -1880,12 +1672,12 @@ mode.grounds = {
 		translators = {
 			-- Name, Languages
 			{"Bolodefchoco#0000",{"EN","BR"},true},
-			{"Distances#0000","NL",true},
+			{"Distances#0095","NL",true},
 			{"Tocutoeltuco#0000","ES",false},
 			{"Sebafrancuz#0000","PL",true},
 			{"Doriiarvai#0000","HU",false},
 			{"Error_404#0000","AR",true},
-			{"Santalicious#0010","NL",true},
+			{"Santa#0010","NL",true},
 			{"Archaeron#0010","DE",false},
 			{"Aewing#0095","FR",false},
 			{"Fashionkid#0000","DE",false},
@@ -1980,7 +1772,7 @@ mode.grounds = {
 		},
 		[7] = {
 			name = "Racing",
-			queue = {4140491,3324180,6564380,6600268,6987993,6726599,2283901,6568120,4055924,4361785,3851416,7079644,6347093,6620004,7086768,6797243,2030030,5198518,6230212,6340023,7069304,4362362,5981054,4364504,7086737,6623930,7245986,7251932,7246303,7251897},
+			queue = {4140491,3324180,6564380,6600268,6987993,6726599,2283901,6568120,4055924,4361785,3851416,7079644,6347093,6620004,7086768,6797243,2030030,5198518,6230212,6340023,7069304,4362362,5981054,7086737,6623930,7245986,7251932,7246303,7251897},
 			id = 1,
 			icon = {"15c6037ccd7",-5,-5},
 			color = "9DBCF2",
@@ -2137,7 +1929,7 @@ mode.grounds = {
 	--[[ System ]]--
 	concat = function(k,v)
 		if type(v) == "table" then
-			return tableconcat(v,"\n",function(i,j) return mode.grounds.concat(i,j) end)
+			return tablelist(v,"\n",function(i,j) return mode.grounds.concat(i,j) end)
 		else
 			return v
 		end
@@ -2323,18 +2115,18 @@ mode.grounds = {
 				end
 				displayText[2] = stringformat(displayText[2],"• "..tableconcat(textFormat[1],"\n• "))
 			elseif mode.grounds.info[n].menu.page == 4 then
-				displayText[2] = tableconcat(displayText[2],"\n",function(k,v)
+				displayText[2] = tablelist(displayText[2],"\n",function(k,v)
 					return mode.grounds.concat(k,v)
 				end)
 				displayText[2] = "<font size='10'>" .. stringformat(displayText[2],mode.grounds.cmds.profile,mode.grounds.cmds.shop,mode.grounds.cmds.langue,mode.grounds.cmds.help,mode.grounds.cmds.leaderboard,mode.grounds.cmds.info,mode.grounds.cmds.mapinfo,mode.grounds.cmds.pw)
 			elseif mode.grounds.info[n].menu.page == 5 then
-				displayText[2] = stringformat(displayText[2] .. "\n\n%s",#mode.grounds.maps.."<N>","<BV><a href='event:print.atelier801¬com/topic?f=6&t=845005'>#"..stringupper(module._NAME).." MAP SUBMISSIONS</a></BV>",tableconcat(mode.grounds.G,"\n",function(k,v)
+				displayText[2] = stringformat(displayText[2] .. "\n\n%s",#mode.grounds.maps.."<N>","<BV><a href='event:print.atelier801¬com/topic?f=6&t=845005'>#"..stringupper(module._NAME).." MAP SUBMISSIONS</a></BV>",tablelist(mode.grounds.G,"\n",function(k,v)
 					return stringformat("<font color='#%s'><a href='event:info.mapCategory.%s'>G%2d</a> : %3d</font>",v.color,k,k,#v.queue)
 				end))
 			elseif mode.grounds.info[n].menu.page == 6 then
 				local concat = {}
 				for i,j in next,{{"translators","<CEP>"},{"mapEvaluators","<BV>"}} do
-					concat[#concat+1] = j[2] .. tableconcat(mode.grounds.staff[j[1]],"<G>, " .. j[2],function(k,v)
+					concat[#concat+1] = j[2] .. tablelist(mode.grounds.staff[j[1]],"<G>, " .. j[2],function(k,v)
 						return stringformat("<a href='event:info.%s.%s'>%s</a>",j[1],k,v[1])
 					end)
 				end
@@ -2409,7 +2201,7 @@ mode.grounds = {
 			for k,v in next,players do
 				mode.grounds.info[v[1]].ranking = k
 				if k < 11 then
-					tableinsert(mode.grounds.leaderboard.data,"<J>"..k..". " .. (({"<BV>","<PS>","<CE>"})[k] or "<V>") .. "<a href='event:profile.open."..v[1].."'>".. v[1] .. "</a> <BL>- <VP>" .. v[2] .. "G")
+					tableinsert(mode.grounds.leaderboard.data,"<J>"..k..". " .. (({"<BV>","<PS>","<CE>"})[k] or "<V>") .. "<a href='event:profile.open."..v[1]:gsub("#", "~").."'>".. v[1] .. "</a> <BL>- <VP>" .. v[2] .. "G")
 				end
 			end
 			if #mode.grounds.leaderboard.data == 0 then
@@ -2421,7 +2213,7 @@ mode.grounds = {
 			mode.grounds.info[n].leaderboardAccessing = true
 			local id,y = 25,100
 			ui.addTextArea(23,"<p align='center'><B><R><a href='event:ranking.close'>X",n,603,35,20,20,1,1,1,true)
-			ui.addTextArea(24,"<p align='center'><font size='45'>" .. stringnick(mode.grounds.cmds.leaderboard),n,200,35,400,350,0x073247,1,1,true)
+			ui.addTextArea(24,"<p align='center'><font size='45'>" .. stringnick(mode.grounds.cmds.leaderboard, true),n,200,35,400,350,0x073247,1,1,true)
 
 			local foo = function(name)
 				return "'><a:active>"..name.."</a:active></a>"
@@ -2661,15 +2453,7 @@ mode.grounds = {
 		
 		-- Sets the commands
 		mode.grounds.cmds = system.getTranslation().commands
-		
-		-- Disable commands
-		for k,v in next,mode.grounds.cmds do
-			disableChatCommand(v)
-		end
-		for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review","next","again"} do
-			disableChatCommand(v)
-		end
-		
+
 		-- Official modes running together
 		if system.officialMode[1] == "racing" then
 			mode.grounds.rotation = {1,{7}}
@@ -2739,7 +2523,7 @@ mode.grounds = {
 				mode.grounds.info[n].profileAccessing = false
 			elseif p[2] == "open" then
 				if p[3] then
-					mode.grounds.uiprofile(n,p[3])
+					mode.grounds.uiprofile(n,p[3]:gsub("~", "#"))
 				else
 					mode.grounds.uiprofile(n,n)
 				end
@@ -3095,6 +2879,8 @@ mode.grounds = {
 		end
 		
 		ui.setMapName(tableconcat(mapName,"   <G>|<J>   ") .. (#mapName > 0 and "   <G>|<J>   " or "") .. currentXml.author .. " <BL>- " .. tfm.get.room.currentMap)
+		
+		mode.grounds.alivePlayers,mode.grounds.totalPlayers = system.players()
 	end,
 	-- Loop
 	eventLoop = function()
@@ -3229,9 +3015,7 @@ mode.grounds = {
 		if system.isPlayer(n) then
 			-- Normalize and hide commands
 			c = deactivateAccents(c)
-			system.disableChatCommandDisplay(c,true)
 			local p = stringsplit(c,"[^%s]+",stringlower)
-			disableChatCommand(p[1])
 	
 			if not mode.grounds.isHouse then -- Not house mode
 				if p[1] == mode.grounds.cmds.shop or p[1] == "o" then
@@ -3314,7 +3098,7 @@ mode.grounds = {
 			if system.isRoom then
 				if p[1] == mode.grounds.cmds.pw or p[1] == "pw" then
 					if system.roomAdmins[n] or module._FREEACCESS[n] > 1 then
-						local newPassword = p[2] and tableconcat(p," ",nil,2) or ""
+						local newPassword = p[2] and tableconcat(p," ",2) or ""
 						local pwMsg = system.getTranslation().password
 						if newPassword == "" then
 							tfm.exec.chatMessage(stringformat("<R>[•] %s",pwMsg.off))
@@ -3684,7 +3468,7 @@ mode.jokenpo = {
 		if #mode.jokenpo.players == 0 then
 			return ""
 		else
-			return "   <G>|   <N>" .. system.getTranslation().players .. " : " .. tableconcat(mode.jokenpo.players," <V>- ",function(k,v)
+			return "   <G>|   <N>" .. system.getTranslation().players .. " : " .. tablelist(mode.jokenpo.players," <V>- ",function(k,v)
 				tfm.exec.setNameColor(v.name,mode.jokenpo.colors[v.id])
 				return v.color .. v.name
 			end)
@@ -4141,7 +3925,7 @@ mode.presents = {
 			mode.presents.chooseTimer = 0
 			mode.presents.blockTimer = 0
 		else
-			tfm.exec.chatMessage("<S>" .. tableconcat(system.players(true),"<J>, <S>",function(k,v)
+			tfm.exec.chatMessage("<S>" .. tablelist(system.players(true),"<J>, <S>",function(k,v)
 				mode.presents.info[v].victories = mode.presents.info[v].victories + 1
 				return v
 			end) .. " <J>" .. system.getTranslation().won)
@@ -4417,14 +4201,15 @@ mode.chat = {
 						return text
 					end
 				end)
-				tableinsert(mode.chat.displayData,1,stringformat("<V>[%s] <N>%s\n",n,message))
+				
+				local nick = n:gsub("#0000", ""):gsub("#", " #")
+				tableinsert(mode.chat.displayData,1,stringformat("<V>[%s] <N>%s\n",nick,message))
 			end
 		end
 	end,
 	--[[ Init ]]--
 	init = function()
 		tfm.exec.setRoomMaxPlayers(30)
-		system.disableChatCommandDisplay("title",true)
 		mode.chat.displayChat()
 	end,
 	--[[ Events ]]--
@@ -4470,7 +4255,7 @@ mode.chat = {
 	eventChatCommand = function(n,c)
 		local p = stringsplit(c,"[^%s]+",stringlower)
 		if p[1] == "title" and p[2] and system.roomAdmins[n] then
-			mode.chat.chatTitle = stringsub(tableconcat(p," ",nil,2),1,40)
+			mode.chat.chatTitle = stringsub(tableconcat(p," ",2),1,40)
 			mode.chat.displayChat()
 		elseif p[1] == "np" and p[2] then
 			tfm.exec.chatMessage(stringformat("<S>%s %s %s",stringsub(p[2],1,1) == "@" and p[2] or "@" .. p[2],system.getTranslation().loadmap,n))
@@ -5037,7 +4822,7 @@ mode.godmode = {
 
 		tfm.exec.chatMessage("<ROSE>" .. system.getTranslation().welcome,n)
 		
-		ui.banner("15ca3f4a200",5,150,n,10)
+		ui.banner("15ca3f4a200",5,150,n,7)
 	end,
 	-- NewGame
 	eventNewGame = function()
@@ -5698,18 +5483,18 @@ mode.universe = {
 	end,
 	-- Monochromatic
 	paletteMonochromatic = function(hex,amount,period,reversed)
-		local hsl = color.rgbToHsl(color.hexToRgb(hex))
+		local h, s, l = color.rgb_to_hsl(color.hex_to_rgb(hex))
 		
 		local colors = {}
 		
 		local final = 1
 		if reversed then
-			final = hsl.l - amount
+			final = l - amount
 			period = -period
 		end
 		
-		for i = hsl.l,final,period do
-			colors[#colors+1] = color.rgbToHex(color.hslToRgb(hsl.h,hsl.s,i))
+		for i = l,final,period do
+			colors[#colors+1] = color.rgb_to_hex(color.hsl_to_rgb(h, s, i))
 			
 			amount = amount - 1
 			if amount == 0 then
@@ -5718,7 +5503,7 @@ mode.universe = {
 		end
 		
 		if reversed then
-			tableremove(colors,1)
+			tableremove(colors, 1)
 		end
 		
 		return colors
@@ -5778,7 +5563,7 @@ mode.universe = {
 	end,
 	-- keyboard
 	uikeyboard = function(id,str,n)
-		mode.universe.uinew(10,tableconcat(system.getTranslation().buttons.keyboard,"\n",function(k,v)
+		mode.universe.uinew(10,tablelist(system.getTranslation().buttons.keyboard,"\n",function(k,v)
 			return stringformat("<%s><a href='event:keyboard.%s.%s'>%s</a>", k==1 and "J" or "R", id, system.getTranslation("en").buttons.keyboard[k], stringupper(v))
 		end) .. "\n\n<p align='center'><PT>" .. stringgsub(mode.universe.keyboard,"@",id) .. "\n\n<font size='15'><T>" .. tableconcat(str),n,400,200,320,150,true)
 	end,
@@ -5811,7 +5596,7 @@ mode.universe = {
 	end,
 	-- creator
 	uicreator = function(n)
-		mode.universe.uinew(0,tableconcat(mode.universe.info[n].settings.create,"\n<font size='4'>\n</font>",function(k,v)
+		mode.universe.uinew(0,tablelist(mode.universe.info[n].settings.create,"\n<font size='4'>\n</font>",function(k,v)
 			return stringformat(v[1],tostring(v[2](n)))
 		end),n,400,200,540,300,true)
 		
@@ -5842,7 +5627,7 @@ mode.universe = {
 			{system.getTranslation().profile.exTime .. " : <V>%s",(_G.currentTime / 25)},
 		}
 		
-		return tableconcat(out,"   <G>|   <N>",function(k,v)
+		return tablelist(out,"   <G>|   <N>",function(k,v)
 			return stringformat(v[1],v[2])
 		end) .. "<"
 	end,
@@ -5875,7 +5660,7 @@ mode.universe = {
 	--[[ Profile ]]--
 	profile = {
 		uiprofile = function(n)
-			mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().profile.profiles) .. "</B><font size='12'>\n<a href='event:profile.exit'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. tableconcat(mode.universe.cosmos,"\n",function(k,v)
+			mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().profile.profiles) .. "</B><font size='12'>\n<a href='event:profile.exit'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. tablelist(mode.universe.cosmos,"\n",function(k,v)
 				return stringformat("%s <a href='event:profile.open.%s.%s'>%s</a>",(v.id == mode.universe.cosmos[1].id and "<a:active>★</a:active>" or "<CE>[" .. v.className .."]</CE>"),v.className,k,v.name)
 			end),n,300)
 		end,
@@ -5938,7 +5723,7 @@ mode.universe = {
 			ui.addTextArea(-31,"",n,540,72,122,288,0x242f42,0x242f42,1,true)
 
 			ui.addTextArea(-32,"<p align='center'><font color='#32C3CC'>" .. system.getTranslation().profile.planets,n,551,47,100,20,0x0f242e,0x0f242e,1,true)
-			ui.addTextArea(-33,"<p align='center'><V>" .. tableconcat(mode.universe.cosmos,"",function(k,v)
+			ui.addTextArea(-33,"<p align='center'><V>" .. tablelist(mode.universe.cosmos,"",function(k,v)
 				return v.class == 2 and stringformat("<a href='event:profile.open.Planet.%s'>%s</a>\n\n",k,v.name) or ""
 			end),n,541,73,120,290,0x0f242e,0x0f242e,1,true)
 		end,
@@ -6008,7 +5793,7 @@ mode.universe = {
 			ui.addTextArea(-39,"",n,540,142,122,214,0x242F42,0x242F42,1,true)
 
 			ui.addTextArea(-40,"<p align='center'><font color='#32C3CC'>" .. system.getTranslation().profile.satellites,n,551,117,100,20,0x0F242E,0x0F242E,1,true)
-			ui.addTextArea(-41,"<p align='center'><V>" .. tableconcat(obj.moons,"",function(k,v)
+			ui.addTextArea(-41,"<p align='center'><V>" .. tablelist(obj.moons,"",function(k,v)
 				return stringformat("<a href='event:profile.open.Moon.%s'>%s</a>\n\n",mode.universe.cosmos[v].position,mode.universe.cosmos[v].name)
 			end),n,541,143,120,216,0x0F242E,0x0F242E,1,true)
 		end,
@@ -6665,7 +6450,7 @@ mode.universe = {
 		if p[1] == "newObject" then
 			-- Class
 			if p[2] == "class" then
-				mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. tableconcat(mode.universe.data.classes,"\n",function(k,v)
+				mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. tablelist(mode.universe.data.classes,"\n",function(k,v)
 					local out = true
 					if k == 1 then
 						out = not mode.universe.star
@@ -6685,7 +6470,7 @@ mode.universe = {
 			-- Type
 			if p[2] == "type" then
 				if mode.universe.info[n].settings.class > 0 then
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. tableconcat(mode.universe.data.objects[stringlower(system.getTranslation("en").buttons.classes[mode.universe.info[n].settings.class])],"\n",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(p[2]) .. "</B><font size='12'><p align='left'>\n\n<S>" .. tablelist(mode.universe.data.objects[stringlower(system.getTranslation("en").buttons.classes[mode.universe.info[n].settings.class])],"\n",function(k,v)
 						local out = true
 						if mode.universe.info[n].settings.class == 2 then
 							local orbit = mode.universe.orbit[2] + 1
@@ -6716,7 +6501,7 @@ mode.universe = {
 				elseif p[2] == "distance" then
 					mode.universe.uicounter(p[2],"0:250",n,20) -- Unknown, yet.
 				elseif p[2] == "moon" then
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().menu.satellite) .. "</B><font size='12'><p align='left'>\n\n<S>" .. tableconcat(mode.universe.cosmos,"\n",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().menu.satellite) .. "</B><font size='12'><p align='left'>\n\n<S>" .. tablelist(mode.universe.cosmos,"\n",function(k,v)
 						return v.class == 2 and stringformat("%s<a href='event:item.satellite.%s'>%s</a>",mode.universe.tab,k,v.name) or ""
 					end),n)
 				end
@@ -6866,7 +6651,7 @@ mode.universe = {
 				local concatenedName = tableconcat(mode.universe.info[n].settings.name)
 				
 				if not create then
-					tfm.exec.chatMessage("<R>" .. stringformat(system.getTranslation().fail,tableconcat(fails,", ",function(k,v)
+					tfm.exec.chatMessage("<R>" .. stringformat(system.getTranslation().fail,tablelist(fails,", ",function(k,v)
 						return system.getTranslation().menu[v]
 					end)),n)
 				end
@@ -6913,7 +6698,7 @@ mode.universe = {
 					p[3] = tonumber(p[3])
 					ui.addPopup(p[3],1,"<p align='center'><font color='#2ECF73'>" .. stringformat(system.getTranslation().destroyConfirm,mode.universe.cosmos[p[3]].className,mode.universe.cosmos[p[3]].name),n,200,150,400,true)
 				else
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().buttons.main.destroy) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. tableconcat(mode.universe.cosmos,"",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().buttons.main.destroy) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. tablelist(mode.universe.cosmos,"",function(k,v)
 						return v.display and stringformat("%s%s <a href='event:main.destroy.%s'>%s</a>\n",mode.universe.tab,(v.id == mode.universe.cosmos[1].id and "<a:active>★</a:active>" or "<CE>[" .. v.className .."]</CE>"),k,v.name) or ""
 					end),n,200)
 				end
@@ -6952,7 +6737,7 @@ mode.universe = {
 					end
 					mode.universe.uicloseSplash(n,true)
 				else
-					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().buttons.main.recreate) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. tableconcat(mode.universe.cosmos,"",function(k,v)
+					mode.universe.uiitems("<p align='center'><font size='20'><V><B>" .. stringupper(system.getTranslation().buttons.main.recreate) .. "</B><font size='12'>\n<a href='event:closeSplash'>" .. system.getTranslation().exit .. "</a><p align='left'>\n\n<S>" .. tablelist(mode.universe.cosmos,"",function(k,v)
 						return v.display and "" or stringformat("%s%s <a href='event:main.recreate.%s'>%s</a>\n",mode.universe.tab,(v.id == mode.universe.cosmos[1].id and "<a:active>★</a:active>" or "<CE>[" .. v.className .."]</CE>"),k,v.name)
 					end),n,200)
 				end
@@ -7001,7 +6786,7 @@ mode.universe = {
 		if system.roomAdmins[n] then
 			if p[1] == "name" then
 				if p[2] then
-					mode.universe.eventPopupAnswer(0,n,tableconcat(p," ",nil,2))
+					mode.universe.eventPopupAnswer(0,n,tableconcat(p," ",2))
 				else
 					ui.addPopup(0,2,"<p align='center'><font color='#CF50DB'>" .. system.getTranslation().sysName.choose,n,200,150,400,true)
 				end
@@ -7051,7 +6836,7 @@ mode.universe = {
 	end,
 	-- NewGame
 	eventNewGame = function()
-		if tfm.get.room.xmlMapInfo.author ~= "#Module" then
+		if (tfm.get.room.xmlMapInfo or {}).author ~= "#Module" then
 			return
 		end
 	
@@ -7277,7 +7062,7 @@ mode.universe = {
 					type = 4,
 					typeName = "Ice Giant",
 					size = 30,
-					color = 0x183241,
+					color = 0x456FFD,
 					velocity = .17,
 					temperature = -210,
 					rings = false,
@@ -7321,18 +7106,6 @@ mode.universe = {
 					mode.universe.cosmos[i]:create()
 				end
 			end
-			
-			
-			--[[mode.universe.cosmos[1]:create() -- Sun
-			mode.universe.cosmos[2]:create() -- Mercury
-			mode.universe.cosmos[3]:create() -- Venus
-			mode.universe.cosmos[4]:create() -- Earth
-			mode.universe.cosmos[6]:create() -- Mars
-			mode.universe.cosmos[9]:create() -- Jupiter
-			mode.universe.cosmos[14]:create() -- Saturn
-			mode.universe.cosmos[17]:create() -- Uranus
-			mode.universe.cosmos[18]:create() -- Neptune
-			mode.universe.cosmos[19]:create() -- Pluto			]]
 		end
 	end,
 	-- Loop
@@ -7492,7 +7265,6 @@ mode.dev = {
 	init = function()
 		-- Init
 		tfm.exec.disableAutoShaman()
-		disableChatCommand("set","timer","object","img","throw","display","disable","execute","np","xml","help")
 		
 		-- Auto Admin
 		system.roomAdmins["Mescouleur#0000"] = true
@@ -7506,7 +7278,7 @@ mode.dev = {
 		local p = stringsplit(c,"[^%s]+")
 		
 		if p[1] == "help" then
-			tfm.exec.chatMessage(tableconcat(system.getTranslation().commands,"\n\n",function(k,v)
+			tfm.exec.chatMessage(tablelist(system.getTranslation().commands,"\n\n",function(k,v)
 				return "<ROSE>• <CE>" .. stringgsub(v,"<","&lt;")
 			end),n)
 			return
@@ -7521,7 +7293,7 @@ mode.dev = {
 					tfm.exec.chatMessage("<CE>[#dev] " .. stringformat(system.getTranslation().maxPlayers,n,p[3]))
 				elseif p[2] == "password" then --set password PASSWORD
 					if p[3] then
-						p[3] = tableconcat(p," ",nil,3)
+						p[3] = tableconcat(p," ",3)
 					
 						tfm.exec.setRoomPassword(p[3])
 					
@@ -7546,7 +7318,7 @@ mode.dev = {
 			
 			if p[1] == "timer" then --timer NAME LOOP TIME FUNC PARAM
 				if not p[2] then
-					tfm.exec.chatMessage("<CE>" .. tableconcat(mode.dev.timers,"\n",tostring),n)
+					tfm.exec.chatMessage("<CE>" .. tablelist(mode.dev.timers,"\n",tostring),n)
 				elseif p[3] == "break" then
 					if mode.dev.timers[p[2]] then
 						system.removeTimer(mode.dev.timers[p[2]])
@@ -7574,7 +7346,7 @@ mode.dev = {
 							local f = system.loadTable(p[5])
 							f = type(f) == "function" and f or tfm.exec.chatMessage
 
-							local args = mode.dev.getWithType(tableconcat(p," ",function(k,v)
+							local args = mode.dev.getWithType(tablelist(p," ",function(k,v)
 								return (tablefind({"#","@","!","?"},stringsub(v,1,1)) and "," or "") .. v
 							end,6))
 							
@@ -7600,7 +7372,7 @@ mode.dev = {
 			
 			if p[1] == "img" then --img NAME IMG TARG X Y PLAYER
 				if not p[2] then
-					tfm.exec.chatMessage("<CE>" .. tableconcat(mode.dev.images,"\n",tostring),n)
+					tfm.exec.chatMessage("<CE>" .. tablelist(mode.dev.images,"\n",tostring),n)
 				elseif p[3] == "remove" then
 					if mode.dev.images[p[2]] then
 						tfm.exec.removeImage(mode.dev.images[p[2]])
@@ -7630,7 +7402,7 @@ mode.dev = {
 			
 			if p[1] == "object" then --object NAME ID X Y BOOLEAN_DESPAWN:TIME_TO_DESPAWN ANGLE XS YS GHOST
 				if not p[2] then
-					tfm.exec.chatMessage("<CE>" .. tableconcat(mode.dev.objects,"\n",tostring),n)
+					tfm.exec.chatMessage("<CE>" .. tablelist(mode.dev.objects,"\n",tostring),n)
 				elseif p[3] == "remove" then
 					if mode.dev.objects[p[2]] then
 						tfm.exec.removeObject(mode.dev.objects[p[2]])
@@ -7744,7 +7516,7 @@ mode.dev = {
 			end
 			
 			if p[1] == "display" and p[2] then
-				tfm.exec.chatMessage("<CE>[" .. n .. "#DEV-DISPLAY] <N>" .. stringgsub(tableconcat(p," ",nil,2),"<","&lt;"))
+				tfm.exec.chatMessage("<CE>[" .. n .. "#DEV-DISPLAY] <N>" .. stringgsub(tableconcat(p," ",2),"<","&lt;"))
 				return
 			end
 		
@@ -7776,7 +7548,7 @@ mode.dev = {
 			if p[1] == "execute" and p[2] then --execute tfm.exec.giveCheese NAME
 				local f = system.loadTable(p[2])
 				if type(f) == "function" then
-					local args = mode.dev.getWithType(tableconcat(p," ",function(k,v)
+					local args = mode.dev.getWithType(tablelist(p," ",function(k,v)
 						return (tablefind({"#","@","!","?"},stringsub(v,1,1)) and "," or "") .. v
 					end,3))
 				
@@ -7801,8 +7573,10 @@ mode.dev = {
 				tfm.exec.removeImage(v)
 			end
 			
-			mode.dev.currentBackground[4] = tfm.exec.addImage(mode.dev.currentBackground[1],"?1",mode.dev.currentBackground[2],mode.dev.currentBackground[3])
-			
+			if mode.dev.currentBackground[1] then
+				mode.dev.currentBackground[4] = tfm.exec.addImage(mode.dev.currentBackground[1],"?1",mode.dev.currentBackground[2],mode.dev.currentBackground[3])
+			end
+
 			if tfm.get.room.xmlMapInfo.xml then
 				xml.attribFunc(tfm.get.room.xmlMapInfo.xml,{
 				
@@ -8165,7 +7939,7 @@ mode.chess = {
 	--[[ Events ]]--
 	-- TextAreaCallback
 	eventTextAreaCallback = function(i, n, c)
-		if mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
+		if mode.chess.canStart and mode.chess.players[mode.chess.currentPlayer].name == n and os.time() > mode.chess.moveTimer then
 			mode.chess.moveTimer = os.time() + 250
 		
 			c = stringsplit(c, "[^_]+", function(value)
@@ -8468,7 +8242,7 @@ eventOnModeChange = function()
 	end
 	
 	-- Set admin back
-	system.roomAdmins = system.setAdmins()
+	system.roomAdmins = system.getAdmins()
 	
 	-- Reset settings
 	tfm.exec.snow(0)
@@ -8498,10 +8272,7 @@ end
 	--[[ eventChatCommand ]]--
 events.eventChatCommand = function(n,c)
 	if system.isPlayer(n) then
-		system.disableChatCommandDisplay(c,true)
-		
 		local p = stringsplit(c,"[^%s]+",stringlower)
-		disableChatCommand(p[1])
 	
 		if module._FREEACCESS[n] then
 			if p[1] == "refresh" and (module._FREEACCESS[n] > 1 or not system.isRoom) then
@@ -8553,7 +8324,7 @@ events.eventChatCommand = function(n,c)
 							num = mathsetLim(num, 1, 3)
 							local lastValue = num
 							
-							tfm.exec.chatMessage("[#bolo] " .. p[2] .. " [" .. num .. "] : " .. tableconcat(module._FREEACCESS, "", function(name, value)
+							tfm.exec.chatMessage("[#bolo] " .. p[2] .. " [" .. num .. "] : " .. tablelist(module._FREEACCESS, "", function(name, value)
 								return value == num and name .. " ~ " or ""
 							end), n)
 						else
@@ -8562,7 +8333,7 @@ events.eventChatCommand = function(n,c)
 						end
 					end
 				else
-					tfm.exec.chatMessage("[#bolo] " .. p[2] .. " : " .. tableconcat(tableturnTable(module["_" .. p[2]]),"\n",function(k,v)
+					tfm.exec.chatMessage("[#bolo] " .. p[2] .. " : " .. tablelist(tableturnTable(module["_" .. p[2]]),"\n",function(k,v)
 						return v
 					end),n)
 				end
@@ -8580,7 +8351,7 @@ events.eventChatCommand = function(n,c)
 				end
 			end
 		
-			tfm.exec.chatMessage(tableconcat(_modes,"\n",function(k,v)
+			tfm.exec.chatMessage(tablelist(_modes,"\n",function(k,v)
 				return stringformat("~> /room #%s%s@%s#%s",module._NAME,mathrandom(0,999),n,v)
 			end),n)
 			return
@@ -8591,7 +8362,7 @@ events.eventChatCommand = function(n,c)
 		end
 		
 		if p[1] == "admin" then
-			tfm.exec.chatMessage("[#bolo] Room Admins : " .. tableconcat(system.roomAdmins,", ",tostring),n)
+			tfm.exec.chatMessage("[#bolo] Room Admins : " .. tablelist(system.roomAdmins,", ",tostring),n)
 			return
 		end
 		
@@ -8612,13 +8383,18 @@ events.eventChatCommand = function(n,c)
 			end
 			return
 		end
+
+		if p[1] == "data" and p[2] and (module._FREEACCESS[n] and module._FREEACCESS[n] > 2) then
+			p[2] = stringnick(p[2])
+			system.loadPlayerData(p[2])
+		end
 		
 		if p[1] == "me" then
 			local commands = {
 				[0] = {"!modes"},
 				[1] = {"!refresh (tribe house)","!setMisc [number] [refresh] (tribe house)","!room [number] (tribe house)","!load [mode] (tribe house)"},
 				[2] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode] (tribe house)"},
-				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]"}
+				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]", "!data [name]"}
 			}
 			
 			local access = module._FREEACCESS[n] or 0
@@ -8633,6 +8409,10 @@ events.eventChatCommand = function(n,c)
 			return
 		end
 	end
+end
+	--[[ eventPlayerDataLoaded ]]--
+events.eventPlayerDataLoaded = function(n, d)
+	tfm.exec.chatMessage(n .. "'s data:\n" .. d, module._AUTHOR)
 end
 
 --[[ RoomSettings ]]--
@@ -8681,9 +8461,9 @@ system.setRoom = function()
 	
 		system.roomSettings[2].execute(stringmatch(system.roomAttributes, system.roomSettings[2].char .. "([%a_]+)"))
 		
-		local characters = tableconcat(system.roomSettings, "", function(index, value) return value.char end, 3)
+		local characters = tablelist(system.roomSettings, "", function(index, value) return value.char end, 3)
 		for char, value in stringgmatch(system.roomAttributes, "([" .. characters .. "])([^" .. characters .. "]+)") do
-			for id, setting in next, system.roomAttributes do
+			for id, setting in next, system.roomSettings do
 				if setting.char == char then
 					setting.execute(stringgmatch(value, "%S+"))
 		
@@ -8713,7 +8493,7 @@ end
 --[[ Initialize ]]--
 local _events = {}
 
-local eventNames = {"eventLoop", "eventNewGame", "eventPlayerDied", "eventPlayerGetCheese", "eventPlayerVampire", "eventPlayerWon", "eventPlayerLeft", "eventEmotePlayed", "eventKeyboard", "eventMouse", "eventPopupAnswer", "eventTextAreaCallback", "eventChatCommand", "eventChatMessage", "eventSummoningStart", "eventSummoningEnd", "eventSummoningCancel", "eventNewPlayer", "eventPlayerRespawn", "eventColorPicked"}
+local eventNames = {"eventLoop", "eventNewGame", "eventPlayerDied", "eventPlayerMeep", "eventPlayerGetCheese", "eventFileLoaded", "eventFileSaved", "eventPlayerVampire", "eventPlayerWon", "eventPlayerLeft", "eventEmotePlayed", "eventKeyboard", "eventMouse", "eventPopupAnswer", "eventTextAreaCallback", "eventChatCommand", "eventChatMessage", "eventPlayerDataLoaded", "eventSummoningStart", "eventSummoningEnd", "eventSummoningCancel", "eventNewPlayer", "eventPlayerRespawn", "eventColorPicked"}
 
 local foo = function() end
 
@@ -8746,5 +8526,6 @@ for _, event in next, eventNames do
 	end
 end
 
+system.disableChatCommandDisplay()
 system.setRoom()
 system.init()

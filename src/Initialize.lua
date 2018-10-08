@@ -1,6 +1,6 @@
 local _events = {}
 
-local eventNames = {"eventLoop", "eventNewGame", "eventPlayerDied", "eventPlayerGetCheese", "eventPlayerVampire", "eventPlayerWon", "eventPlayerLeft", "eventEmotePlayed", "eventKeyboard", "eventMouse", "eventPopupAnswer", "eventTextAreaCallback", "eventChatCommand", "eventChatMessage", "eventSummoningStart", "eventSummoningEnd", "eventSummoningCancel", "eventNewPlayer", "eventPlayerRespawn", "eventColorPicked"}
+local eventNames = {"eventLoop", "eventNewGame", "eventPlayerDied", "eventPlayerMeep", "eventPlayerGetCheese", "eventFileLoaded", "eventFileSaved", "eventPlayerVampire", "eventPlayerWon", "eventPlayerLeft", "eventEmotePlayed", "eventKeyboard", "eventMouse", "eventPopupAnswer", "eventTextAreaCallback", "eventChatCommand", "eventChatMessage", "eventPlayerDataLoaded", "eventSummoningStart", "eventSummoningEnd", "eventSummoningCancel", "eventNewPlayer", "eventPlayerRespawn", "eventColorPicked"}
 
 local foo = function() end
 
@@ -33,5 +33,6 @@ for _, event in next, eventNames do
 	end
 end
 
+system.disableChatCommandDisplay()
 system.setRoom()
 system.init()

@@ -14,10 +14,7 @@ end
 	--[[ eventChatCommand ]]--
 events.eventChatCommand = function(n,c)
 	if system.isPlayer(n) then
-		system.disableChatCommandDisplay(c,true)
-		
 		local p = string.split(c,"[^%s]+",string.lower)
-		disableChatCommand(p[1])
 	
 		if module._FREEACCESS[n] then
 			if p[1] == "refresh" and (module._FREEACCESS[n] > 1 or not system.isRoom) then
@@ -69,7 +66,7 @@ events.eventChatCommand = function(n,c)
 							num = math.setLim(num, 1, 3)
 							local lastValue = num
 							
-							tfm.exec.chatMessage("[#bolo] " .. p[2] .. " [" .. num .. "] : " .. table.concat(module._FREEACCESS, "", function(name, value)
+							tfm.exec.chatMessage("[#bolo] " .. p[2] .. " [" .. num .. "] : " .. table.list(module._FREEACCESS, "", function(name, value)
 								return value == num and name .. " ~ " or ""
 							end), n)
 						else
@@ -78,7 +75,7 @@ events.eventChatCommand = function(n,c)
 						end
 					end
 				else
-					tfm.exec.chatMessage("[#bolo] " .. p[2] .. " : " .. table.concat(table.turnTable(module["_" .. p[2]]),"\n",function(k,v)
+					tfm.exec.chatMessage("[#bolo] " .. p[2] .. " : " .. table.list(table.turnTable(module["_" .. p[2]]),"\n",function(k,v)
 						return v
 					end),n)
 				end
@@ -96,7 +93,7 @@ events.eventChatCommand = function(n,c)
 				end
 			end
 		
-			tfm.exec.chatMessage(table.concat(_modes,"\n",function(k,v)
+			tfm.exec.chatMessage(table.list(_modes,"\n",function(k,v)
 				return string.format("~> /room #%s%s@%s#%s",module._NAME,math.random(0,999),n,v)
 			end),n)
 			return
@@ -107,7 +104,7 @@ events.eventChatCommand = function(n,c)
 		end
 		
 		if p[1] == "admin" then
-			tfm.exec.chatMessage("[#bolo] Room Admins : " .. table.concat(system.roomAdmins,", ",tostring),n)
+			tfm.exec.chatMessage("[#bolo] Room Admins : " .. table.list(system.roomAdmins,", ",tostring),n)
 			return
 		end
 		
@@ -128,13 +125,18 @@ events.eventChatCommand = function(n,c)
 			end
 			return
 		end
+
+		if p[1] == "data" and p[2] and (module._FREEACCESS[n] and module._FREEACCESS[n] > 2) then
+			p[2] = string.nick(p[2])
+			system.loadPlayerData(p[2])
+		end
 		
 		if p[1] == "me" then
 			local commands = {
 				[0] = {"!modes"},
 				[1] = {"!refresh (tribe house)","!setMisc [number] [refresh] (tribe house)","!room [number] (tribe house)","!load [mode] (tribe house)"},
 				[2] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode] (tribe house)"},
-				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]"}
+				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]", "!data [name]"}
 			}
 			
 			local access = module._FREEACCESS[n] or 0
@@ -149,4 +151,8 @@ events.eventChatCommand = function(n,c)
 			return
 		end
 	end
+end
+	--[[ eventPlayerDataLoaded ]]--
+events.eventPlayerDataLoaded = function(n, d)
+	tfm.exec.chatMessage(n .. "'s data:\n" .. d, module._AUTHOR)
 end

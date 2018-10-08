@@ -5,6 +5,7 @@ tree = {
 	getFile("eventLoop"),
 	getFile("eventNewPlayer"),
 	getFile("eventChatCommand"),
+	getFile("eventPlayerDataLoaded"),
 }
 
 setFile()

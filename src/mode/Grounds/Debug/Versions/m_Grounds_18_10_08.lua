@@ -918,12 +918,12 @@ mode.grounds = {
 		translators = {
 			-- Name, Languages
 			{"Bolodefchoco#0000",{"EN","BR"},true},
-			{"Distances#0000","NL",true},
+			{"Distances#0095","NL",true},
 			{"Tocutoeltuco#0000","ES",false},
 			{"Sebafrancuz#0000","PL",true},
 			{"Doriiarvai#0000","HU",false},
 			{"Error_404#0000","AR",true},
-			{"Santalicious#0010","NL",true},
+			{"Santa#0010","NL",true},
 			{"Archaeron#0010","DE",false},
 			{"Aewing#0095","FR",false},
 			{"Fashionkid#0000","DE",false},
@@ -1175,7 +1175,7 @@ mode.grounds = {
 	--[[ System ]]--
 	concat = function(k,v)
 		if type(v) == "table" then
-			return table.concat(v,"\n",function(i,j) return mode.grounds.concat(i,j) end)
+			return table.list(v,"\n",function(i,j) return mode.grounds.concat(i,j) end)
 		else
 			return v
 		end
@@ -1361,18 +1361,18 @@ mode.grounds = {
 				end
 				displayText[2] = string.format(displayText[2],"• "..table.concat(textFormat[1],"\n• "))
 			elseif mode.grounds.info[n].menu.page == 4 then
-				displayText[2] = table.concat(displayText[2],"\n",function(k,v)
+				displayText[2] = table.list(displayText[2],"\n",function(k,v)
 					return mode.grounds.concat(k,v)
 				end)
 				displayText[2] = "<font size='10'>" .. string.format(displayText[2],mode.grounds.cmds.profile,mode.grounds.cmds.shop,mode.grounds.cmds.langue,mode.grounds.cmds.help,mode.grounds.cmds.leaderboard,mode.grounds.cmds.info,mode.grounds.cmds.mapinfo,mode.grounds.cmds.pw)
 			elseif mode.grounds.info[n].menu.page == 5 then
-				displayText[2] = string.format(displayText[2] .. "\n\n%s",#mode.grounds.maps.."<N>","<BV><a href='event:print.atelier801¬com/topic?f=6&t=845005'>#"..string.upper(module._NAME).." MAP SUBMISSIONS</a></BV>",table.concat(mode.grounds.G,"\n",function(k,v)
+				displayText[2] = string.format(displayText[2] .. "\n\n%s",#mode.grounds.maps.."<N>","<BV><a href='event:print.atelier801¬com/topic?f=6&t=845005'>#"..string.upper(module._NAME).." MAP SUBMISSIONS</a></BV>",table.list(mode.grounds.G,"\n",function(k,v)
 					return string.format("<font color='#%s'><a href='event:info.mapCategory.%s'>G%2d</a> : %3d</font>",v.color,k,k,#v.queue)
 				end))
 			elseif mode.grounds.info[n].menu.page == 6 then
 				local concat = {}
 				for i,j in next,{{"translators","<CEP>"},{"mapEvaluators","<BV>"}} do
-					concat[#concat+1] = j[2] .. table.concat(mode.grounds.staff[j[1]],"<G>, " .. j[2],function(k,v)
+					concat[#concat+1] = j[2] .. table.list(mode.grounds.staff[j[1]],"<G>, " .. j[2],function(k,v)
 						return string.format("<a href='event:info.%s.%s'>%s</a>",j[1],k,v[1])
 					end)
 				end
@@ -1699,15 +1699,7 @@ mode.grounds = {
 		
 		-- Sets the commands
 		mode.grounds.cmds = system.getTranslation().commands
-		
-		-- Disable commands
-		for k,v in next,mode.grounds.cmds do
-			disableChatCommand(v)
-		end
-		for k,v in next,{"o","p","h","k","?","pw","time","np","is","check","review","next","again"} do
-			disableChatCommand(v)
-		end
-		
+
 		-- Official modes running together
 		if system.officialMode[1] == "racing" then
 			mode.grounds.rotation = {1,{7}}
@@ -2133,6 +2125,8 @@ mode.grounds = {
 		end
 		
 		ui.setMapName(table.concat(mapName,"   <G>|<J>   ") .. (#mapName > 0 and "   <G>|<J>   " or "") .. currentXml.author .. " <BL>- " .. tfm.get.room.currentMap)
+		
+		mode.grounds.alivePlayers,mode.grounds.totalPlayers = system.players()
 	end,
 	-- Loop
 	eventLoop = function()
@@ -2267,9 +2261,7 @@ mode.grounds = {
 		if system.isPlayer(n) then
 			-- Normalize and hide commands
 			c = deactivateAccents(c)
-			system.disableChatCommandDisplay(c,true)
 			local p = string.split(c,"[^%s]+",string.lower)
-			disableChatCommand(p[1])
 	
 			if not mode.grounds.isHouse then -- Not house mode
 				if p[1] == mode.grounds.cmds.shop or p[1] == "o" then
@@ -2352,7 +2344,7 @@ mode.grounds = {
 			if system.isRoom then
 				if p[1] == mode.grounds.cmds.pw or p[1] == "pw" then
 					if system.roomAdmins[n] or module._FREEACCESS[n] > 1 then
-						local newPassword = p[2] and table.concat(p," ",nil,2) or ""
+						local newPassword = p[2] and table.concat(p," ",2) or ""
 						local pwMsg = system.getTranslation().password
 						if newPassword == "" then
 							tfm.exec.chatMessage(string.format("<R>[•] %s",pwMsg.off))

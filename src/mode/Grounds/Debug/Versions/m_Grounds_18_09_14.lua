@@ -2133,6 +2133,8 @@ mode.grounds = {
 		end
 		
 		ui.setMapName(table.concat(mapName,"   <G>|<J>   ") .. (#mapName > 0 and "   <G>|<J>   " or "") .. currentXml.author .. " <BL>- " .. tfm.get.room.currentMap)
+		
+		mode.grounds.alivePlayers,mode.grounds.totalPlayers = system.players()
 	end,
 	-- Loop
 	eventLoop = function()

@@ -2,9 +2,7 @@
 		if system.isPlayer(n) then
 			-- Normalize and hide commands
 			c = deactivateAccents(c)
-			system.disableChatCommandDisplay(c,true)
 			local p = string.split(c,"[^%s]+",string.lower)
-			disableChatCommand(p[1])
 	
 			if not mode.grounds.isHouse then -- Not house mode
 				if p[1] == mode.grounds.cmds.shop or p[1] == "o" then

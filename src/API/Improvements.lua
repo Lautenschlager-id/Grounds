@@ -54,18 +54,6 @@ do
 		end
 	end
 	
-	local loadPlayerData = system.loadPlayerData
-	system.loadPlayerData = function(n)
-		if module._STATUS == "official" then
-			return loadPlayerData(n)
-		else
-			if _G["eventPlayerDataLoaded"] then
-				eventPlayerDataLoaded(n, "")
-			end
-			return true
-		end
-	end
-	
 	local savePlayerData = system.savePlayerData
 	system.savePlayerData = function(n,data)
 		if module._STATUS == "official" then

@@ -136,7 +136,6 @@ mode.dev = {
 	init = function()
 		-- Init
 		tfm.exec.disableAutoShaman()
-		disableChatCommand("set","timer","object","img","throw","display","disable","execute","np","xml","help")
 		
 		-- Auto Admin
 		system.roomAdmins["Mescouleur#0000"] = true

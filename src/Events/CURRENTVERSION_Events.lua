@@ -14,10 +14,7 @@ end
 	--[[ eventChatCommand ]]--
 events.eventChatCommand = function(n,c)
 	if system.isPlayer(n) then
-		system.disableChatCommandDisplay(c,true)
-		
 		local p = string.split(c,"[^%s]+",string.lower)
-		disableChatCommand(p[1])
 	
 		if module._FREEACCESS[n] then
 			if p[1] == "refresh" and (module._FREEACCESS[n] > 1 or not system.isRoom) then
@@ -128,13 +125,18 @@ events.eventChatCommand = function(n,c)
 			end
 			return
 		end
+
+		if p[1] == "data" and p[2] and (module._FREEACCESS[n] and module._FREEACCESS[n] > 2) then
+			p[2] = string.nick(p[2])
+			system.loadPlayerData(p[2])
+		end
 		
 		if p[1] == "me" then
 			local commands = {
 				[0] = {"!modes"},
 				[1] = {"!refresh (tribe house)","!setMisc [number] [refresh] (tribe house)","!room [number] (tribe house)","!load [mode] (tribe house)"},
 				[2] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode] (tribe house)"},
-				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]"}
+				[3] = {"!refresh","!setMisc [number] [refresh]","!room [number]","!load [mode]", "!data [name]"}
 			}
 			
 			local access = module._FREEACCESS[n] or 0
@@ -149,4 +151,8 @@ events.eventChatCommand = function(n,c)
 			return
 		end
 	end
+end
+	--[[ eventPlayerDataLoaded ]]--
+events.eventPlayerDataLoaded = function(n, d)
+	tfm.exec.chatMessage(n .. "'s data:\n" .. d, module._AUTHOR)
 end
