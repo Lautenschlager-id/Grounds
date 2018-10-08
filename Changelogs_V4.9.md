@@ -1,5 +1,6 @@
 # V4.9
 
 ## API
-→ Removed command **disableChatCommand**<br>
+→ Removed function **disableChatCommand**<br>
+→ Improved function **deactivateAccents**<br>
 → Bug fixes
